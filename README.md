@@ -13,15 +13,20 @@ of their own — **every reading holds its own GPS fix** and (optionally) the
 label of the sampling spot it was taken at.
 
 Built with TanStack Start (React 19, SSR), TanStack Query, TanStack Router,
-Drizzle ORM + SQLite, Tailwind CSS v4, shadcn-style components, and
+Drizzle ORM + PostgreSQL ([Neon](https://neon.tech) serverless Postgres),
+Tailwind CSS v4, shadcn-style components, and
 [Leaflet](https://leafletjs.com) with
 [OpenStreetMap](https://www.openstreetmap.org) raster tiles for the map.
 
 ## Quick start
 
+The database is a Neon Postgres instance — grab the **pooled** connection
+string from the Neon console (Project → Connect) and put it in `.env.local`:
+
 ```bash
 npm install
-npm run db:migrate  # apply the committed migrations (creates dev.db)
+echo 'DATABASE_URL="postgresql://…-pooler.…neon.tech/agri?sslmode=require"' > .env.local
+npm run db:migrate  # apply the committed migrations to the Neon database
 npm run db:seed     # seed the demo fleet: 3 roving probes, 7 days @ 30-min readings
 npm run dev          # http://localhost:3030
 ```
@@ -116,7 +121,7 @@ drizzle/                # versioned SQL migrations (generated, committed to the 
 src/
 ├── db/
 │   ├── schema.ts          # devices (probes) + readings tables (Drizzle)
-│   ├── index.ts           # better-sqlite3 connection
+│   ├── index.ts           # postgres.js connection to Neon (pooled, TLS)
 │   └── seed.ts            # npm run db:seed
 ├── lib/
 │   ├── sensor-rules.ts    # SRS spec, thresholds, zod ingest schema (shared)
@@ -155,5 +160,6 @@ rendered with Leaflet.
 1. Push the repo to GitHub/GitLab/Bitbucket
 2. Import it in Vercel — the TanStack Start framework preset is detected
    (`vercel.json` makes it explicit)
-3. Set `DATABASE_URL` under **Settings → Environment Variables** (use a
-   persistent SQLite/Turso-style URL in production; `dev.db` is for local dev)
+3. Set `DATABASE_URL` under **Settings → Environment Variables** — the same
+   Neon connection string as `.env.local`. The pooled endpoint + TLS make it
+   safe for serverless functions; no other production setup is needed

@@ -1,11 +1,11 @@
 import {
-  sqliteTable,
-  integer,
-  text,
-  real,
+  doublePrecision,
   index,
-} from 'drizzle-orm/sqlite-core'
-import { sql } from 'drizzle-orm'
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from 'drizzle-orm/pg-core'
 
 /**
  * Roving field probes (handheld units). Probes are NOT permanently
@@ -13,16 +13,16 @@ import { sql } from 'drizzle-orm'
  * so they carry no coordinates of their own. Every reading holds its own
  * GPS fix. `region` stores the NRMC agro-ecological region code (e.g. "DL1").
  */
-export const devices = sqliteTable('devices', {
+export const devices = pgTable('devices', {
   id: text('id').primaryKey(), // e.g. "PRB-001" — device id sent by the probe
   name: text('name').notNull(),
   district: text('district'),
   region: text('region'),
   zone: text('zone'), // Dry Zone | Intermediate Zone | Wet Zone
   crop: text('crop'),
-  createdAt: integer('created_at', { mode: 'timestamp' })
+  createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
-    .default(sql`(unixepoch())`),
+    .defaultNow(),
 })
 
 /**
@@ -31,27 +31,27 @@ export const devices = sqliteTable('devices', {
  * device); hard-rule filtering happens at ingest time (see
  * src/lib/sensor-rules.ts). lat/lon is the GPS fix of THIS placement.
  */
-export const readings = sqliteTable(
+export const readings = pgTable(
   'readings',
   {
-    id: integer('id').primaryKey({ autoIncrement: true }),
+    id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
     deviceId: text('device_id')
       .notNull()
       .references(() => devices.id),
-    ph: real('ph').notNull(), // pH scale, 3.0–9.0
-    ec: real('ec').notNull(), // dS/m, 0.0–5.0
-    moisture: real('moisture').notNull(), // % VWC, 0–100
-    temperature: real('temperature').notNull(), // °C, 10–50
-    nitrogen: real('nitrogen').notNull(), // mg/kg, 0–1999
-    phosphorus: real('phosphorus').notNull(), // mg/kg, 0–1999
-    potassium: real('potassium').notNull(), // mg/kg, 0–1999
-    lat: real('lat').notNull(), // 5.9–9.9 (Sri Lanka bounds)
-    lon: real('lon').notNull(), // 79.6–81.9
+    ph: doublePrecision('ph').notNull(), // pH scale, 3.0–9.0
+    ec: doublePrecision('ec').notNull(), // dS/m, 0.0–5.0
+    moisture: doublePrecision('moisture').notNull(), // % VWC, 0–100
+    temperature: doublePrecision('temperature').notNull(), // °C, 10–50
+    nitrogen: doublePrecision('nitrogen').notNull(), // mg/kg, 0–1999
+    phosphorus: doublePrecision('phosphorus').notNull(), // mg/kg, 0–1999
+    potassium: doublePrecision('potassium').notNull(), // mg/kg, 0–1999
+    lat: doublePrecision('lat').notNull(), // 5.9–9.9 (Sri Lanka bounds)
+    lon: doublePrecision('lon').notNull(), // 79.6–81.9
     spot: text('spot'), // sampling-spot label, e.g. "Paddy Block B"
-    recordedAt: integer('recorded_at', { mode: 'timestamp' }).notNull(),
-    createdAt: integer('created_at', { mode: 'timestamp' })
+    recordedAt: timestamp('recorded_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
       .notNull()
-      .default(sql`(unixepoch())`),
+      .defaultNow(),
   },
   (t) => [
     index('readings_device_recorded_idx').on(t.deviceId, t.recordedAt),

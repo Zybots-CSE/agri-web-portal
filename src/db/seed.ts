@@ -1,5 +1,5 @@
 /**
- * Seed the SQLite database with the demo fleet: three roving probes
+ * Seed the Postgres database with the demo fleet: three roving probes
  * walking the eight plots of the demo farm — seven days of 30-minute
  * readings per probe.
  *
@@ -8,7 +8,13 @@
 import { config } from 'dotenv'
 
 config({ path: ['.env.local', '.env'] })
-process.env.DATABASE_URL ??= 'dev.db'
+
+if (!process.env.DATABASE_URL) {
+  console.error(
+    'DATABASE_URL is not set — add the Neon connection string to .env.local',
+  )
+  process.exit(1)
+}
 
 const { seedDemoData } = await import('../lib/server/queries.ts')
 

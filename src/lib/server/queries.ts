@@ -104,7 +104,7 @@ export async function listDevices(): Promise<DeviceDTO[]> {
   if (deviceRows.length === 0) return []
 
   const counts = await db
-    .select({ deviceId: readings.deviceId, n: sql<number>`count(*)` })
+    .select({ deviceId: readings.deviceId, n: sql<number>`count(*)::int` })
     .from(readings)
     .groupBy(readings.deviceId)
 
@@ -131,7 +131,7 @@ export async function getDevice(deviceId: string): Promise<DeviceDTO | null> {
     .limit(1)
   if (!row) return null
   const [countRow] = await db
-    .select({ n: sql<number>`count(*)` })
+    .select({ n: sql<number>`count(*)::int` })
     .from(readings)
     .where(eq(readings.deviceId, deviceId))
   const [latest] = await db
@@ -281,7 +281,7 @@ export async function simulateNextReading(
     .limit(1)
 
   const [countRow] = await db
-    .select({ n: sql<number>`count(*)` })
+    .select({ n: sql<number>`count(*)::int` })
     .from(readings)
     .where(eq(readings.deviceId, deviceId))
   // The reading index drives the probe's walk across its route.
