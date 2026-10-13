@@ -11,7 +11,7 @@ import { formatDayTime, formatTime } from '#/lib/format'
  *  - time axis in Asia/Colombo time
  */
 
-export type ChartPoint = { t: number; v: number }
+export type ChartPoint = { t: number; v: number; label?: string }
 
 const ZONE_FILL: Record<StatusLevel, string> = {
   ok: 'transparent',
@@ -285,6 +285,11 @@ export function TrendChart({
               {formatValue(param, hoverPoint.v)}
               {param.unit && ` ${param.unit}`}
             </div>
+            {hoverPoint.label && (
+              <div className="text-[10px] font-semibold text-lagoon-deep">
+                {hoverPoint.label}
+              </div>
+            )}
             <div className="text-[10px] text-sea-ink-soft">
               {formatDayTime(hoverPoint.t)}
             </div>

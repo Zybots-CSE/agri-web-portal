@@ -22,12 +22,26 @@ export const getDeviceReadings = createServerFn({ method: 'GET' })
   )
   .handler(({ data }) => svc.listReadings(data.deviceId, data.hours))
 
+/** Dashboard: every placement across all probes (map layer), oldest first */
+export const getAllReadings = createServerFn({ method: 'GET' })
+  .validator(
+    z.object({
+      hours: z
+        .number()
+        .int()
+        .min(1)
+        .max(24 * 30)
+        .default(24 * 7),
+    }),
+  )
+  .handler(({ data }) => svc.listAllReadings(data.hours))
+
 /** Dashboard: generate + persist the next simulated reading for a device */
 export const simulateNextReading = createServerFn({ method: 'POST' })
   .validator(z.object({ deviceId: z.string().min(1) }))
   .handler(({ data }) => svc.simulateNextReading(data.deviceId))
 
-/** Dashboard: seed the 6-device demo fleet with a week of readings */
+/** Dashboard: seed the roving demo fleet with a week of readings */
 export const seedDemoData = createServerFn({ method: 'POST' }).handler(() =>
   svc.seedDemoData(),
 )

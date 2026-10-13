@@ -1,11 +1,18 @@
 import { and, desc, eq, gte, sql } from 'drizzle-orm'
 import { db } from '#/db'
 import { devices, readings } from '#/db/schema'
-import type { DeviceRegistration, ReadingIngest } from '#/lib/sensor-rules'
+import type {
+  DeviceRegistration,
+  ReadingIngest,
+  SensorValues,
+} from '#/lib/sensor-rules'
 import {
-  DEMO_DEVICE_PROFILES,
-  profileFromLatest,
-  simulateReadingValues,
+  DEMO_PROBE_PROFILES,
+  FARM_AREA,
+  probeRouteAt,
+  simulatePlotValues,
+  spotLocation,
+  spotProfileFromLatest,
 } from '#/lib/sensor-sim'
 
 /* --------------------------------- DTOs ---------------------------------- */
@@ -21,8 +28,11 @@ export type ReadingDTO = {
   nitrogen: number
   phosphorus: number
   potassium: number
+  /** GPS fix of this placement */
   lat: number
   lon: number
+  /** Sampling-spot label, e.g. "Paddy Block B" */
+  spot: string | null
 }
 
 export type DeviceDTO = {
@@ -32,8 +42,6 @@ export type DeviceDTO = {
   region: string | null
   zone: string | null
   crop: string | null
-  lat: number
-  lon: number
   readingCount: number
   latestReading: ReadingDTO | null
 }
@@ -55,6 +63,7 @@ function toReadingDTO(row: ReadingRow): ReadingDTO {
     potassium: row.potassium,
     lat: row.lat,
     lon: row.lon,
+    spot: row.spot,
   }
 }
 
@@ -70,10 +79,20 @@ function toDeviceDTO(
     region: row.region,
     zone: row.zone,
     crop: row.crop,
-    lat: row.lat,
-    lon: row.lon,
     readingCount: count,
     latestReading: latest ? toReadingDTO(latest) : null,
+  }
+}
+
+function valuesOfRow(row: ReadingRow): SensorValues {
+  return {
+    ph: row.ph,
+    ec: row.ec,
+    moisture: row.moisture,
+    temperature: row.temperature,
+    nitrogen: row.nitrogen,
+    phosphorus: row.phosphorus,
+    potassium: row.potassium,
   }
 }
 
@@ -153,6 +172,21 @@ export async function listReadings(
   return rows.map(toReadingDTO)
 }
 
+/**
+ * All readings across every probe over the last `hours`, oldest first —
+ * the map layer showing every placement the probes have made.
+ */
+export async function listAllReadings(hours = 24 * 7): Promise<ReadingDTO[]> {
+  const since = new Date(Date.now() - hours * 3600_000)
+  const rows = await db
+    .select()
+    .from(readings)
+    .where(gte(readings.recordedAt, since))
+    .orderBy(readings.recordedAt)
+    .limit(3000)
+  return rows.map(toReadingDTO)
+}
+
 /* --------------------------------- Writes --------------------------------- */
 
 /** POST /api/readings — hard-rule-validated ingest; auto-registers unknown devices */
@@ -166,6 +200,7 @@ export async function ingestReading(
     .limit(1)
   let deviceCreated = false
   if (existing.length === 0) {
+    // Probes are mobile — nothing location-ish is stored on the device row.
     await db.insert(devices).values({
       id: input.deviceId,
       name: input.deviceName ?? input.deviceId,
@@ -173,8 +208,6 @@ export async function ingestReading(
       region: input.region ?? null,
       zone: input.zone ?? null,
       crop: input.crop ?? null,
-      lat: input.lat,
-      lon: input.lon,
     })
     deviceCreated = true
   }
@@ -193,6 +226,7 @@ export async function ingestReading(
       potassium: input.potassium,
       lat: input.lat,
       lon: input.lon,
+      spot: input.spot ?? null,
       recordedAt,
     })
     .returning()
@@ -215,8 +249,6 @@ export async function registerDevice(
     region: input.region ?? null,
     zone: input.zone ?? null,
     crop: input.crop ?? null,
-    lat: input.lat,
-    lon: input.lon,
   }
   if (existing.length > 0) {
     await db.update(devices).set(values).where(eq(devices.id, input.id))
@@ -227,8 +259,9 @@ export async function registerDevice(
 }
 
 /**
- * "Simulate next reading" — generate the next value on the device's
- * deterministic timeline and store it. Used by the dashboard demo button.
+ * "Simulate next reading" — walk the probe to its next placement on the
+ * deterministic route and store the reading. Used by the dashboard demo
+ * button; continues the same timeline as the seeded history.
  */
 export async function simulateNextReading(
   deviceId: string,
@@ -247,6 +280,13 @@ export async function simulateNextReading(
     .orderBy(desc(readings.recordedAt), desc(readings.id))
     .limit(1)
 
+  const [countRow] = await db
+    .select({ n: sql<number>`count(*)` })
+    .from(readings)
+    .where(eq(readings.deviceId, deviceId))
+  // The reading index drives the probe's walk across its route.
+  const index = Number(countRow?.n ?? 0)
+
   const stepMs = 30 * 60_000
   // Backfill after an offline gap, but never march into the future on
   // repeated clicks — the reading is always "now" at the latest.
@@ -255,31 +295,48 @@ export async function simulateNextReading(
       ? new Date(latest.recordedAt.getTime() + stepMs)
       : new Date()
 
-  const profile =
-    DEMO_DEVICE_PROFILES.find((p) => p.id === deviceId) ??
-    profileFromLatest(
+  let values: SensorValues
+  let lat: number
+  let lon: number
+  let spot: string | null
+
+  const probe = DEMO_PROBE_PROFILES.find((p) => p.id === deviceId)
+  if (probe) {
+    const plot = probeRouteAt(probe, index)
+    values = simulatePlotValues(plot, probe.id, at)
+    const location = spotLocation(plot, probe.id, index)
+    lat = location.lat
+    lon = location.lon
+    spot = plot.name
+  } else {
+    // Ad-hoc probe registered through the API: rove around its last
+    // known position with bands centred on its last reading.
+    const synth = spotProfileFromLatest(
       device,
       latest
         ? {
-            ph: latest.ph,
-            ec: latest.ec,
-            moisture: latest.moisture,
-            temperature: latest.temperature,
-            nitrogen: latest.nitrogen,
-            phosphorus: latest.phosphorus,
-            potassium: latest.potassium,
+            ...valuesOfRow(latest),
+            lat: latest.lat,
+            lon: latest.lon,
+            spot: latest.spot,
           }
         : null,
+      index,
     )
+    values = simulatePlotValues(synth.plot, device.id, at)
+    lat = synth.plot.lat
+    lon = synth.plot.lon
+    spot = synth.spotName
+  }
 
-  const values = simulateReadingValues(profile, at)
   const [row] = await db
     .insert(readings)
     .values({
       deviceId,
       ...values,
-      lat: latest?.lat ?? device.lat,
-      lon: latest?.lon ?? device.lon,
+      lat,
+      lon,
+      spot,
       recordedAt: at,
     })
     .returning()
@@ -291,7 +348,10 @@ export async function simulateNextReading(
 export const SEED_HISTORY_HOURS = 24 * 7
 const SEED_STEP_MIN = 30
 
-/** Wipe and regenerate the 6-device demo fleet with 7 days of 30-min readings */
+/**
+ * Wipe and regenerate the demo fleet: three roving probes walking the
+ * eight plots of the demo farm, 7 days of 30-min readings each.
+ */
 export async function seedDemoData(): Promise<{
   devices: number
   readings: number
@@ -301,34 +361,37 @@ export async function seedDemoData(): Promise<{
 
   const stepMs = SEED_STEP_MIN * 60_000
   const now = Date.now()
-  const start = now - SEED_HISTORY_HOURS * 3600_000
+  // Half a step back so "Simulate reading" (latest + 30 min, clamped to
+  // now) never collides with the seeded timestamps.
+  const start = now - SEED_HISTORY_HOURS * 3600_000 - stepMs / 2
   const count = Math.floor((now - start) / stepMs) + 1
 
   let total = 0
-  for (const profile of DEMO_DEVICE_PROFILES) {
+  for (const probe of DEMO_PROBE_PROFILES) {
     await db.insert(devices).values({
-      id: profile.id,
-      name: profile.name,
-      district: profile.district,
-      region: profile.region,
-      zone: profile.zone,
-      crop: profile.crop,
-      lat: profile.lat,
-      lon: profile.lon,
+      id: probe.id,
+      name: probe.name,
+      district: FARM_AREA.district,
+      region: FARM_AREA.region,
+      zone: FARM_AREA.zone,
+      crop: null,
     })
     const rows = []
     for (let i = 0; i < count; i++) {
+      const plot = probeRouteAt(probe, i)
       const at = new Date(start + i * stepMs)
+      const location = spotLocation(plot, probe.id, i)
       rows.push({
-        deviceId: profile.id,
-        ...simulateReadingValues(profile, at),
-        lat: profile.lat,
-        lon: profile.lon,
+        deviceId: probe.id,
+        ...simulatePlotValues(plot, probe.id, at),
+        lat: location.lat,
+        lon: location.lon,
+        spot: plot.name,
         recordedAt: at,
       })
     }
     await db.insert(readings).values(rows)
     total += rows.length
   }
-  return { devices: DEMO_DEVICE_PROFILES.length, readings: total }
+  return { devices: DEMO_PROBE_PROFILES.length, readings: total }
 }

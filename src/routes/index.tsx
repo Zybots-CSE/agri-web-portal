@@ -19,16 +19,17 @@ import {
 import {
   getDeviceReadings,
   getDevices,
+  getAllReadings,
   seedDemoData,
   simulateNextReading,
 } from '#/lib/server/server-fns'
 import {
   SENSOR_PARAM_LIST,
-  formatValue,
   overallStatus,
   statusForValue,
 } from '#/lib/sensor-rules'
 import type { ParamKey, SensorValues } from '#/lib/sensor-rules'
+import { FARM_AREA } from '#/lib/sensor-sim'
 import type { ReadingDTO } from '#/lib/server/queries'
 import { formatDateTime } from '#/lib/format'
 import { cn } from '#/lib/utils'
@@ -42,8 +43,7 @@ import {
 } from '#/components/ui/select'
 import { SensorCard } from '#/components/dashboard/sensor-card'
 import { TrendChart } from '#/components/dashboard/trend-chart'
-import { SriLankaMap } from '#/components/dashboard/sri-lanka-map'
-import type { MapDevice } from '#/components/dashboard/sri-lanka-map'
+import { OsmMap } from '#/components/dashboard/osm-map'
 import { StatusBadge, STATUS_DOT } from '#/components/dashboard/status-badge'
 
 /* ------------------------------- data wiring ------------------------------ */
@@ -61,6 +61,12 @@ const readingsOptions = (deviceId: string) =>
     refetchInterval: 30_000,
   })
 
+const allReadingsOptions = queryOptions({
+  queryKey: ['readings', '__all__'],
+  queryFn: () => getAllReadings({ data: {} }),
+  refetchInterval: 30_000,
+})
+
 const searchSchema = z.object({ device: z.string().optional() })
 
 export const Route = createFileRoute('/')({
@@ -68,6 +74,7 @@ export const Route = createFileRoute('/')({
   loaderDeps: ({ search }) => ({ device: search.device }),
   loader: async ({ context: { queryClient }, deps }) => {
     const devices = await queryClient.ensureQueryData(devicesOptions)
+    await queryClient.ensureQueryData(allReadingsOptions)
     const initialId =
       deps.device && devices.some((d) => d.id === deps.device)
         ? deps.device
@@ -91,20 +98,6 @@ function valuesOf(reading: ReadingDTO): SensorValues {
     phosphorus: reading.phosphorus,
     potassium: reading.potassium,
   }
-}
-
-function infoLine(reading: ReadingDTO | null): string {
-  if (!reading) return 'No readings yet'
-  const overall = overallStatus(valuesOf(reading))
-  if (overall.flags.length === 0)
-    return `All parameters OK · ${formatDateTime(reading.recordedAt)}`
-  const flagged = overall.flags
-    .map(
-      (f) =>
-        `${f.param.short} ${formatValue(f.param, valuesOf(reading)[f.param.key])}`,
-    )
-    .join(' · ')
-  return `${flagged} · ${formatDateTime(reading.recordedAt)}`
 }
 
 function Chip({ label, value }: { label: string; value: string }) {
@@ -143,6 +136,7 @@ function DashboardPage() {
     enabled: !!selectedDevice,
   })
   const readings = readingsQuery.data ?? []
+  const { data: allReadings } = useSuspenseQuery(allReadingsOptions)
 
   const [paramKey, setParamKey] = useState<ParamKey>('ph')
   const [rangeHours, setRangeHours] = useState(24)
@@ -169,25 +163,12 @@ function DashboardPage() {
     const cutoff = Date.now() - rangeHours * 3600_000
     return readings
       .filter((r) => Date.parse(r.recordedAt) >= cutoff)
-      .map((r) => ({ t: Date.parse(r.recordedAt), v: r[activeParam.key] }))
+      .map((r) => ({
+        t: Date.parse(r.recordedAt),
+        v: r[activeParam.key],
+        label: r.spot ?? undefined,
+      }))
   }, [readings, rangeHours, activeParam])
-
-  const mapDevices: MapDevice[] = useMemo(
-    () =>
-      devices.map((d) => ({
-        id: d.id,
-        name: d.name,
-        district: d.district,
-        region: d.region,
-        lat: d.lat,
-        lon: d.lon,
-        status: d.latestReading
-          ? overallStatus(valuesOf(d.latestReading)).level
-          : 'ok',
-        info: infoLine(d.latestReading),
-      })),
-    [devices],
-  )
 
   /* ------------------------------ empty state ----------------------------- */
 
@@ -199,11 +180,11 @@ function DashboardPage() {
             <DatabaseZap className="size-7" />
           </span>
           <h1 className="display-title text-2xl font-bold">
-            No devices registered yet
+            No probes registered yet
           </h1>
           <p className="text-sm text-sea-ink-soft">
-            Seed the demo fleet — six field probes across Sri Lanka's
-            agro-ecological regions with a week of simulated readings — or point
+            Seed the demo fleet — three roving probes sampling eight plots of
+            the {FARM_AREA.name} with a week of simulated readings — or point
             your hardware at <code>POST /api/readings</code>.
           </p>
           <Button
@@ -234,9 +215,10 @@ function DashboardPage() {
             Soil Sensor Dashboard
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-sea-ink-soft">
-            Live readings from field probes across Sri Lanka's agro-ecological
-            regions — pH, EC, moisture, temperature and NPK, hard-rule flagged
-            and chart-ready.
+            Live soil data from a single local area — the {FARM_AREA.name},{' '}
+            {FARM_AREA.district} ({FARM_AREA.region}). Roving probes are placed
+            at a spot, read, then moved on; every reading is geo-tagged,
+            hard-rule flagged and chart-ready.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -321,10 +303,13 @@ function DashboardPage() {
           {selectedDevice?.crop && (
             <Chip label="Crop" value={selectedDevice.crop} />
           )}
-          {selectedDevice && (
+          {latest && (
             <Chip
-              label="GPS"
-              value={`${selectedDevice.lat.toFixed(3)}°N, ${selectedDevice.lon.toFixed(3)}°E`}
+              label="Current spot"
+              value={
+                latest.spot ??
+                `${latest.lat.toFixed(4)}°N, ${latest.lon.toFixed(4)}°E`
+              }
             />
           )}
           {selectedDevice && (
@@ -455,21 +440,21 @@ function DashboardPage() {
         <div className="island-shell flex flex-col gap-4 rounded-2xl p-5 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="island-kicker">Field locations</p>
+              <p className="island-kicker">{FARM_AREA.name}</p>
               <h2 className="flex items-center gap-2 text-lg font-bold">
                 <MapPin className="size-4 text-lagoon-deep" />
-                Device map
+                Sampling spot map
               </h2>
             </div>
             <span className="flex items-center gap-1 text-xs text-sea-ink-soft">
               <Radio className="size-3.5" />
-              {devices.length} probes
+              {devices.length} roving probes
             </span>
           </div>
-          <SriLankaMap
-            devices={mapDevices}
-            selectedId={selectedDevice?.id}
-            onSelect={(id) => navigate({ search: { device: id } })}
+          <OsmMap
+            center={FARM_AREA.center}
+            readings={allReadings}
+            selectedDeviceId={selectedDevice?.id}
           />
         </div>
       </section>
@@ -486,16 +471,18 @@ function DashboardPage() {
           <p>
             The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture
             sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one
-            JSON reading per measurement cycle. Values outside the SRS sensor
-            ranges are rejected with <code>422</code> and an issue list — the
-            Step 1 hard-rule filter. Unknown devices are auto-registered with
-            the GPS fix of the first reading.
+            JSON reading per placement — the probe is put at a spot, read, then
+            moved somewhere else, so every reading carries its own GPS fix and
+            an optional spot label. Values outside the SRS sensor ranges are
+            rejected with <code>422</code> and an issue list — the Step 1
+            hard-rule filter. Unknown probes are auto-registered on first sight;
+            no location is stored on the probe itself.
           </p>
           <pre className="overflow-x-auto rounded-xl border border-line bg-[#1d2e45] p-4 text-xs leading-relaxed text-[#e8efff]">
             {`curl -X POST http://localhost:3030/api/readings \\
   -H "Content-Type: application/json" \\
   -d '{
-    "deviceId": "AGRI-001",
+    "deviceId": "PRB-001",
     "ph": 6.42,
     "ec": 1.24,
     "moisture": 28.5,
@@ -503,8 +490,9 @@ function DashboardPage() {
     "nitrogen": 65,
     "phosphorus": 18,
     "potassium": 120,
-    "lat": 8.311,
-    "lon": 80.402,
+    "lat": 8.3525,
+    "lon": 80.4631,
+    "spot": "Paddy Block B",
     "recordedAt": "2026-10-13T09:30:00+05:30"
   }'`}
           </pre>
@@ -532,7 +520,12 @@ function DashboardPage() {
                   [
                     'lat / lon',
                     '5.9–9.9 / 79.6–81.9',
-                    'decimal degrees (Sri Lanka)',
+                    'decimal degrees — GPS fix of this placement',
+                  ],
+                  [
+                    'spot',
+                    '1–80 chars',
+                    'optional sampling-spot label, e.g. "Paddy Block B"',
                   ],
                   [
                     'recordedAt',
@@ -555,7 +548,8 @@ function DashboardPage() {
             Also available:{' '}
             <code>GET /api/readings?deviceId=…&amp;hours=…</code>,{' '}
             <code>GET /api/devices</code>, and <code>POST /api/devices</code> to
-            pre-register a probe with district / NRMC region / crop metadata.
+            pre-register a probe with district / NRMC region / crop metadata
+            (probes carry no coordinates — GPS travels with each reading).
           </p>
         </div>
       </details>

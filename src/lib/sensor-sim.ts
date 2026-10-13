@@ -1,27 +1,35 @@
 import type { ParamKey, SensorValues } from './sensor-rules'
 
 /**
- * Demo data generator.
+ * Demo data generator for a ROVING-PROBE workflow.
  *
- * Values are produced by a deterministic, time-based model per device:
+ * The system studies one local area — a single research farm block — not
+ * the whole country. Probes are handheld units: an operator places one at
+ * a spot, takes a reading, then moves it somewhere else ("put → reading →
+ * move → reading"). Nothing is permanently installed, so:
+ *
+ *   - probes (devices) have NO fixed coordinates;
+ *   - every reading carries its own GPS fix and the label of the sampling
+ *     spot it was taken at.
+ *
+ * Soil chemistry belongs to the PLOT, not the probe, so values are
+ * produced by a deterministic, time-based model per plot:
+ *
  *   value(t) = midpoint + slow oscillation (days-scale)
  *            ± diurnal cycle (temp / moisture)
- *            + scheduled events (irrigation, fertilisation) with exponential
- *              decay — the "event boost"
- *            + small sensor noise
+ *            + scheduled events (irrigation, fertilisation)
+ *            + probe-specific measurement noise
  *
- * Because the model is a pure function of (profile, timestamp), the seeded
- * 7-day history and the live "simulate next reading" action produce the same
+ * The reading index drives the walk: reading i lands on
+ * `route[i mod route.length]`, jittered around the plot centre — so the
+ * seeded history and the live "Simulate reading" action produce one
  * continuous timeline.
  */
 
-export type DeviceProfile = {
+export type PlotProfile = {
   id: string
+  /** Human-readable sampling-spot label stored with every reading */
   name: string
-  district: string
-  /** NRMC agro-ecological region code */
-  region: string
-  zone: 'Dry Zone' | 'Intermediate Zone' | 'Wet Zone'
   crop: string
   lat: number
   lon: number
@@ -40,6 +48,22 @@ export type DeviceProfile = {
   fertiliser: { everyHours: number; probability: number; decayHours: number }
 }
 
+export type ProbeProfile = {
+  id: string
+  name: string
+  /** Plot ids the operator's route covers, in visiting order */
+  route: string[]
+}
+
+/** The local area under study (adjust to your own farm block) */
+export const FARM_AREA = {
+  name: 'Iluppallama Research Farm',
+  district: 'Anuradhapura',
+  region: 'DL1',
+  zone: 'Dry Zone',
+  center: { lat: 8.3552, lon: 80.4672 },
+}
+
 const PADDY_IRRIGATION = {
   everyHours: 18,
   probability: 0.55,
@@ -55,27 +79,25 @@ const UPLAND_IRRIGATION = {
 const STANDARD_FERTILISER = { everyHours: 96, probability: 0.3, decayHours: 40 }
 
 /**
- * Six demo probes across the island — one per major agro-ecological system.
- * Bands are chosen so the dashboard demonstrates every hard-rule flag:
- * Polonnaruwa crosses the EC salinity threshold, Kandy/Ratnapura dip into
- * the pH lockout zone, Ampara shows low P/K, and paddy fields show
- * saturated moisture readings.
+ * Eight sampling plots of the farm. Bands are chosen so the dashboard
+ * demonstrates every hard-rule flag somewhere on the farm: Paddy Block B
+ * is a salinity hotspot (EC > 2.0), Paddy Block A runs waterlogged, the
+ * Orchard Block dips into the pH-lockout zone, the Vegetable Plot and
+ * Chilli Nursery show P / N deficits, the Fallow Plot runs dry and
+ * K-deficient, and the Compost Yard overshoots nutrients.
  */
-export const DEMO_DEVICE_PROFILES: DeviceProfile[] = [
+export const FARM_PLOTS: PlotProfile[] = [
   {
-    id: 'AGRI-001',
-    name: 'Anuradhapura Field Probe',
-    district: 'Anuradhapura',
-    region: 'DL1',
-    zone: 'Dry Zone',
+    id: 'paddy-a',
+    name: 'Paddy Block A',
     crop: 'Lowland paddy',
-    lat: 8.311,
-    lon: 80.402,
+    lat: 8.357,
+    lon: 80.47,
     bands: {
       ph: [6.2, 6.9],
       ec: [0.35, 0.9],
-      moisture: [34, 56],
-      temperature: [25, 34],
+      moisture: [44, 64], // saturated → occasionally waterlogged (> 60)
+      temperature: [24, 33],
       nitrogen: [30, 75],
       phosphorus: [10, 22],
       potassium: [70, 160],
@@ -85,19 +107,16 @@ export const DEMO_DEVICE_PROFILES: DeviceProfile[] = [
     fertiliser: STANDARD_FERTILISER,
   },
   {
-    id: 'AGRI-002',
-    name: 'Polonnaruwa Command Area Probe',
-    district: 'Polonnaruwa',
-    region: 'DL1b',
-    zone: 'Dry Zone',
-    crop: 'Lowland paddy (Mahaweli)',
-    lat: 7.941,
-    lon: 81.019,
+    id: 'paddy-b',
+    name: 'Paddy Block B',
+    crop: 'Lowland paddy',
+    lat: 8.3525,
+    lon: 80.463,
     bands: {
-      ph: [6.5, 7.6],
-      ec: [1.6, 3.0], // command-area salinity — crosses the 2.0 dS/m threshold
-      moisture: [40, 62], // occasionally waterlogged
-      temperature: [26, 35],
+      ph: [6.4, 7.4],
+      ec: [1.6, 2.9], // command-area salinity — crosses the 2.0 dS/m threshold
+      moisture: [40, 58],
+      temperature: [25, 34],
       nitrogen: [45, 110],
       phosphorus: [12, 30],
       potassium: [80, 180],
@@ -107,92 +126,141 @@ export const DEMO_DEVICE_PROFILES: DeviceProfile[] = [
     fertiliser: STANDARD_FERTILISER,
   },
   {
-    id: 'AGRI-003',
-    name: 'Ampara Lowland Probe',
-    district: 'Ampara',
-    region: 'DL2',
-    zone: 'Dry Zone',
-    crop: 'Lowland paddy',
-    lat: 7.003,
-    lon: 81.673,
+    id: 'maize',
+    name: 'Maize Field',
+    crop: 'Maize',
+    lat: 8.359,
+    lon: 80.4655,
     bands: {
-      ph: [5.6, 6.6],
-      ec: [0.2, 0.8],
-      moisture: [32, 55],
-      temperature: [25, 33],
-      nitrogen: [25, 65],
-      phosphorus: [8, 18], // occasionally P-deficient
-      potassium: [55, 120], // occasionally K-low
+      ph: [5.9, 6.8],
+      ec: [0.15, 0.6],
+      moisture: [22, 42],
+      temperature: [24, 35],
+      nitrogen: [50, 120],
+      phosphorus: [16, 38],
+      potassium: [95, 200],
     },
-    diurnalAmp: 3.5,
-    irrigation: PADDY_IRRIGATION,
+    diurnalAmp: 4,
+    irrigation: UPLAND_IRRIGATION,
     fertiliser: STANDARD_FERTILISER,
   },
   {
-    id: 'AGRI-004',
-    name: 'Kandy Mid-Country Probe',
-    district: 'Kandy',
-    region: 'IL3',
-    zone: 'Intermediate Zone',
-    crop: 'Upland vegetables',
-    lat: 7.291,
-    lon: 80.641,
+    id: 'vegetable',
+    name: 'Vegetable Plot',
+    crop: 'Upcountry vegetables',
+    lat: 8.3555,
+    lon: 80.46,
     bands: {
-      ph: [4.9, 6.0], // dips below 5.0 → nutrient lockout flag
-      ec: [0.08, 0.35],
-      moisture: [18, 38],
-      temperature: [19, 27],
+      ph: [5.8, 6.6],
+      ec: [0.1, 0.5],
+      moisture: [20, 40],
+      temperature: [22, 32],
       nitrogen: [40, 95],
-      phosphorus: [14, 35],
-      potassium: [90, 200],
+      phosphorus: [7, 14], // occasionally P-deficient (< 8 critical)
+      potassium: [85, 190],
+    },
+    diurnalAmp: 3,
+    irrigation: UPLAND_IRRIGATION,
+    fertiliser: STANDARD_FERTILISER,
+  },
+  {
+    id: 'nursery',
+    name: 'Chilli Nursery',
+    crop: 'Chilli',
+    lat: 8.3515,
+    lon: 80.4715,
+    bands: {
+      ph: [5.7, 6.5],
+      ec: [0.08, 0.4],
+      moisture: [24, 46],
+      temperature: [23, 33],
+      nitrogen: [16, 38], // occasionally N-deficient (< 20 critical)
+      phosphorus: [12, 28],
+      potassium: [70, 150],
+    },
+    diurnalAmp: 3,
+    irrigation: UPLAND_IRRIGATION,
+    fertiliser: STANDARD_FERTILISER,
+  },
+  {
+    id: 'orchard',
+    name: 'Orchard Block',
+    crop: 'Mango orchard',
+    lat: 8.3595,
+    lon: 80.474,
+    bands: {
+      ph: [4.75, 5.6], // acidic — dips below 5.0 → nutrient lockout flag
+      ec: [0.08, 0.35],
+      moisture: [26, 48],
+      temperature: [22, 32],
+      nitrogen: [28, 62],
+      phosphorus: [8, 18],
+      potassium: [75, 160],
     },
     diurnalAmp: 2.5,
     irrigation: UPLAND_IRRIGATION,
     fertiliser: STANDARD_FERTILISER,
   },
   {
-    id: 'AGRI-005',
-    name: 'Ratnapura Wet Zone Probe',
-    district: 'Ratnapura',
-    region: 'WL2',
-    zone: 'Wet Zone',
-    crop: 'Tea',
-    lat: 6.683,
-    lon: 80.41,
+    id: 'compost',
+    name: 'Compost Yard',
+    crop: 'Compost turning',
+    lat: 8.3525,
+    lon: 80.475,
     bands: {
-      ph: [4.7, 5.6], // tea soils are acidic — frequent lockout flags
-      ec: [0.05, 0.25],
-      moisture: [28, 52],
-      temperature: [22, 29],
-      nitrogen: [28, 60],
-      phosphorus: [6, 15], // occasionally P-deficient
-      potassium: [60, 140],
+      ph: [6.4, 7.3],
+      ec: [0.6, 1.5],
+      moisture: [30, 50],
+      temperature: [24, 35],
+      nitrogen: [120, 220], // frequently excessive (> 150)
+      phosphorus: [55, 110], // occasionally high (> 60)
+      potassium: [200, 330], // occasionally high (> 220)
     },
-    diurnalAmp: 2,
+    diurnalAmp: 3.5,
     irrigation: UPLAND_IRRIGATION,
     fertiliser: STANDARD_FERTILISER,
   },
   {
-    id: 'AGRI-006',
-    name: 'Badulla Uva Probe',
-    district: 'Badulla',
-    region: 'IU3',
-    zone: 'Intermediate Zone',
-    crop: 'Upland vegetables',
-    lat: 6.993,
-    lon: 81.055,
+    id: 'fallow',
+    name: 'Fallow Plot',
+    crop: 'Fallow',
+    lat: 8.356,
+    lon: 80.457,
     bands: {
-      ph: [5.8, 6.8],
-      ec: [0.1, 0.5],
-      moisture: [20, 40],
-      temperature: [20, 30],
-      nitrogen: [42, 105],
-      phosphorus: [15, 38],
-      potassium: [95, 210],
+      ph: [5.6, 6.4],
+      ec: [0.05, 0.3],
+      moisture: [12, 24], // runs dry — occasionally < 12 critical
+      temperature: [24, 36],
+      nitrogen: [15, 40], // occasionally N-deficient
+      phosphorus: [10, 24],
+      potassium: [42, 82], // occasionally K-deficient (< 50 critical)
     },
-    diurnalAmp: 3,
+    diurnalAmp: 4,
     irrigation: UPLAND_IRRIGATION,
     fertiliser: STANDARD_FERTILISER,
+  },
+]
+
+/**
+ * Three roving probes sharing the farm. Each one covers a different set
+ * of plots — its "route" — and every placement takes one reading before
+ * the probe is moved to the next spot on the route.
+ */
+export const DEMO_PROBE_PROFILES: ProbeProfile[] = [
+  {
+    id: 'PRB-001',
+    name: 'Probe 01 · Lowland route',
+    route: ['paddy-a', 'paddy-b', 'fallow'],
+  },
+  {
+    id: 'PRB-002',
+    name: 'Probe 02 · Upland route',
+    route: ['maize', 'vegetable', 'nursery'],
+  },
+  {
+    id: 'PRB-003',
+    name: 'Probe 03 · Perennial route',
+    route: ['orchard', 'compost', 'paddy-a'],
   },
 ]
 
@@ -288,13 +356,9 @@ function bandHalf([lo, hi]: [number, number]): number {
   return (hi - lo) / 2
 }
 
-/** Slow multi-day oscillation phase/period derived from device + param */
-function slowWave(
-  profile: DeviceProfile,
-  param: ParamKey,
-  tMs: number,
-): number {
-  const seed = hashString(`${profile.id}:${param}`)
+/** Slow multi-day oscillation phase/period derived from plot + param */
+function slowWave(plot: PlotProfile, param: ParamKey, tMs: number): number {
+  const seed = hashString(`${plot.id}:${param}`)
   const periodDays = 2 + (seed % 4) // 2–5 day cycles
   const phase = (seed % 997) / 997
   return Math.sin(
@@ -326,53 +390,54 @@ export function roundFor(param: ParamKey, v: number): number {
 }
 
 /**
- * Generate the reading values for a device at a point in time.
- * Deterministic: same (profile, t) → same values.
+ * Generate the reading values for a plot at a point in time, as measured
+ * by a specific probe. Deterministic: same (plot, probe, t) → same values.
  */
-export function simulateReadingValues(
-  profile: DeviceProfile,
+export function simulatePlotValues(
+  plot: PlotProfile,
+  probeId: string,
   at: Date,
 ): SensorValues {
   const t = at.getTime()
-  const noiseRnd = mulberry32(hashString(`${profile.id}:${t}`))
+  const noiseRnd = mulberry32(hashString(`${probeId}:${plot.id}:${t}`))
 
   const result = {} as Record<ParamKey, number>
 
-  for (const param of Object.keys(profile.bands) as ParamKey[]) {
-    const band = profile.bands[param]
+  for (const param of Object.keys(plot.bands) as ParamKey[]) {
+    const band = plot.bands[param]
     const mid = bandMid(band)
     const half = bandHalf(band)
-    let v = mid + half * 0.92 * slowWave(profile, param, t)
+    let v = mid + half * 0.92 * slowWave(plot, param, t)
 
     switch (param) {
       case 'temperature': {
         // Day peaks ~14:00, overnight minimum
-        v += profile.diurnalAmp * diurnal(t, 14)
+        v += plot.diurnalAmp * diurnal(t, 14)
         break
       }
       case 'moisture': {
         // Midday evaporation dip + irrigation/rain events
         v -= 2.2 * diurnal(t, 15)
-        v += eventBoost(`${profile.id}:irrigation`, t, profile.irrigation)
+        v += eventBoost(`${plot.id}:irrigation`, t, plot.irrigation)
         break
       }
       case 'nitrogen': {
-        v += eventBoost(`${profile.id}:urea`, t, {
-          ...profile.fertiliser,
+        v += eventBoost(`${plot.id}:urea`, t, {
+          ...plot.fertiliser,
           boost: 32,
         })
         break
       }
       case 'phosphorus': {
-        v += eventBoost(`${profile.id}:tsp`, t, {
-          ...profile.fertiliser,
+        v += eventBoost(`${plot.id}:tsp`, t, {
+          ...plot.fertiliser,
           boost: 11,
         })
         break
       }
       case 'potassium': {
-        v += eventBoost(`${profile.id}:mop`, t, {
-          ...profile.fertiliser,
+        v += eventBoost(`${plot.id}:mop`, t, {
+          ...plot.fertiliser,
           boost: 24,
         })
         break
@@ -381,7 +446,7 @@ export function simulateReadingValues(
         break
     }
 
-    // Sensor noise
+    // Probe-specific sensor noise
     v += (noiseRnd() - 0.5) * 2 * NOISE[param]
     // Allow events to overshoot the typical band slightly, but stay plausible
     v = clamp(
@@ -403,12 +468,42 @@ export function simulateReadingValues(
   }
 }
 
+/* ------------------------------- Probe walk -------------------------------- */
+
+/** The plot the probe's `readingIndex`-th placement lands on */
+export function probeRouteAt(
+  probe: ProbeProfile,
+  readingIndex: number,
+): PlotProfile {
+  const plotId = probe.route[readingIndex % probe.route.length]!
+  const plot = FARM_PLOTS.find((p) => p.id === plotId)
+  if (!plot) throw new Error(`Unknown plot on route: ${probe.id} → ${plotId}`)
+  return plot
+}
+
+const round5 = (v: number) => Math.round(v * 100000) / 100000
+
 /**
- * Build an ad-hoc profile for devices registered through the API (not part
- * of the demo fleet). Bands centre on the device's last known reading so the
- * simulated timeline stays continuous with its real history.
+ * Deterministic ±~30 m placement jitter so every reading is a distinct
+ * spot around the plot centre (the probe is re-placed each time).
  */
-export function profileFromLatest(
+export function spotLocation(
+  plot: PlotProfile,
+  probeId: string,
+  readingIndex: number,
+): { lat: number; lon: number } {
+  const jLat = (hash01(`${probeId}:${readingIndex}:lat`) - 0.5) * 0.00056
+  const jLon = (hash01(`${probeId}:${readingIndex}:lon`) - 0.5) * 0.00056
+  return { lat: round5(plot.lat + jLat), lon: round5(plot.lon + jLon) }
+}
+
+/**
+ * Build an ad-hoc plot for probes registered through the API (not part
+ * of the demo fleet). The probe keeps roving around its last known
+ * position with bands centred on its last reading, so the simulated
+ * timeline stays continuous with its real history.
+ */
+export function spotProfileFromLatest(
   device: {
     id: string
     name: string
@@ -416,11 +511,11 @@ export function profileFromLatest(
     region: string | null
     zone: string | null
     crop: string | null
-    lat: number
-    lon: number
   },
-  latest: SensorValues | null,
-): DeviceProfile {
+  latest:
+    (SensorValues & { lat: number; lon: number; spot: string | null }) | null,
+  readingIndex: number,
+): { plot: PlotProfile; spotName: string | null } {
   const band = (v: number, lo: number, hi: number): [number, number] => {
     const span = Math.max(v * 0.18, (hi - lo) * 0.1)
     return [clamp(v - span, lo, hi), clamp(v + span, lo, hi)]
@@ -433,27 +528,32 @@ export function profileFromLatest(
     nitrogen: 60,
     phosphorus: 20,
     potassium: 110,
+    lat: FARM_AREA.center.lat,
+    lon: FARM_AREA.center.lon,
+    spot: null,
   }
+  const jLat = (hash01(`${device.id}:${readingIndex}:lat`) - 0.5) * 0.00056
+  const jLon = (hash01(`${device.id}:${readingIndex}:lon`) - 0.5) * 0.00056
   return {
-    id: device.id,
-    name: device.name,
-    district: device.district ?? '',
-    region: device.region ?? '',
-    zone: (device.zone as DeviceProfile['zone'] | null) ?? 'Intermediate Zone',
-    crop: device.crop ?? '',
-    lat: device.lat,
-    lon: device.lon,
-    bands: {
-      ph: band(center.ph, 4.5, 8.5),
-      ec: band(center.ec, 0.05, 3.5),
-      moisture: band(center.moisture, 8, 70),
-      temperature: band(center.temperature, 16, 40),
-      nitrogen: band(center.nitrogen, 10, 250),
-      phosphorus: band(center.phosphorus, 5, 80),
-      potassium: band(center.potassium, 20, 280),
+    plot: {
+      id: `${device.id}:spot`,
+      name: 'Field spot',
+      crop: device.crop ?? 'Field crop',
+      lat: round5(center.lat + jLat),
+      lon: round5(center.lon + jLon),
+      bands: {
+        ph: band(center.ph, 4.5, 8.5),
+        ec: band(center.ec, 0.05, 3.5),
+        moisture: band(center.moisture, 8, 70),
+        temperature: band(center.temperature, 16, 40),
+        nitrogen: band(center.nitrogen, 10, 250),
+        phosphorus: band(center.phosphorus, 5, 80),
+        potassium: band(center.potassium, 20, 280),
+      },
+      diurnalAmp: 3,
+      irrigation: UPLAND_IRRIGATION,
+      fertiliser: STANDARD_FERTILISER,
     },
-    diurnalAmp: 3,
-    irrigation: UPLAND_IRRIGATION,
-    fertiliser: STANDARD_FERTILISER,
+    spotName: latest?.spot ?? null,
   }
 }

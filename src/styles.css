@@ -372,6 +372,60 @@ a {
   background: color-mix(in oklab, var(--header-bg) 84%, transparent 16%);
 }
 
+/* OpenStreetMap (Leaflet) panel theming */
+.leaflet-container {
+  border-radius: 12px;
+  font-family: inherit;
+  background: #aad3df;
+}
+
+.leaflet-container .leaflet-control-attribution {
+  font-size: 10px;
+  background: color-mix(in oklab, var(--surface-strong) 88%, transparent);
+  color: var(--sea-ink-soft);
+}
+
+.leaflet-container .leaflet-control-attribution a {
+  color: var(--lagoon-deep);
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  color: var(--sea-ink);
+  border-bottom-color: var(--line);
+  background: var(--surface-strong);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface-strong);
+  color: var(--sea-ink);
+  box-shadow: 0 12px 32px rgba(23, 58, 64, 0.18);
+}
+
+.leaflet-popup-content-wrapper {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.leaflet-popup-tip {
+  border: 1px solid var(--line);
+}
+
+.leaflet-popup-close-button {
+  color: var(--sea-ink-soft);
+}
+
+.leaflet-tooltip {
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--sea-ink);
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(23, 58, 64, 0.12);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

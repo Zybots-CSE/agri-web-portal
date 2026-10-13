@@ -8,27 +8,28 @@ import {
 import { sql } from 'drizzle-orm'
 
 /**
- * Field probes / sensor nodes deployed across farms.
- * `region` stores the NRMC agro-ecological region code (e.g. "DL1b").
+ * Roving field probes (handheld units). Probes are NOT permanently
+ * installed — they are placed at a spot, read, then moved somewhere else —
+ * so they carry no coordinates of their own. Every reading holds its own
+ * GPS fix. `region` stores the NRMC agro-ecological region code (e.g. "DL1").
  */
 export const devices = sqliteTable('devices', {
-  id: text('id').primaryKey(), // e.g. "AGRI-001" — device id sent by the probe
+  id: text('id').primaryKey(), // e.g. "PRB-001" — device id sent by the probe
   name: text('name').notNull(),
   district: text('district'),
   region: text('region'),
   zone: text('zone'), // Dry Zone | Intermediate Zone | Wet Zone
   crop: text('crop'),
-  lat: real('lat').notNull(),
-  lon: real('lon').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
     .default(sql`(unixepoch())`),
 })
 
 /**
- * One soil reading per probe upload. All measured values are stored raw
- * (after temperature-correction on the device); hard-rule filtering happens
- * at ingest time (see src/lib/sensor-rules.ts).
+ * One soil reading per probe placement ("put → get reading → move").
+ * All measured values are stored raw (after temperature-correction on the
+ * device); hard-rule filtering happens at ingest time (see
+ * src/lib/sensor-rules.ts). lat/lon is the GPS fix of THIS placement.
  */
 export const readings = sqliteTable(
   'readings',
@@ -46,10 +47,14 @@ export const readings = sqliteTable(
     potassium: real('potassium').notNull(), // mg/kg, 0–1999
     lat: real('lat').notNull(), // 5.9–9.9 (Sri Lanka bounds)
     lon: real('lon').notNull(), // 79.6–81.9
+    spot: text('spot'), // sampling-spot label, e.g. "Paddy Block B"
     recordedAt: integer('recorded_at', { mode: 'timestamp' }).notNull(),
     createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (t) => [index('readings_device_recorded_idx').on(t.deviceId, t.recordedAt)],
+  (t) => [
+    index('readings_device_recorded_idx').on(t.deviceId, t.recordedAt),
+    index('readings_recorded_idx').on(t.recordedAt),
+  ],
 )

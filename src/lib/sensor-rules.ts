@@ -383,6 +383,8 @@ export const readingIngestSchema = z.object({
     .max(SENSOR_PARAMS.potassium.sensorMax),
   lat: latSchema,
   lon: lonSchema,
+  /** Optional label of the sampling spot, e.g. "Paddy Block B" */
+  spot: z.string().min(1).max(80).optional(),
   /** ISO-8601; defaults to server time when omitted */
   recordedAt: z.iso.datetime({ offset: true }).optional(),
   /** Optional device metadata — used when auto-registering an unknown device */
@@ -391,7 +393,10 @@ export const readingIngestSchema = z.object({
 })
 export type ReadingIngest = z.infer<typeof readingIngestSchema>
 
-/** Body accepted by POST /api/devices */
+/**
+ * Body accepted by POST /api/devices. Probes are mobile, so no
+ * coordinates are registered — the GPS fix travels with each reading.
+ */
 export const deviceRegistrationSchema = z.object({
   id: z
     .string()
@@ -400,8 +405,6 @@ export const deviceRegistrationSchema = z.object({
       'id must be 2–40 chars: letters, digits, dot, dash, underscore',
     ),
   name: z.string().min(1).max(80),
-  lat: latSchema,
-  lon: lonSchema,
   ...optionalDeviceMeta,
 })
 export type DeviceRegistration = z.infer<typeof deviceRegistrationSchema>

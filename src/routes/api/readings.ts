@@ -3,10 +3,10 @@ import { readingIngestSchema } from '#/lib/sensor-rules'
 import * as svc from '#/lib/server/queries.ts'
 
 /**
- * Device ingest API — called by the field probe (ESP32/Arduino + RS485 NPK
- * probe, DS18B20, FDR moisture sensor, NEO GPS) over HTTP.
+ * Device ingest API — called by the roving field probe (ESP32/Arduino +
+ * RS485 NPK probe, DS18B20, FDR moisture sensor, NEO GPS) over HTTP.
  *
- *   GET  /api/readings?deviceId=AGRI-001&hours=24
+ *   GET  /api/readings?deviceId=PRB-001&hours=24
  *   POST /api/readings  (JSON body, validated against the SRS sensor ranges)
  */
 export const Route = createFileRoute('/api/readings')({

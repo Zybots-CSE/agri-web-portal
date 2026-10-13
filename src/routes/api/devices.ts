@@ -5,12 +5,14 @@ import * as svc from '#/lib/server/queries.ts'
 /**
  * Device registry API.
  *
- *   GET  /api/devices        → list devices with latest reading
+ *   GET  /api/devices        → list probes with latest reading
  *   POST /api/devices        → register / update a probe (JSON body)
  *
- * POST /api/readings auto-registers unknown devices, so registration is
+ * POST /api/readings auto-registers unknown probes, so registration is
  * optional — but pre-registering lets you attach district / NRMC region /
- * crop metadata used by the dashboard.
+ * crop metadata used by the dashboard. Probes are mobile (put → read →
+ * move), so no coordinates live here — every reading carries its own
+ * GPS fix.
  */
 export const Route = createFileRoute('/api/devices')({
   server: {
