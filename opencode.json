@@ -1,0 +1,14 @@
+{
+  "mcp": {
+    "servers": {
+      "shadcn": {
+        "type": "local",
+        "command": ["npx", "-y", "shadcn@latest", "mcp"]
+      },
+      "tanstack": {
+        "type": "local",
+        "command": ["npx", "-y", "@g7aro/tanstack-mcp"]
+      }
+    }
+  }
+}
