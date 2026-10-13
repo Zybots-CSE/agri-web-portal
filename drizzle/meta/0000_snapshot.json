@@ -170,17 +170,12 @@
       "indexes": {
         "readings_device_recorded_idx": {
           "name": "readings_device_recorded_idx",
-          "columns": [
-            "device_id",
-            "recorded_at"
-          ],
+          "columns": ["device_id", "recorded_at"],
           "isUnique": false
         },
         "readings_recorded_idx": {
           "name": "readings_recorded_idx",
-          "columns": [
-            "recorded_at"
-          ],
+          "columns": ["recorded_at"],
           "isUnique": false
         }
       },
@@ -189,12 +184,8 @@
           "name": "readings_device_id_devices_id_fk",
           "tableFrom": "readings",
           "tableTo": "devices",
-          "columnsFrom": [
-            "device_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["device_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

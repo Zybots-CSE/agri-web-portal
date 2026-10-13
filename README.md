@@ -70,7 +70,9 @@ and the simulator) — tune them there.
 
 The probe (ESP32/Arduino + RS485 NPK probe, FDR moisture, DS18B20, pH/EC
 electrodes, NEO GPS) POSTs one JSON body **per placement**, tagged with the
-GPS fix of the spot and an optional spot label:
+GPS fix of the spot and an optional spot label. A full guide for firmware
+authors — field reference, error handling and a copy-paste ESP32 sketch —
+lives in **[docs/sending-data.md](docs/sending-data.md)**:
 
 ```bash
 curl -X POST http://localhost:3030/api/readings \
@@ -109,6 +111,7 @@ Other endpoints:
 ## Project structure
 
 ```
+docs/                   # sending-data.md — ingest API guide for firmware authors
 drizzle/                # versioned SQL migrations (generated, committed to the repo)
 src/
 ├── db/

@@ -41,7 +41,7 @@ function ZoneBar({ param, value }: { param: SensorParam; value: number }) {
 
   return (
     <div className="relative">
-      <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
+      <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-muted">
         {param.zones.map((zone) => (
           <div
             key={`${zone.from}-${zone.to}`}
@@ -53,10 +53,10 @@ function ZoneBar({ param, value }: { param: SensorParam; value: number }) {
       </div>
       {/* Current value marker */}
       <div
-        className="absolute -top-1 h-3.5 w-[2px] rounded-full bg-sea-ink shadow-sm dark:bg-sea-ink"
-        style={{ left: `calc(${markerPct}% - 1px)` }}
+        className="absolute -top-1.5 h-5 w-[3px] rounded-full bg-sea-ink shadow-sm dark:bg-sea-ink"
+        style={{ left: `calc(${markerPct}% - 1.5px)` }}
       >
-        <div className="absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sea-ink ring-2 ring-white dark:ring-0" />
+        <div className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sea-ink ring-2 ring-white dark:ring-0" />
       </div>
     </div>
   )
@@ -93,7 +93,7 @@ function Sparkline({
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
-      className="h-8 w-full"
+      className="h-12 w-full"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
@@ -101,7 +101,7 @@ function Sparkline({
         points={points}
         fill="none"
         stroke={color}
-        strokeWidth="1.5"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
@@ -127,12 +127,12 @@ export function SensorCard({
   const Icon = ICONS[param.key]
 
   return (
-    <div className="feature-card group relative flex flex-col gap-3 rounded-xl border border-line p-4 transition-transform">
+    <div className="feature-card group relative flex flex-col gap-5 rounded-2xl border border-line p-6 transition-transform">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
           <span
             className={cn(
-              'flex size-8 items-center justify-center rounded-lg',
+              'flex size-11 items-center justify-center rounded-xl',
               status?.level === 'ok' &&
                 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300',
               status?.level === 'warn' &&
@@ -141,11 +141,11 @@ export function SensorCard({
                 'bg-muted text-sea-ink-soft',
             )}
           >
-            <Icon className="size-4" />
+            <Icon className="size-5" />
           </span>
           <div className="leading-tight">
-            <div className="text-sm font-semibold">{param.label}</div>
-            <div className="text-[11px] text-sea-ink-soft">
+            <div className="text-base font-semibold">{param.label}</div>
+            <div className="text-xs text-sea-ink-soft">
               Target {param.targetLabel}
               {param.unit && ` ${param.unit}`}
             </div>
@@ -154,9 +154,9 @@ export function SensorCard({
         <div className="flex items-center gap-1">
           <span
             title={param.purpose}
-            className="flex size-5 items-center justify-center rounded-full text-sea-ink-soft/70 transition-colors hover:bg-accent hover:text-sea-ink"
+            className="flex size-7 items-center justify-center rounded-full text-sea-ink-soft/70 transition-colors hover:bg-accent hover:text-sea-ink"
           >
-            <Info className="size-3.5" />
+            <Info className="size-4" />
           </span>
           {status ? (
             <StatusBadge
@@ -175,23 +175,23 @@ export function SensorCard({
         </div>
       </div>
 
-      <div className="flex items-baseline gap-1.5">
+      <div className="flex flex-wrap items-baseline gap-2">
         {value !== null ? (
-          <span className="display-title text-3xl font-bold tracking-tight">
+          <span className="display-title text-4xl font-bold tracking-tight xl:text-5xl">
             {formatValue(param, value)}
           </span>
         ) : (
-          <span className="display-title text-3xl font-bold tracking-tight text-sea-ink-soft/50">
+          <span className="display-title text-4xl font-bold tracking-tight text-sea-ink-soft/50 xl:text-5xl">
             —
           </span>
         )}
         {param.unit && (
-          <span className="text-sm font-medium text-sea-ink-soft">
+          <span className="text-base font-medium text-sea-ink-soft">
             {param.unit}
           </span>
         )}
         {recordedAt && (
-          <span className="ml-auto text-[11px] text-sea-ink-soft">
+          <span className="ml-auto text-xs text-sea-ink-soft">
             {formatDateTime(recordedAt)}
           </span>
         )}
@@ -200,7 +200,7 @@ export function SensorCard({
       {value !== null ? (
         <>
           <ZoneBar param={param} value={value} />
-          <div className="flex justify-between text-[10px] tabular-nums text-sea-ink-soft/80">
+          <div className="flex justify-between text-xs tabular-nums text-sea-ink-soft/80">
             <span>{param.sensorMin}</span>
             <span>{param.sensorMax}</span>
           </div>
@@ -210,19 +210,19 @@ export function SensorCard({
           {status!.level !== 'ok' && (
             <p
               className={cn(
-                'flex items-start gap-1.5 text-xs font-medium',
+                'flex items-start gap-2 text-sm font-medium',
                 status!.level === 'warn'
                   ? 'text-amber-700 dark:text-amber-300'
                   : 'text-red-700 dark:text-red-300',
               )}
             >
-              <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
+              <TriangleAlert className="mt-0.5 size-4 shrink-0" />
               {status!.label}
             </p>
           )}
         </>
       ) : (
-        <p className="text-xs text-sea-ink-soft">
+        <p className="text-sm text-sea-ink-soft">
           Waiting for the first reading…
         </p>
       )}

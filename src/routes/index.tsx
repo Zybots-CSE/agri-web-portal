@@ -102,7 +102,7 @@ function valuesOf(reading: ReadingDTO): SensorValues {
 
 function Chip({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-(--chip-line) bg-(--chip-bg) px-2.5 py-1 text-xs text-sea-ink-soft">
+    <span className="inline-flex items-center gap-2 rounded-full border border-(--chip-line) bg-(--chip-bg) px-3 py-1.5 text-xs text-sea-ink-soft">
       <span className="font-semibold text-sea-ink/80">{label}</span>
       {value}
     </span>
@@ -206,7 +206,7 @@ function DashboardPage() {
   /* -------------------------------- main view ----------------------------- */
 
   return (
-    <div className="page-wrap flex flex-col gap-6 py-8">
+    <div className="page-wrap flex flex-col gap-8 py-10">
       {/* Header */}
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -247,7 +247,7 @@ function DashboardPage() {
       </header>
 
       {/* Device context bar */}
-      <section className="island-shell flex flex-wrap items-center gap-3 rounded-2xl p-4">
+      <section className="island-shell flex flex-wrap items-center gap-4 rounded-2xl p-5">
         <div className="flex items-center gap-2">
           <Select
             value={selectedDevice?.id}
@@ -346,7 +346,7 @@ function DashboardPage() {
 
       {/* Live sensor cards */}
       <section aria-label="Latest sensor readings">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {SENSOR_PARAM_LIST.map((param) => (
             <SensorCard
               key={param.key}
@@ -362,7 +362,7 @@ function DashboardPage() {
       {/* Charts + map */}
       <section className="grid gap-6 lg:grid-cols-5">
         {/* Trend chart */}
-        <div className="island-shell flex flex-col gap-4 rounded-2xl p-5 lg:col-span-3">
+        <div className="island-shell flex flex-col gap-5 rounded-2xl p-6 lg:col-span-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="island-kicker">History</p>
@@ -437,7 +437,7 @@ function DashboardPage() {
         </div>
 
         {/* Map */}
-        <div className="island-shell flex flex-col gap-4 rounded-2xl p-5 lg:col-span-2">
+        <div className="island-shell flex flex-col gap-5 rounded-2xl p-6 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div>
               <p className="island-kicker">{FARM_AREA.name}</p>
@@ -460,7 +460,7 @@ function DashboardPage() {
       </section>
 
       {/* Ingest API reference */}
-      <details className="island-shell group rounded-2xl p-5">
+      <details className="island-shell group rounded-2xl p-6">
         <summary className="cursor-pointer select-none text-sm font-bold text-sea-ink">
           Device ingest API — pushing readings from your probe
           <span className="ml-2 font-normal text-sea-ink-soft group-open:hidden">
