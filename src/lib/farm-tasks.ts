@@ -1,3 +1,5 @@
+import { msg } from '@lingui/core/macro'
+import type { MessageDescriptor } from '@lingui/core'
 import type { ParamKey, StatusLevel } from '#/lib/sensor-rules'
 import {
   SENSOR_PARAMS,
@@ -19,8 +21,10 @@ export type TaskId = `${ParamKey}-low` | `${ParamKey}-high` | 'recheck'
 export type TaskSpot = {
   spot: string
   level: StatusLevel
-  /** Reading behind this spot's flag, e.g. "pH 4.82" */
-  reading: string
+  /** Parameter behind this spot's flag — null for a stale-reading re-check */
+  param: ParamKey | null
+  /** Formatted value with unit, e.g. "4.82" or "12.5 %" */
+  value: string
   readingId: number
   recordedAt: string
 }
@@ -30,71 +34,71 @@ export type FarmTask = {
   /** Unique per set of readings — a new reading that still flags re-opens the task */
   key: string
   level: StatusLevel
-  title: string
-  why: string
+  title: MessageDescriptor
+  why: MessageDescriptor
   spots: TaskSpot[]
 }
 
-type ActionCopy = { title: string; why: string }
+type ActionCopy = { title: MessageDescriptor; why: MessageDescriptor }
 
 const ACTIONS: Partial<Record<TaskId, ActionCopy>> = {
   'ph-low': {
-    title: 'Spread agricultural lime (dolomite)',
-    why: 'Soil is too acidic — crops cannot take up the fertiliser already in the ground.',
+    title: msg`Spread agricultural lime (dolomite)`,
+    why: msg`Soil is too acidic — crops cannot take up the fertiliser already in the ground.`,
   },
   'ph-high': {
-    title: 'Work in compost or organic matter',
-    why: 'Soil is too alkaline — iron and zinc get locked up and leaves may yellow.',
+    title: msg`Work in compost or organic matter`,
+    why: msg`Soil is too alkaline — iron and zinc get locked up and leaves may yellow.`,
   },
   'ec-high': {
-    title: 'Flush salts with fresh water & clear drains',
-    why: 'Salt is building up in the soil and stressing the crop roots.',
+    title: msg`Flush salts with fresh water & clear drains`,
+    why: msg`Salt is building up in the soil and stressing the crop roots.`,
   },
   'moisture-low': {
-    title: 'Water these fields',
-    why: 'Soil is drying out — plants will start to wilt without irrigation.',
+    title: msg`Water these fields`,
+    why: msg`Soil is drying out — plants will start to wilt without irrigation.`,
   },
   'moisture-high': {
-    title: 'Open drains and stop irrigating',
-    why: 'Soil is waterlogged — roots are short of air and nutrients wash away.',
+    title: msg`Open drains and stop irrigating`,
+    why: msg`Soil is waterlogged — roots are short of air and nutrients wash away.`,
   },
   'temperature-low': {
-    title: 'Hold off on fertiliser until the soil warms',
-    why: 'Cold soil slows roots and soil life, so fertiliser is used poorly.',
+    title: msg`Hold off on fertiliser until the soil warms`,
+    why: msg`Cold soil slows roots and soil life, so fertiliser is used poorly.`,
   },
   'temperature-high': {
-    title: 'Mulch or irrigate to cool the soil',
-    why: 'Soil is hot enough to stress or damage roots.',
+    title: msg`Mulch or irrigate to cool the soil`,
+    why: msg`Soil is hot enough to stress or damage roots.`,
   },
   'nitrogen-low': {
-    title: 'Apply Urea (nitrogen)',
-    why: 'Nitrogen is low — expect pale leaves and slow growth.',
+    title: msg`Apply Urea (nitrogen)`,
+    why: msg`Nitrogen is low — expect pale leaves and slow growth.`,
   },
   'nitrogen-high': {
-    title: 'Skip the next Urea dose',
-    why: 'There is already too much nitrogen — risk of lodging and leaching.',
+    title: msg`Skip the next Urea dose`,
+    why: msg`There is already too much nitrogen — risk of lodging and leaching.`,
   },
   'phosphorus-low': {
-    title: 'Apply TSP (phosphorus)',
-    why: 'Phosphorus is low — roots and flowering will be weak.',
+    title: msg`Apply TSP (phosphorus)`,
+    why: msg`Phosphorus is low — roots and flowering will be weak.`,
   },
   'phosphorus-high': {
-    title: 'Skip the next TSP dose',
-    why: 'There is already plenty of phosphorus — extra just runs off.',
+    title: msg`Skip the next TSP dose`,
+    why: msg`There is already plenty of phosphorus — extra just runs off.`,
   },
   'potassium-low': {
-    title: 'Apply MOP (potash)',
-    why: 'Potassium is low — crops get weak stems and poor grain or fruit fill.',
+    title: msg`Apply MOP (potash)`,
+    why: msg`Potassium is low — crops get weak stems and poor grain or fruit fill.`,
   },
   'potassium-high': {
-    title: 'Skip the next MOP dose',
-    why: 'There is already plenty of potassium in the soil.',
+    title: msg`Skip the next MOP dose`,
+    why: msg`There is already plenty of potassium in the soil.`,
   },
 }
 
 const RECHECK: ActionCopy = {
-  title: 'Take a fresh probe reading',
-  why: 'No reading in the last day — the advice for these spots may be out of date.',
+  title: msg`Take a fresh probe reading`,
+  why: msg`No reading in the last day — the advice for these spots may be out of date.`,
 }
 
 /** Spots without a reading for this long get a "re-check" task */
@@ -148,7 +152,8 @@ export function buildFarmTasks(
       add(`${key}-${direction(key, r[key])}`, {
         spot,
         level: status.level,
-        reading: `${param.short} ${formatValue(param, r[key])}${param.unit ? ` ${param.unit}` : ''}`,
+        param: key,
+        value: `${formatValue(param, r[key])}${param.unit ? ` ${param.unit}` : ''}`,
         readingId: r.id,
         recordedAt: r.recordedAt,
       })
@@ -157,7 +162,8 @@ export function buildFarmTasks(
       add('recheck', {
         spot,
         level: 'warn',
-        reading: 'No recent reading',
+        param: null,
+        value: '',
         readingId: r.id,
         recordedAt: r.recordedAt,
       })

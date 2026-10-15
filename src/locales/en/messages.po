@@ -1,0 +1,775 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-15 14:55+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/routes/index.tsx:575
+msgid "(click to expand)"
+msgstr "(click to expand)"
+
+#: src/routes/index.tsx:497
+msgid "{paramLabel} — target {target}"
+msgstr "{paramLabel} — target {target}"
+
+#: src/components/dashboard/trend-chart.tsx:172
+msgid "{paramLabel} trend chart"
+msgstr "{paramLabel} trend chart"
+
+#: src/routes/index.tsx:555
+msgid "{probeCount, plural, one {# roving probe} other {# roving probes}}"
+msgstr "{probeCount, plural, one {# roving probe} other {# roving probes}}"
+
+#: src/components/dashboard/trend-chart.tsx:331
+msgid "{readingCount, plural, one {# reading} other {# readings}}"
+msgstr "{readingCount, plural, one {# reading} other {# readings}}"
+
+#: src/routes/index.tsx:162
+msgid "1–80 chars"
+msgstr "1–80 chars"
+
+#: src/routes/index.tsx:143
+msgid "2–40 chars"
+msgstr "2–40 chars"
+
+#: src/routes/index.tsx:117
+msgid "24h"
+msgstr "24h"
+
+#: src/routes/index.tsx:118
+msgid "3d"
+msgstr "3d"
+
+#: src/routes/index.tsx:119
+msgid "7d"
+msgstr "7d"
+
+#: src/components/dashboard/sensor-card.tsx:174
+msgid "About {label}"
+msgstr "About {label}"
+
+#: src/routes/index.tsx:602
+msgid "Accepted range"
+msgstr "Accepted range"
+
+#: src/lib/i18n/sensor-text.ts:66
+msgid "Acidic — liming recommended"
+msgstr "Acidic — liming recommended"
+
+#: src/lib/i18n/sensor-text.ts:92
+msgid "Adequate K supply"
+msgstr "Adequate K supply"
+
+#: src/lib/i18n/sensor-text.ts:84
+msgid "Adequate N supply"
+msgstr "Adequate N supply"
+
+#: src/lib/i18n/sensor-text.ts:88
+msgid "Adequate P supply"
+msgstr "Adequate P supply"
+
+#: src/routes/__root.tsx:37
+msgid "Agri Web Portal — Soil Sensor Dashboard"
+msgstr "Agri Web Portal — Soil Sensor Dashboard"
+
+#: src/routes/index.tsx:276
+msgid "Agri Web Portal · Soil Intelligence"
+msgstr "Agri Web Portal · Soil Intelligence"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:433
+#: src/components/dashboard/sensor-card.tsx:229
+#: src/routes/index.tsx:381
+msgid "Alert"
+msgstr "Alert"
+
+#: src/components/dashboard/trend-chart.tsx:328
+msgid "Alert zone"
+msgstr "Alert zone"
+
+#: src/lib/i18n/sensor-text.ts:68
+msgid "Alkaline — check micronutrients"
+msgstr "Alkaline — check micronutrients"
+
+#: src/routes/index.tsx:378
+msgid "All OK"
+msgstr "All OK"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:425
+msgid "All parameters OK"
+msgstr "All parameters OK"
+
+#: src/routes/index.tsx:627
+msgid "Also available: <0>GET /api/readings?deviceId=…&hours=…</0>, <1>GET /api/devices</1>, and <2>POST /api/devices</2> to pre-register a probe with district / NRMC region / crop metadata (probes carry no coordinates — GPS travels with each reading)."
+msgstr "Also available: <0>GET /api/readings?deviceId=…&hours=…</0>, <1>GET /api/devices</1>, and <2>POST /api/devices</2> to pre-register a probe with district / NRMC region / crop metadata (probes carry no coordinates — GPS travels with each reading)."
+
+#: src/lib/i18n/sensor-text.ts:97
+msgid "Anuradhapura"
+msgstr "Anuradhapura"
+
+#: src/lib/farm-tasks.ts:90
+msgid "Apply MOP (potash)"
+msgstr "Apply MOP (potash)"
+
+#: src/lib/farm-tasks.ts:82
+msgid "Apply TSP (phosphorus)"
+msgstr "Apply TSP (phosphorus)"
+
+#: src/lib/farm-tasks.ts:74
+msgid "Apply Urea (nitrogen)"
+msgstr "Apply Urea (nitrogen)"
+
+#: src/components/dashboard/trend-chart.tsx:152
+msgid "Avg"
+msgstr "Avg"
+
+#: src/routes/__root.tsx:65
+msgid "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
+msgstr "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
+
+#: src/lib/i18n/sensor-text.ts:113
+msgid "Chilli"
+msgstr "Chilli"
+
+#: src/lib/i18n/sensor-text.ts:105
+msgid "Chilli Nursery"
+msgstr "Chilli Nursery"
+
+#: src/lib/farm-tasks.ts:67
+msgid "Cold soil slows roots and soil life, so fertiliser is used poorly."
+msgstr "Cold soil slows roots and soil life, so fertiliser is used poorly."
+
+#: src/lib/i18n/sensor-text.ts:78
+msgid "Cold stress — slows microbial activity"
+msgstr "Cold stress — slows microbial activity"
+
+#: src/lib/i18n/sensor-text.ts:115
+msgid "Compost turning"
+msgstr "Compost turning"
+
+#: src/lib/i18n/sensor-text.ts:107
+msgid "Compost Yard"
+msgstr "Compost Yard"
+
+#: src/lib/i18n/sensor-text.ts:43
+msgid "Corrects raw EC and pH drift before feeding values into algorithms."
+msgstr "Corrects raw EC and pH drift before feeding values into algorithms."
+
+#: src/routes/index.tsx:401
+msgid "Crop"
+msgstr "Crop"
+
+#: src/routes/index.tsx:405
+msgid "Current spot"
+msgstr "Current spot"
+
+#: src/routes/index.tsx:158
+msgid "decimal degrees — GPS fix of this placement"
+msgstr "decimal degrees — GPS fix of this placement"
+
+#: src/routes/index.tsx:573
+msgid "Device ingest API — pushing readings from your probe"
+msgstr "Device ingest API — pushing readings from your probe"
+
+#: src/routes/index.tsx:390
+msgid "District"
+msgstr "District"
+
+#: src/components/dashboard/osm-map.tsx:436
+msgid "Drag to move · scroll, pinch or double-click to zoom · Shift-drag to zoom to an area · arrow keys pan when the map is focused"
+msgstr "Drag to move · scroll, pinch or double-click to zoom · Shift-drag to zoom to an area · arrow keys pan when the map is focused"
+
+#: src/lib/i18n/sensor-text.ts:38
+msgid "Drainage checks. Distinguishes waterlogged lowland paddy soil from well-drained upland soil."
+msgstr "Drainage checks. Distinguishes waterlogged lowland paddy soil from well-drained upland soil."
+
+#: src/lib/i18n/sensor-text.ts:74
+msgid "Dry — irrigation advised"
+msgstr "Dry — irrigation advised"
+
+#: src/lib/i18n/sensor-text.ts:98
+msgid "Dry Zone"
+msgstr "Dry Zone"
+
+#: src/lib/i18n/sensor-text.ts:32
+msgid "EC"
+msgstr "EC"
+
+#: src/lib/i18n/sensor-text.ts:31
+msgid "Electrical Conductivity"
+msgstr "Electrical Conductivity"
+
+#: src/components/dashboard/osm-map.tsx:370
+msgid "Exit fullscreen"
+msgstr "Exit fullscreen"
+
+#: src/lib/i18n/sensor-text.ts:116
+msgid "Fallow"
+msgstr "Fallow"
+
+#: src/lib/i18n/sensor-text.ts:108
+msgid "Fallow Plot"
+msgstr "Fallow Plot"
+
+#: src/routes/index.tsx:599
+msgid "Field"
+msgstr "Field"
+
+#: src/lib/i18n/sensor-text.ts:117
+msgid "Field crop"
+msgstr "Field crop"
+
+#: src/lib/i18n/sensor-text.ts:109
+msgid "Field spot"
+msgstr "Field spot"
+
+#: src/components/dashboard/osm-map.tsx:363
+msgid "Fit all sampling spots"
+msgstr "Fit all sampling spots"
+
+#: src/lib/farm-tasks.ts:54
+msgid "Flush salts with fresh water & clear drains"
+msgstr "Flush salts with fresh water & clear drains"
+
+#: src/components/dashboard/osm-map.tsx:370
+msgid "Fullscreen"
+msgstr "Fullscreen"
+
+#: src/routes/index.tsx:261
+msgid "Generate demo fleet"
+msgstr "Generate demo fleet"
+
+#: src/lib/i18n/sensor-text.ts:28
+msgid "Hard rule filter (Step 1) and dolomite/liming calculation. Triggers nutrient lockout flags below 5.0."
+msgstr "Hard rule filter (Step 1) and dolomite/liming calculation. Triggers nutrient lockout flags below 5.0."
+
+#: src/lib/i18n/sensor-text.ts:33
+msgid "Hard rule filter (Step 1). Identifies salinity stress in Dry Zone command areas (> 2.0 dS/m)."
+msgstr "Hard rule filter (Step 1). Identifies salinity stress in Dry Zone command areas (> 2.0 dS/m)."
+
+#: src/routes/index.tsx:431
+msgid "Hard-rule flags:"
+msgstr "Hard-rule flags:"
+
+#: src/lib/i18n/sensor-text.ts:80
+msgid "Heat stress"
+msgstr "Heat stress"
+
+#: src/routes/index.tsx:467
+msgid "History"
+msgstr "History"
+
+#: src/lib/farm-tasks.ts:66
+msgid "Hold off on fertiliser until the soil warms"
+msgstr "Hold off on fertiliser until the soil warms"
+
+#: src/lib/i18n/sensor-text.ts:96
+msgid "Iluppallama Research Farm"
+msgstr "Iluppallama Research Farm"
+
+#: src/lib/i18n/sensor-text.ts:99
+msgid "Intermediate Zone"
+msgstr "Intermediate Zone"
+
+#: src/lib/i18n/sensor-text.ts:57
+msgid "K"
+msgstr "K"
+
+#: src/components/language-switcher.tsx:36
+msgid "Language"
+msgstr "Language"
+
+#: src/routes/index.tsx:421
+msgid "Last reading"
+msgstr "Last reading"
+
+#: src/routes/index.tsx:446
+msgid "Latest sensor readings"
+msgstr "Latest sensor readings"
+
+#: src/routes/index.tsx:144
+msgid "letters, digits, dot, dash, underscore"
+msgstr "letters, digits, dot, dash, underscore"
+
+#: src/routes/index.tsx:296
+msgid "Live · refresh 30s"
+msgstr "Live · refresh 30s"
+
+#: src/routes/index.tsx:282
+msgid "Live soil data from a single local area — the {farmName}, {district} ({region}). Roving probes are placed at a spot, read, then moved on; every reading is geo-tagged, hard-rule flagged and chart-ready."
+msgstr "Live soil data from a single local area — the {farmName}, {district} ({region}). Roving probes are placed at a spot, read, then moved on; every reading is geo-tagged, hard-rule flagged and chart-ready."
+
+#: src/components/dashboard/osm-map.tsx:417
+msgid "Loading OpenStreetMap…"
+msgstr "Loading OpenStreetMap…"
+
+#: src/lib/i18n/sensor-text.ts:110
+msgid "Lowland paddy"
+msgstr "Lowland paddy"
+
+#: src/lib/i18n/sensor-text.ts:111
+msgid "Maize"
+msgstr "Maize"
+
+#: src/lib/i18n/sensor-text.ts:103
+msgid "Maize Field"
+msgstr "Maize Field"
+
+#: src/lib/i18n/sensor-text.ts:114
+msgid "Mango orchard"
+msgstr "Mango orchard"
+
+#: src/components/dashboard/todo-list.tsx:105
+msgid "Mark as done"
+msgstr "Mark as done"
+
+#: src/components/dashboard/todo-list.tsx:105
+msgid "Mark as not done"
+msgstr "Mark as not done"
+
+#: src/components/dashboard/trend-chart.tsx:156
+msgid "Max"
+msgstr "Max"
+
+#: src/components/dashboard/trend-chart.tsx:148
+msgid "Min"
+msgstr "Min"
+
+#: src/lib/i18n/sensor-text.ts:37
+msgid "Moisture"
+msgstr "Moisture"
+
+#: src/lib/farm-tasks.ts:70
+msgid "Mulch or irrigate to cool the soil"
+msgstr "Mulch or irrigate to cool the soil"
+
+#: src/lib/i18n/sensor-text.ts:47
+msgid "N"
+msgstr "N"
+
+#: src/lib/i18n/sensor-text.ts:46
+msgid "Nitrogen (N)"
+msgstr "Nitrogen (N)"
+
+#: src/lib/i18n/sensor-text.ts:82
+msgid "Nitrogen deficient"
+msgstr "Nitrogen deficient"
+
+#: src/lib/i18n/sensor-text.ts:85
+msgid "Nitrogen excessive — lodging / leaching risk"
+msgstr "Nitrogen excessive — lodging / leaching risk"
+
+#: src/lib/farm-tasks.ts:75
+msgid "Nitrogen is low — expect pale leaves and slow growth."
+msgstr "Nitrogen is low — expect pale leaves and slow growth."
+
+#: src/lib/i18n/sensor-text.ts:83
+msgid "Nitrogen low"
+msgstr "Nitrogen low"
+
+#: src/routes/index.tsx:243
+msgid "No probes registered yet"
+msgstr "No probes registered yet"
+
+#: src/lib/farm-tasks.ts:101
+msgid "No reading in the last day — the advice for these spots may be out of date."
+msgstr "No reading in the last day — the advice for these spots may be out of date."
+
+#: src/components/dashboard/trend-chart.tsx:63
+msgid "No readings in this range yet."
+msgstr "No readings in this range yet."
+
+#: src/routes/index.tsx:533
+msgid "No readings yet for this device — simulate one to start the timeline."
+msgstr "No readings yet for this device — simulate one to start the timeline."
+
+#: src/components/dashboard/todo-list.tsx:96
+msgid "No recent reading"
+msgstr "No recent reading"
+
+#: src/lib/i18n/sensor-text.ts:70
+msgid "Non-saline"
+msgstr "Non-saline"
+
+#: src/components/dashboard/todo-list.tsx:176
+msgid "Nothing to do right now."
+msgstr "Nothing to do right now."
+
+#: src/lib/i18n/sensor-text.ts:65
+msgid "Nutrient lockout risk (below pH 5.0)"
+msgstr "Nutrient lockout risk (below pH 5.0)"
+
+#: src/components/dashboard/sensor-card.tsx:226
+msgid "OK"
+msgstr "OK"
+
+#: src/lib/farm-tasks.ts:62
+msgid "Open drains and stop irrigating"
+msgstr "Open drains and stop irrigating"
+
+#: src/components/dashboard/osm-map.tsx:338
+msgid "OpenStreetMap of the study area with sampling spots"
+msgstr "OpenStreetMap of the study area with sampling spots"
+
+#: src/lib/i18n/sensor-text.ts:67
+msgid "Optimal for most crops"
+msgstr "Optimal for most crops"
+
+#: src/lib/i18n/sensor-text.ts:79
+msgid "Optimal root-zone temperature"
+msgstr "Optimal root-zone temperature"
+
+#: src/routes/index.tsx:168
+msgid "optional — defaults to server time"
+msgstr "optional — defaults to server time"
+
+#: src/routes/index.tsx:163
+msgid "optional sampling-spot label, e.g. \"Paddy Block B\""
+msgstr "optional sampling-spot label, e.g. \"Paddy Block B\""
+
+#: src/lib/i18n/sensor-text.ts:106
+msgid "Orchard Block"
+msgstr "Orchard Block"
+
+#: src/lib/i18n/sensor-text.ts:52
+msgid "P"
+msgstr "P"
+
+#: src/lib/i18n/sensor-text.ts:101
+msgid "Paddy Block A"
+msgstr "Paddy Block A"
+
+#: src/lib/i18n/sensor-text.ts:102
+msgid "Paddy Block B"
+msgstr "Paddy Block B"
+
+#: src/components/dashboard/osm-map.tsx:406
+msgid "Pan down"
+msgstr "Pan down"
+
+#: src/components/dashboard/osm-map.tsx:392
+msgid "Pan left"
+msgstr "Pan left"
+
+#: src/components/dashboard/osm-map.tsx:399
+msgid "Pan right"
+msgstr "Pan right"
+
+#: src/components/dashboard/osm-map.tsx:385
+msgid "Pan up"
+msgstr "Pan up"
+
+#: src/lib/i18n/sensor-text.ts:27
+msgid "pH"
+msgstr "pH"
+
+#: src/routes/index.tsx:146
+msgid "pH scale (±0.1 accuracy)"
+msgstr "pH scale (±0.1 accuracy)"
+
+#: src/lib/i18n/sensor-text.ts:51
+msgid "Phosphorus (P)"
+msgstr "Phosphorus (P)"
+
+#: src/lib/i18n/sensor-text.ts:86
+msgid "Phosphorus deficient"
+msgstr "Phosphorus deficient"
+
+#: src/lib/i18n/sensor-text.ts:89
+msgid "Phosphorus high — runoff pollution risk"
+msgstr "Phosphorus high — runoff pollution risk"
+
+#: src/lib/farm-tasks.ts:83
+msgid "Phosphorus is low — roots and flowering will be weak."
+msgstr "Phosphorus is low — roots and flowering will be weak."
+
+#: src/lib/i18n/sensor-text.ts:87
+msgid "Phosphorus low"
+msgstr "Phosphorus low"
+
+#: src/lib/i18n/sensor-text.ts:56
+msgid "Potassium (K)"
+msgstr "Potassium (K)"
+
+#: src/lib/i18n/sensor-text.ts:90
+msgid "Potassium deficient"
+msgstr "Potassium deficient"
+
+#: src/lib/i18n/sensor-text.ts:93
+msgid "Potassium high"
+msgstr "Potassium high"
+
+#: src/lib/farm-tasks.ts:91
+msgid "Potassium is low — crops get weak stems and poor grain or fruit fill."
+msgstr "Potassium is low — crops get weak stems and poor grain or fruit fill."
+
+#: src/lib/i18n/sensor-text.ts:91
+msgid "Potassium low"
+msgstr "Potassium low"
+
+#: src/lib/i18n/sensor-text.ts:118
+msgid "Probe 01 · Lowland route"
+msgstr "Probe 01 · Lowland route"
+
+#: src/lib/i18n/sensor-text.ts:119
+msgid "Probe 02 · Upland route"
+msgstr "Probe 02 · Upland route"
+
+#: src/lib/i18n/sensor-text.ts:120
+msgid "Probe 03 · Perennial route"
+msgstr "Probe 03 · Perennial route"
+
+#: src/routes/index.tsx:415
+msgid "Readings"
+msgstr "Readings"
+
+#: src/components/dashboard/osm-map.tsx:366
+msgid "Recenter on study area"
+msgstr "Recenter on study area"
+
+#: src/routes/index.tsx:319
+msgid "Regenerate demo data"
+msgstr "Regenerate demo data"
+
+#: src/routes/index.tsx:318
+msgid "Regenerating…"
+msgstr "Regenerating…"
+
+#: src/routes/index.tsx:395
+msgid "Region"
+msgstr "Region"
+
+#: src/components/dashboard/osm-map.tsx:442
+msgid "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
+msgstr "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
+
+#: src/lib/i18n/sensor-text.ts:71
+msgid "Salinity stress (> 2.0 dS/m)"
+msgstr "Salinity stress (> 2.0 dS/m)"
+
+#: src/lib/farm-tasks.ts:55
+msgid "Salt is building up in the soil and stressing the crop roots."
+msgstr "Salt is building up in the soil and stressing the crop roots."
+
+#: src/routes/index.tsx:550
+msgid "Sampling spot map"
+msgstr "Sampling spot map"
+
+#: src/lib/i18n/sensor-text.ts:76
+msgid "Saturated — check drainage"
+msgstr "Saturated — check drainage"
+
+#: src/routes/index.tsx:246
+msgid "Seed the demo fleet — three roving probes sampling eight plots of the {farmName} with a week of simulated readings — or point your hardware at <0>POST /api/readings</0>."
+msgstr "Seed the demo fleet — three roving probes sampling eight plots of the {farmName} with a week of simulated readings — or point your hardware at <0>POST /api/readings</0>."
+
+#: src/routes/index.tsx:260
+msgid "Seeding demo fleet…"
+msgstr "Seeding demo fleet…"
+
+#: src/routes/index.tsx:351
+msgid "Select a device"
+msgstr "Select a device"
+
+#: src/routes/index.tsx:350
+msgid "Select device"
+msgstr "Select device"
+
+#: src/lib/i18n/sensor-text.ts:81
+msgid "Severe heat — root damage"
+msgstr "Severe heat — root damage"
+
+#: src/lib/i18n/sensor-text.ts:72
+msgid "Severe salinity — crop failure risk"
+msgstr "Severe salinity — crop failure risk"
+
+#: src/lib/i18n/sensor-text.ts:73
+msgid "Severely dry — permanent wilting point"
+msgstr "Severely dry — permanent wilting point"
+
+#: src/routes/index.tsx:334
+msgid "Simulate reading"
+msgstr "Simulate reading"
+
+#: src/routes/index.tsx:333
+msgid "Simulating…"
+msgstr "Simulating…"
+
+#: src/lib/farm-tasks.ts:94
+msgid "Skip the next MOP dose"
+msgstr "Skip the next MOP dose"
+
+#: src/lib/farm-tasks.ts:86
+msgid "Skip the next TSP dose"
+msgstr "Skip the next TSP dose"
+
+#: src/lib/farm-tasks.ts:78
+msgid "Skip the next Urea dose"
+msgstr "Skip the next Urea dose"
+
+#: src/lib/farm-tasks.ts:59
+msgid "Soil is drying out — plants will start to wilt without irrigation."
+msgstr "Soil is drying out — plants will start to wilt without irrigation."
+
+#: src/lib/farm-tasks.ts:71
+msgid "Soil is hot enough to stress or damage roots."
+msgstr "Soil is hot enough to stress or damage roots."
+
+#: src/lib/farm-tasks.ts:47
+msgid "Soil is too acidic — crops cannot take up the fertiliser already in the ground."
+msgstr "Soil is too acidic — crops cannot take up the fertiliser already in the ground."
+
+#: src/lib/farm-tasks.ts:51
+msgid "Soil is too alkaline — iron and zinc get locked up and leaves may yellow."
+msgstr "Soil is too alkaline — iron and zinc get locked up and leaves may yellow."
+
+#: src/lib/farm-tasks.ts:63
+msgid "Soil is waterlogged — roots are short of air and nutrients wash away."
+msgstr "Soil is waterlogged — roots are short of air and nutrients wash away."
+
+#: src/lib/i18n/sensor-text.ts:36
+msgid "Soil Moisture (VWC)"
+msgstr "Soil Moisture (VWC)"
+
+#: src/lib/i18n/sensor-text.ts:26
+msgid "Soil Reaction (pH)"
+msgstr "Soil Reaction (pH)"
+
+#: src/routes/index.tsx:279
+msgid "Soil Sensor Dashboard"
+msgstr "Soil Sensor Dashboard"
+
+#: src/lib/i18n/sensor-text.ts:41
+msgid "Soil Temperature"
+msgstr "Soil Temperature"
+
+#: src/lib/farm-tasks.ts:46
+msgid "Spread agricultural lime (dolomite)"
+msgstr "Spread agricultural lime (dolomite)"
+
+#: src/lib/i18n/sensor-text.ts:58
+msgid "Step 2 ML model input and direct target deficit calculation (ΔK) for MOP recommendations."
+msgstr "Step 2 ML model input and direct target deficit calculation (ΔK) for MOP recommendations."
+
+#: src/lib/i18n/sensor-text.ts:48
+msgid "Step 2 ML model input and direct target deficit calculation (ΔN) for Urea recommendations."
+msgstr "Step 2 ML model input and direct target deficit calculation (ΔN) for Urea recommendations."
+
+#: src/lib/i18n/sensor-text.ts:53
+msgid "Step 2 ML model input and direct target deficit calculation (ΔP) for TSP recommendations."
+msgstr "Step 2 ML model input and direct target deficit calculation (ΔP) for TSP recommendations."
+
+#: src/lib/i18n/sensor-text.ts:69
+msgid "Strongly alkaline"
+msgstr "Strongly alkaline"
+
+#: src/lib/farm-tasks.ts:100
+msgid "Take a fresh probe reading"
+msgstr "Take a fresh probe reading"
+
+#: src/components/dashboard/sensor-card.tsx:192
+msgid "Target"
+msgstr "Target"
+
+#: src/components/dashboard/sensor-card.tsx:164
+msgid "Target {target}"
+msgstr "Target {target}"
+
+#: src/lib/i18n/sensor-text.ts:42
+msgid "Temp"
+msgstr "Temp"
+
+#: src/routes/index.tsx:580
+msgid "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
+msgstr "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
+
+#: src/lib/farm-tasks.ts:87
+msgid "There is already plenty of phosphorus — extra just runs off."
+msgstr "There is already plenty of phosphorus — extra just runs off."
+
+#: src/lib/farm-tasks.ts:95
+msgid "There is already plenty of potassium in the soil."
+msgstr "There is already plenty of potassium in the soil."
+
+#: src/lib/farm-tasks.ts:79
+msgid "There is already too much nitrogen — risk of lodging and leaching."
+msgstr "There is already too much nitrogen — risk of lodging and leaching."
+
+#: src/components/dashboard/trend-chart.tsx:332
+msgid "times shown in Asia/Colombo"
+msgstr "times shown in Asia/Colombo"
+
+#: src/components/dashboard/todo-list.tsx:165
+msgid "To do"
+msgstr "To do"
+
+#: src/components/dashboard/todo-list.tsx:139
+msgid "Today"
+msgstr "Today"
+
+#: src/routes/index.tsx:605
+msgid "Unit / note"
+msgstr "Unit / note"
+
+#: src/lib/i18n/sensor-text.ts:112
+msgid "Upcountry vegetables"
+msgstr "Upcountry vegetables"
+
+#: src/lib/i18n/sensor-text.ts:104
+msgid "Vegetable Plot"
+msgstr "Vegetable Plot"
+
+#: src/components/dashboard/sensor-card.tsx:286
+msgid "Waiting for the first reading…"
+msgstr "Waiting for the first reading…"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:429
+#: src/components/dashboard/sensor-card.tsx:228
+#: src/routes/index.tsx:380
+msgid "Watch"
+msgstr "Watch"
+
+#: src/components/dashboard/trend-chart.tsx:324
+msgid "Watch zone"
+msgstr "Watch zone"
+
+#: src/lib/farm-tasks.ts:58
+msgid "Water these fields"
+msgstr "Water these fields"
+
+#: src/lib/i18n/sensor-text.ts:77
+msgid "Waterlogged (lowland paddy conditions)"
+msgstr "Waterlogged (lowland paddy conditions)"
+
+#: src/lib/i18n/sensor-text.ts:75
+msgid "Well-drained, field capacity"
+msgstr "Well-drained, field capacity"
+
+#: src/lib/i18n/sensor-text.ts:100
+msgid "Wet Zone"
+msgstr "Wet Zone"
+
+#: src/routes/index.tsx:303
+msgid "Wipe all probes and readings and regenerate a week of demo data?"
+msgstr "Wipe all probes and readings and regenerate a week of demo data?"
+
+#: src/lib/farm-tasks.ts:50
+msgid "Work in compost or organic matter"
+msgstr "Work in compost or organic matter"
+
+#: src/routes/index.tsx:398
+msgid "Zone"
+msgstr "Zone"
+
+#: src/components/dashboard/osm-map.tsx:345
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: src/components/dashboard/osm-map.tsx:355
+msgid "Zoom out"
+msgstr "Zoom out"

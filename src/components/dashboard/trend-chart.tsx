@@ -3,6 +3,8 @@ import type { SensorParam, StatusLevel } from '#/lib/sensor-rules'
 import { formatValue } from '#/lib/sensor-rules'
 import { cn } from '#/lib/utils'
 import { formatDayTime, formatTime } from '#/lib/format'
+import { useSensorText } from '#/lib/i18n/sensor-text'
+import { Plural, Trans, useLingui } from '@lingui/react/macro'
 
 /**
  * Dependency-free SVG trend chart with:
@@ -50,11 +52,15 @@ export function TrendChart({
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [hoverIdx, setHoverIdx] = useState<number | null>(null)
+  const { t, i18n } = useLingui()
+  const tx = useSensorText()
+  const locale = i18n.locale
+  const paramLabel = tx.label(param)
 
   if (points.length === 0) {
     return (
       <div className="flex h-56 items-center justify-center text-sm text-sea-ink-soft">
-        No readings in this range yet.
+        <Trans>No readings in this range yet.</Trans>
       </div>
     )
   }
@@ -64,7 +70,7 @@ export function TrendChart({
   const t1 = points[points.length - 1]!.t
   const tSpan = t1 - t0 || 1
 
-  const xOf = (t: number) => PAD.left + ((t - t0) / tSpan) * PLOT_W
+  const xOf = (time: number) => PAD.left + ((time - t0) / tSpan) * PLOT_W
   const yOf = (v: number) =>
     PAD.top + PLOT_H - ((v - lo) / (hi - lo || 1)) * PLOT_H
 
@@ -133,18 +139,22 @@ export function TrendChart({
     : 0
 
   const rangeDays = tSpan / (24 * 3600_000)
+  const readingCount = points.length
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-sea-ink-soft">
         <span>
-          Min <b className="text-sea-ink">{formatValue(param, stats.min)}</b>
+          <Trans>Min</Trans>{' '}
+          <b className="text-sea-ink">{formatValue(param, stats.min)}</b>
         </span>
         <span>
-          Avg <b className="text-sea-ink">{formatValue(param, stats.avg)}</b>
+          <Trans>Avg</Trans>{' '}
+          <b className="text-sea-ink">{formatValue(param, stats.avg)}</b>
         </span>
         <span>
-          Max <b className="text-sea-ink">{formatValue(param, stats.max)}</b>
+          <Trans>Max</Trans>{' '}
+          <b className="text-sea-ink">{formatValue(param, stats.max)}</b>
           {param.unit && ` ${param.unit}`}
         </span>
       </div>
@@ -159,7 +169,7 @@ export function TrendChart({
           viewBox={`0 0 ${W} ${H}`}
           className="h-auto w-full select-none"
           role="img"
-          aria-label={`${param.label} trend chart`}
+          aria-label={t`${paramLabel} trend chart`}
         >
           <defs>
             <linearGradient
@@ -236,7 +246,7 @@ export function TrendChart({
               fontSize="11"
               fill="var(--sea-ink-soft)"
             >
-              {rangeDays <= 1.2 ? formatTime(p.t) : formatDayTime(p.t)}
+              {rangeDays <= 1.2 ? formatTime(p.t) : formatDayTime(p.t, locale)}
             </text>
           ))}
 
@@ -298,11 +308,11 @@ export function TrendChart({
             </div>
             {hoverPoint.label && (
               <div className="text-[10px] font-semibold text-lagoon-deep">
-                {hoverPoint.label}
+                {tx.text(hoverPoint.label)}
               </div>
             )}
             <div className="text-[10px] text-sea-ink-soft">
-              {formatDayTime(hoverPoint.t)}
+              {formatDayTime(hoverPoint.t, locale)}
             </div>
           </div>
         )}
@@ -311,14 +321,15 @@ export function TrendChart({
       <div className="flex flex-wrap items-center gap-3 text-[10px] text-sea-ink-soft">
         <span className="flex items-center gap-1">
           <span className="inline-block h-2 w-3 rounded-sm bg-amber-500/25" />{' '}
-          Watch zone
+          <Trans>Watch zone</Trans>
         </span>
         <span className="flex items-center gap-1">
           <span className="inline-block h-2 w-3 rounded-sm bg-red-500/25" />{' '}
-          Alert zone
+          <Trans>Alert zone</Trans>
         </span>
         <span className={cn('ml-auto')}>
-          {points.length} readings · times shown in Asia/Colombo
+          <Plural value={readingCount} one="# reading" other="# readings" /> ·{' '}
+          <Trans>times shown in Asia/Colombo</Trans>
         </span>
       </div>
     </div>

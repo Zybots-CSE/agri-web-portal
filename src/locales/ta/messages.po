@@ -1,0 +1,775 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-15 16:05+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ta\n"
+
+#: src/routes/index.tsx:575
+msgid "(click to expand)"
+msgstr "(விரிவாக்க கிளிக் செய்யவும்)"
+
+#: src/routes/index.tsx:497
+msgid "{paramLabel} — target {target}"
+msgstr "{paramLabel} — இலக்கு {target}"
+
+#: src/components/dashboard/trend-chart.tsx:172
+msgid "{paramLabel} trend chart"
+msgstr "{paramLabel} போக்கு வரைபடம்"
+
+#: src/routes/index.tsx:555
+msgid "{probeCount, plural, one {# roving probe} other {# roving probes}}"
+msgstr "{probeCount, plural, one {# நகரும் ஆய்வு} other {# நகரும் ஆய்வுகள்}}"
+
+#: src/components/dashboard/trend-chart.tsx:331
+msgid "{readingCount, plural, one {# reading} other {# readings}}"
+msgstr "{readingCount, plural, one {# அளவீடு} other {# அளவீடுகள்}}"
+
+#: src/routes/index.tsx:162
+msgid "1–80 chars"
+msgstr "1–80 எழுத்துகள்"
+
+#: src/routes/index.tsx:143
+msgid "2–40 chars"
+msgstr "2–40 எழுத்துகள்"
+
+#: src/routes/index.tsx:117
+msgid "24h"
+msgstr "24 மணி"
+
+#: src/routes/index.tsx:118
+msgid "3d"
+msgstr "3 நாள்"
+
+#: src/routes/index.tsx:119
+msgid "7d"
+msgstr "7 நாள்"
+
+#: src/components/dashboard/sensor-card.tsx:174
+msgid "About {label}"
+msgstr "{label} பற்றி"
+
+#: src/routes/index.tsx:602
+msgid "Accepted range"
+msgstr "ஏற்றுக்கொள்ளப்பட்ட வரம்பு"
+
+#: src/lib/i18n/sensor-text.ts:66
+msgid "Acidic — liming recommended"
+msgstr "அமிலத்தன்மை — சுண்ணாம்பு இடுதல் பரிந்துரைக்கப்படுகிறது"
+
+#: src/lib/i18n/sensor-text.ts:92
+msgid "Adequate K supply"
+msgstr "போதுமான K அளவு"
+
+#: src/lib/i18n/sensor-text.ts:84
+msgid "Adequate N supply"
+msgstr "போதுமான N அளவு"
+
+#: src/lib/i18n/sensor-text.ts:88
+msgid "Adequate P supply"
+msgstr "போதுமான P அளவு"
+
+#: src/routes/__root.tsx:37
+msgid "Agri Web Portal — Soil Sensor Dashboard"
+msgstr "Agri Web Portal — மண் உணரி டாஷ்போர்டு"
+
+#: src/routes/index.tsx:276
+msgid "Agri Web Portal · Soil Intelligence"
+msgstr "Agri Web Portal · மண் நுண்ணறிவு"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:433
+#: src/components/dashboard/sensor-card.tsx:229
+#: src/routes/index.tsx:381
+msgid "Alert"
+msgstr "எச்சரிக்கை"
+
+#: src/components/dashboard/trend-chart.tsx:328
+msgid "Alert zone"
+msgstr "எச்சரிக்கை மண்டலம்"
+
+#: src/lib/i18n/sensor-text.ts:68
+msgid "Alkaline — check micronutrients"
+msgstr "காரத்தன்மை — நுண்ஊட்டச்சத்துகளைச் சரிபார்க்கவும்"
+
+#: src/routes/index.tsx:378
+msgid "All OK"
+msgstr "அனைத்தும் சரி"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:425
+msgid "All parameters OK"
+msgstr "அனைத்து அளவுருக்களும் சரி"
+
+#: src/routes/index.tsx:627
+msgid "Also available: <0>GET /api/readings?deviceId=…&hours=…</0>, <1>GET /api/devices</1>, and <2>POST /api/devices</2> to pre-register a probe with district / NRMC region / crop metadata (probes carry no coordinates — GPS travels with each reading)."
+msgstr "கிடைக்கும் பிற: <0>GET /api/readings?deviceId=…&hours=…</0>, <1>GET /api/devices</1>, மற்றும் <2>POST /api/devices</2> — மாவட்டம் / NRMC பகுதி / பயிர் விவரங்களுடன் ஆய்வை முன்கூட்டியே பதிவு செய்ய (ஆய்வுகளில் ஆயத்தொலைவுகள் இல்லை — GPS ஒவ்வொரு அளவீட்டுடனும் வரும்)."
+
+#: src/lib/i18n/sensor-text.ts:97
+msgid "Anuradhapura"
+msgstr "அனுராதபுரம்"
+
+#: src/lib/farm-tasks.ts:90
+msgid "Apply MOP (potash)"
+msgstr "MOP (பொட்டாஷ்) இடவும்"
+
+#: src/lib/farm-tasks.ts:82
+msgid "Apply TSP (phosphorus)"
+msgstr "TSP (பாஸ்பரஸ்) இடவும்"
+
+#: src/lib/farm-tasks.ts:74
+msgid "Apply Urea (nitrogen)"
+msgstr "யூரியா (நைட்ரஜன்) இடவும்"
+
+#: src/components/dashboard/trend-chart.tsx:152
+msgid "Avg"
+msgstr "சராசரி"
+
+#: src/routes/__root.tsx:65
+msgid "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
+msgstr "பின்னணிப் புகைப்படம்: <0>Paddy fields, Sri Lanka</0> — Kasundg, <1>CC BY-SA 4.0</1>"
+
+#: src/lib/i18n/sensor-text.ts:113
+msgid "Chilli"
+msgstr "மிளகாய்"
+
+#: src/lib/i18n/sensor-text.ts:105
+msgid "Chilli Nursery"
+msgstr "மிளகாய் நாற்றங்கால்"
+
+#: src/lib/farm-tasks.ts:67
+msgid "Cold soil slows roots and soil life, so fertiliser is used poorly."
+msgstr "குளிர்ந்த மண் வேர்கள் மற்றும் மண் உயிரினங்களின் வளர்ச்சியைக் குறைக்கிறது; எனவே உரம் சரியாகப் பயன்படுவதில்லை."
+
+#: src/lib/i18n/sensor-text.ts:78
+msgid "Cold stress — slows microbial activity"
+msgstr "குளிர் அழுத்தம் — நுண்ணுயிர் செயல்பாட்டைக் குறைக்கிறது"
+
+#: src/lib/i18n/sensor-text.ts:115
+msgid "Compost turning"
+msgstr "உரக் குவியலைக் கிளறுதல்"
+
+#: src/lib/i18n/sensor-text.ts:107
+msgid "Compost Yard"
+msgstr "உரக் கிடங்கு"
+
+#: src/lib/i18n/sensor-text.ts:43
+msgid "Corrects raw EC and pH drift before feeding values into algorithms."
+msgstr "அல்காரிதங்களுக்குத் தரவை அனுப்புவதற்கு முன் மூல EC மற்றும் pH மாற்றத்தைச் சரிசெய்கிறது."
+
+#: src/routes/index.tsx:401
+msgid "Crop"
+msgstr "பயிர்"
+
+#: src/routes/index.tsx:405
+msgid "Current spot"
+msgstr "தற்போதைய இடம்"
+
+#: src/routes/index.tsx:158
+msgid "decimal degrees — GPS fix of this placement"
+msgstr "தசம டிகிரி — இந்த இடத்தின் GPS நிலை"
+
+#: src/routes/index.tsx:573
+msgid "Device ingest API — pushing readings from your probe"
+msgstr "சாதன உள்ளீட்டு API — உங்கள் ஆய்விலிருந்து அளவீடுகளை அனுப்புதல்"
+
+#: src/routes/index.tsx:390
+msgid "District"
+msgstr "மாவட்டம்"
+
+#: src/components/dashboard/osm-map.tsx:436
+msgid "Drag to move · scroll, pinch or double-click to zoom · Shift-drag to zoom to an area · arrow keys pan when the map is focused"
+msgstr "நகர்த்த இழுக்கவும் · பெரிதாக்க உருட்டவும், பிஞ்ச் செய்யவும் அல்லது இருமுறை கிளிக் செய்யவும் · ஒரு பகுதியைப் பெரிதாக்க Shift+இழுக்கவும் · வரைபடம் கவனத்தில் இருக்கும்போது அம்புக்குறி விசைகள் நகர்த்தும்"
+
+#: src/lib/i18n/sensor-text.ts:38
+msgid "Drainage checks. Distinguishes waterlogged lowland paddy soil from well-drained upland soil."
+msgstr "வடிகால் சோதனைகள். நீர் தேங்கிய தாழ்நில நெல் வயல் மண்ணை நன்கு வடியும் மேட்டு நில மண்ணிலிருந்து வேறுபடுத்துகிறது."
+
+#: src/lib/i18n/sensor-text.ts:74
+msgid "Dry — irrigation advised"
+msgstr "வறண்டது — நீர்ப்பாசனம் பரிந்துரைக்கப்படுகிறது"
+
+#: src/lib/i18n/sensor-text.ts:98
+msgid "Dry Zone"
+msgstr "உலர் மண்டலம்"
+
+#: src/lib/i18n/sensor-text.ts:32
+msgid "EC"
+msgstr "EC"
+
+#: src/lib/i18n/sensor-text.ts:31
+msgid "Electrical Conductivity"
+msgstr "மின் கடத்துத்திறன்"
+
+#: src/components/dashboard/osm-map.tsx:370
+msgid "Exit fullscreen"
+msgstr "முழுத்திரையிலிருந்து வெளியேறு"
+
+#: src/lib/i18n/sensor-text.ts:116
+msgid "Fallow"
+msgstr "தரிசு"
+
+#: src/lib/i18n/sensor-text.ts:108
+msgid "Fallow Plot"
+msgstr "தரிசு நிலம்"
+
+#: src/routes/index.tsx:599
+msgid "Field"
+msgstr "வயல்"
+
+#: src/lib/i18n/sensor-text.ts:117
+msgid "Field crop"
+msgstr "வயல் பயிர்"
+
+#: src/lib/i18n/sensor-text.ts:109
+msgid "Field spot"
+msgstr "வயல் இடம்"
+
+#: src/components/dashboard/osm-map.tsx:363
+msgid "Fit all sampling spots"
+msgstr "அனைத்து மாதிரி இடங்களையும் காட்டு"
+
+#: src/lib/farm-tasks.ts:54
+msgid "Flush salts with fresh water & clear drains"
+msgstr "நல்ல நீரால் உப்புகளை வெளியேற்றி வடிகால்களைச் சுத்தப்படுத்தவும்"
+
+#: src/components/dashboard/osm-map.tsx:370
+msgid "Fullscreen"
+msgstr "முழுத்திரை"
+
+#: src/routes/index.tsx:261
+msgid "Generate demo fleet"
+msgstr "டெமோ ஆய்வுத் தொகுப்பை உருவாக்கு"
+
+#: src/lib/i18n/sensor-text.ts:28
+msgid "Hard rule filter (Step 1) and dolomite/liming calculation. Triggers nutrient lockout flags below 5.0."
+msgstr "கடின விதி வடிகட்டி (படி 1) மற்றும் டோலமைட்/சுண்ணாம்புக் கணக்கீடு. 5.0-க்குக் கீழ் ஊட்டச்சத்துப் பூட்டு எச்சரிக்கைகளைத் தூண்டும்."
+
+#: src/lib/i18n/sensor-text.ts:33
+msgid "Hard rule filter (Step 1). Identifies salinity stress in Dry Zone command areas (> 2.0 dS/m)."
+msgstr "கடின விதி வடிகட்டி (படி 1). உலர் மண்டல பாசனப் பகுதிகளில் உப்புத்தன்மை அழுத்தத்தைக் கண்டறிகிறது (> 2.0 dS/m)."
+
+#: src/routes/index.tsx:431
+msgid "Hard-rule flags:"
+msgstr "கடின விதி எச்சரிக்கைகள்:"
+
+#: src/lib/i18n/sensor-text.ts:80
+msgid "Heat stress"
+msgstr "வெப்ப அழுத்தம்"
+
+#: src/routes/index.tsx:467
+msgid "History"
+msgstr "வரலாறு"
+
+#: src/lib/farm-tasks.ts:66
+msgid "Hold off on fertiliser until the soil warms"
+msgstr "மண் வெப்பமடையும் வரை உரம் இடுவதை நிறுத்தி வைக்கவும்"
+
+#: src/lib/i18n/sensor-text.ts:96
+msgid "Iluppallama Research Farm"
+msgstr "Iluppallama ஆராய்ச்சிப் பண்ணை"
+
+#: src/lib/i18n/sensor-text.ts:99
+msgid "Intermediate Zone"
+msgstr "இடைநிலை மண்டலம்"
+
+#: src/lib/i18n/sensor-text.ts:57
+msgid "K"
+msgstr "K"
+
+#: src/components/language-switcher.tsx:36
+msgid "Language"
+msgstr "மொழி"
+
+#: src/routes/index.tsx:421
+msgid "Last reading"
+msgstr "கடைசி அளவீடு"
+
+#: src/routes/index.tsx:446
+msgid "Latest sensor readings"
+msgstr "சமீபத்திய உணரி அளவீடுகள்"
+
+#: src/routes/index.tsx:144
+msgid "letters, digits, dot, dash, underscore"
+msgstr "எழுத்துகள், இலக்கங்கள், புள்ளி, கோடு, அடிக்கோடு"
+
+#: src/routes/index.tsx:296
+msgid "Live · refresh 30s"
+msgstr "நேரலை · 30 வி.க்கு ஒருமுறை புதுப்பிப்பு"
+
+#: src/routes/index.tsx:282
+msgid "Live soil data from a single local area — the {farmName}, {district} ({region}). Roving probes are placed at a spot, read, then moved on; every reading is geo-tagged, hard-rule flagged and chart-ready."
+msgstr "ஒரே உள்ளூர் பகுதியிலிருந்து நேரடி மண் தரவு — {farmName}, {district} ({region}). நகரும் ஆய்வுகள் ஓர் இடத்தில் வைக்கப்பட்டு, அளவிடப்பட்டு, பின்னர் நகர்த்தப்படுகின்றன; ஒவ்வொரு அளவீடும் புவியிடக் குறியிடப்பட்டு, கடின விதி எச்சரிக்கை கொடியிடப்பட்டு, வரைபடத்திற்குத் தயாராக இருக்கும்."
+
+#: src/components/dashboard/osm-map.tsx:417
+msgid "Loading OpenStreetMap…"
+msgstr "OpenStreetMap ஏற்றப்படுகிறது…"
+
+#: src/lib/i18n/sensor-text.ts:110
+msgid "Lowland paddy"
+msgstr "தாழ்நில நெல் வயல்"
+
+#: src/lib/i18n/sensor-text.ts:111
+msgid "Maize"
+msgstr "மக்காச்சோளம்"
+
+#: src/lib/i18n/sensor-text.ts:103
+msgid "Maize Field"
+msgstr "மக்காச்சோள வயல்"
+
+#: src/lib/i18n/sensor-text.ts:114
+msgid "Mango orchard"
+msgstr "மாந்தோப்பு"
+
+#: src/components/dashboard/todo-list.tsx:105
+msgid "Mark as done"
+msgstr "முடிந்ததெனக் குறி"
+
+#: src/components/dashboard/todo-list.tsx:105
+msgid "Mark as not done"
+msgstr "முடியவில்லை எனக் குறி"
+
+#: src/components/dashboard/trend-chart.tsx:156
+msgid "Max"
+msgstr "அதிகபட்சம்"
+
+#: src/components/dashboard/trend-chart.tsx:148
+msgid "Min"
+msgstr "குறைந்தபட்சம்"
+
+#: src/lib/i18n/sensor-text.ts:37
+msgid "Moisture"
+msgstr "ஈரப்பதம்"
+
+#: src/lib/farm-tasks.ts:70
+msgid "Mulch or irrigate to cool the soil"
+msgstr "மண்ணைக் குளிர்விக்க தழைக்கூளம் இடு அல்லது நீர் பாய்ச்சு"
+
+#: src/lib/i18n/sensor-text.ts:47
+msgid "N"
+msgstr "N"
+
+#: src/lib/i18n/sensor-text.ts:46
+msgid "Nitrogen (N)"
+msgstr "நைட்ரஜன் (N)"
+
+#: src/lib/i18n/sensor-text.ts:82
+msgid "Nitrogen deficient"
+msgstr "நைட்ரஜன் குறைபாடு"
+
+#: src/lib/i18n/sensor-text.ts:85
+msgid "Nitrogen excessive — lodging / leaching risk"
+msgstr "அதிக நைட்ரஜன் — சாய்தல் / கசிவு ஆபத்து"
+
+#: src/lib/farm-tasks.ts:75
+msgid "Nitrogen is low — expect pale leaves and slow growth."
+msgstr "நைட்ரஜன் குறைவு — வெளிறிய இலைகளும் மெதுவான வளர்ச்சியும் ஏற்படலாம்."
+
+#: src/lib/i18n/sensor-text.ts:83
+msgid "Nitrogen low"
+msgstr "நைட்ரஜன் குறைவு"
+
+#: src/routes/index.tsx:243
+msgid "No probes registered yet"
+msgstr "இதுவரை ஆய்வுகள் பதிவு செய்யப்படவில்லை"
+
+#: src/lib/farm-tasks.ts:101
+msgid "No reading in the last day — the advice for these spots may be out of date."
+msgstr "கடந்த ஒரு நாளில் அளவீடு இல்லை — இந்த இடங்களுக்கான ஆலோசனை காலாவதியாகி இருக்கலாம்."
+
+#: src/components/dashboard/trend-chart.tsx:63
+msgid "No readings in this range yet."
+msgstr "இந்த வரம்பில் இதுவரை அளவீடுகள் இல்லை."
+
+#: src/routes/index.tsx:533
+msgid "No readings yet for this device — simulate one to start the timeline."
+msgstr "இந்தச் சாதனத்திற்கு இதுவரை அளவீடுகள் இல்லை — காலவரிசையைத் தொடங்க ஒன்றை உருவகப்படுத்தவும்."
+
+#: src/components/dashboard/todo-list.tsx:96
+msgid "No recent reading"
+msgstr "சமீபத்திய அளவீடு இல்லை"
+
+#: src/lib/i18n/sensor-text.ts:70
+msgid "Non-saline"
+msgstr "உப்பற்றது"
+
+#: src/components/dashboard/todo-list.tsx:176
+msgid "Nothing to do right now."
+msgstr "இப்போது செய்ய எதுவும் இல்லை."
+
+#: src/lib/i18n/sensor-text.ts:65
+msgid "Nutrient lockout risk (below pH 5.0)"
+msgstr "ஊட்டச்சத்துப் பூட்டு ஆபத்து (pH 5.0-க்குக் கீழ்)"
+
+#: src/components/dashboard/sensor-card.tsx:226
+msgid "OK"
+msgstr "சரி"
+
+#: src/lib/farm-tasks.ts:62
+msgid "Open drains and stop irrigating"
+msgstr "வடிகால்களைத் திறந்து நீர்ப்பாசனத்தை நிறுத்தவும்"
+
+#: src/components/dashboard/osm-map.tsx:338
+msgid "OpenStreetMap of the study area with sampling spots"
+msgstr "மாதிரி இடங்களுடன் ஆய்விடத்தின் OpenStreetMap வரைபடம்"
+
+#: src/lib/i18n/sensor-text.ts:67
+msgid "Optimal for most crops"
+msgstr "பெரும்பாலான பயிர்களுக்கு உகந்தது"
+
+#: src/lib/i18n/sensor-text.ts:79
+msgid "Optimal root-zone temperature"
+msgstr "உகந்த வேர்ப்பகுதி வெப்பநிலை"
+
+#: src/routes/index.tsx:168
+msgid "optional — defaults to server time"
+msgstr "விருப்பத்திற்குரியது — இயல்பாகச் சேவையக நேரம்"
+
+#: src/routes/index.tsx:163
+msgid "optional sampling-spot label, e.g. \"Paddy Block B\""
+msgstr "விருப்ப மாதிரி இடப் பெயர், எ.கா. \"Paddy Block B\""
+
+#: src/lib/i18n/sensor-text.ts:106
+msgid "Orchard Block"
+msgstr "தோட்டத் தொகுதி"
+
+#: src/lib/i18n/sensor-text.ts:52
+msgid "P"
+msgstr "P"
+
+#: src/lib/i18n/sensor-text.ts:101
+msgid "Paddy Block A"
+msgstr "நெல் தொகுதி A"
+
+#: src/lib/i18n/sensor-text.ts:102
+msgid "Paddy Block B"
+msgstr "நெல் தொகுதி B"
+
+#: src/components/dashboard/osm-map.tsx:406
+msgid "Pan down"
+msgstr "கீழே நகர்த்து"
+
+#: src/components/dashboard/osm-map.tsx:392
+msgid "Pan left"
+msgstr "இடதுபுறம் நகர்த்து"
+
+#: src/components/dashboard/osm-map.tsx:399
+msgid "Pan right"
+msgstr "வலதுபுறம் நகர்த்து"
+
+#: src/components/dashboard/osm-map.tsx:385
+msgid "Pan up"
+msgstr "மேலே நகர்த்து"
+
+#: src/lib/i18n/sensor-text.ts:27
+msgid "pH"
+msgstr "pH"
+
+#: src/routes/index.tsx:146
+msgid "pH scale (±0.1 accuracy)"
+msgstr "pH அளவுகோல் (±0.1 துல்லியம்)"
+
+#: src/lib/i18n/sensor-text.ts:51
+msgid "Phosphorus (P)"
+msgstr "பாஸ்பரஸ் (P)"
+
+#: src/lib/i18n/sensor-text.ts:86
+msgid "Phosphorus deficient"
+msgstr "பாஸ்பரஸ் குறைபாடு"
+
+#: src/lib/i18n/sensor-text.ts:89
+msgid "Phosphorus high — runoff pollution risk"
+msgstr "அதிக பாஸ்பரஸ் — வழிந்தோடல் மாசு ஆபத்து"
+
+#: src/lib/farm-tasks.ts:83
+msgid "Phosphorus is low — roots and flowering will be weak."
+msgstr "பாஸ்பரஸ் குறைவு — வேர்களும் பூப்பும் பலவீனமாக இருக்கும்."
+
+#: src/lib/i18n/sensor-text.ts:87
+msgid "Phosphorus low"
+msgstr "பாஸ்பரஸ் குறைவு"
+
+#: src/lib/i18n/sensor-text.ts:56
+msgid "Potassium (K)"
+msgstr "பொட்டாசியம் (K)"
+
+#: src/lib/i18n/sensor-text.ts:90
+msgid "Potassium deficient"
+msgstr "பொட்டாசியம் குறைபாடு"
+
+#: src/lib/i18n/sensor-text.ts:93
+msgid "Potassium high"
+msgstr "அதிக பொட்டாசியம்"
+
+#: src/lib/farm-tasks.ts:91
+msgid "Potassium is low — crops get weak stems and poor grain or fruit fill."
+msgstr "பொட்டாசியம் குறைவு — பயிர்களின் தண்டுகள் பலவீனமாகி, தானியம் அல்லது பழம் நிரம்புவது மோசமாகும்."
+
+#: src/lib/i18n/sensor-text.ts:91
+msgid "Potassium low"
+msgstr "பொட்டாசியம் குறைவு"
+
+#: src/lib/i18n/sensor-text.ts:118
+msgid "Probe 01 · Lowland route"
+msgstr "ஆய்வு 01 · தாழ்நில வழி"
+
+#: src/lib/i18n/sensor-text.ts:119
+msgid "Probe 02 · Upland route"
+msgstr "ஆய்வு 02 · மேட்டு நில வழி"
+
+#: src/lib/i18n/sensor-text.ts:120
+msgid "Probe 03 · Perennial route"
+msgstr "ஆய்வு 03 · பல்லாண்டுப் பயிர் வழி"
+
+#: src/routes/index.tsx:415
+msgid "Readings"
+msgstr "அளவீடுகள்"
+
+#: src/components/dashboard/osm-map.tsx:366
+msgid "Recenter on study area"
+msgstr "ஆய்விடத்திற்கு மையப்படுத்து"
+
+#: src/routes/index.tsx:319
+msgid "Regenerate demo data"
+msgstr "டெமோ தரவை மீண்டும் உருவாக்கு"
+
+#: src/routes/index.tsx:318
+msgid "Regenerating…"
+msgstr "மீண்டும் உருவாக்குகிறது…"
+
+#: src/routes/index.tsx:395
+msgid "Region"
+msgstr "பகுதி"
+
+#: src/components/dashboard/osm-map.tsx:442
+msgid "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
+msgstr "வளையங்கள் ஒவ்வொரு மாதிரி இடத்தின் சமீபத்திய அளவீட்டைக் காட்டுகின்றன · சிறு புள்ளிகள் ஒவ்வொரு இடத்தையும் காட்டுகின்றன · வரைபடத் தரவு © <0>OpenStreetMap</0> பங்களிப்பாளர்கள்"
+
+#: src/lib/i18n/sensor-text.ts:71
+msgid "Salinity stress (> 2.0 dS/m)"
+msgstr "உப்புத்தன்மை அழுத்தம் (> 2.0 dS/m)"
+
+#: src/lib/farm-tasks.ts:55
+msgid "Salt is building up in the soil and stressing the crop roots."
+msgstr "மண்ணில் உப்பு சேர்ந்து பயிரின் வேர்களை அழுத்துகிறது."
+
+#: src/routes/index.tsx:550
+msgid "Sampling spot map"
+msgstr "மாதிரி இட வரைபடம்"
+
+#: src/lib/i18n/sensor-text.ts:76
+msgid "Saturated — check drainage"
+msgstr "நிறைவுற்றது — வடிகாலைச் சரிபார்க்கவும்"
+
+#: src/routes/index.tsx:246
+msgid "Seed the demo fleet — three roving probes sampling eight plots of the {farmName} with a week of simulated readings — or point your hardware at <0>POST /api/readings</0>."
+msgstr "டெமோ ஆய்வுத் தொகுப்பை விதையுங்கள் — {farmName} பண்ணையின் எட்டு நிலத் துண்டுகளில் ஒரு வார உருவகப்படுத்தப்பட்ட அளவீடுகளுடன் மூன்று நகரும் ஆய்வுகள் — அல்லது உங்கள் வன்பொருளை <0>POST /api/readings</0> க்குச் சுட்டுங்கள்."
+
+#: src/routes/index.tsx:260
+msgid "Seeding demo fleet…"
+msgstr "டெமோ ஆய்வுத் தொகுப்பு உருவாக்கப்படுகிறது…"
+
+#: src/routes/index.tsx:351
+msgid "Select a device"
+msgstr "ஒரு சாதனத்தைத் தேர்ந்தெடுக்கவும்"
+
+#: src/routes/index.tsx:350
+msgid "Select device"
+msgstr "சாதனத்தைத் தேர்ந்தெடு"
+
+#: src/lib/i18n/sensor-text.ts:81
+msgid "Severe heat — root damage"
+msgstr "கடும் வெப்பம் — வேர் சேதம்"
+
+#: src/lib/i18n/sensor-text.ts:72
+msgid "Severe salinity — crop failure risk"
+msgstr "கடும் உப்புத்தன்மை — பயிர் தோல்வி ஆபத்து"
+
+#: src/lib/i18n/sensor-text.ts:73
+msgid "Severely dry — permanent wilting point"
+msgstr "கடுமையாக வறண்டது — நிரந்தர வாடல் புள்ளி"
+
+#: src/routes/index.tsx:334
+msgid "Simulate reading"
+msgstr "அளவீட்டை உருவகப்படுத்து"
+
+#: src/routes/index.tsx:333
+msgid "Simulating…"
+msgstr "உருவகப்படுத்துகிறது…"
+
+#: src/lib/farm-tasks.ts:94
+msgid "Skip the next MOP dose"
+msgstr "அடுத்த MOP அளவைத் தவிர்"
+
+#: src/lib/farm-tasks.ts:86
+msgid "Skip the next TSP dose"
+msgstr "அடுத்த TSP அளவைத் தவிர்"
+
+#: src/lib/farm-tasks.ts:78
+msgid "Skip the next Urea dose"
+msgstr "அடுத்த யூரியா அளவைத் தவிர்"
+
+#: src/lib/farm-tasks.ts:59
+msgid "Soil is drying out — plants will start to wilt without irrigation."
+msgstr "மண் காய்கிறது — நீர்ப்பாசனம் இல்லையென்றால் செடிகள் வாடத் தொடங்கும்."
+
+#: src/lib/farm-tasks.ts:71
+msgid "Soil is hot enough to stress or damage roots."
+msgstr "மண் வேர்களை அழுத்தவோ சேதப்படுத்தவோ போதுமான அளவு சூடாக உள்ளது."
+
+#: src/lib/farm-tasks.ts:47
+msgid "Soil is too acidic — crops cannot take up the fertiliser already in the ground."
+msgstr "மண் அதிக அமிலத்தன்மை கொண்டது — நிலத்தில் ஏற்கனவே உள்ள உரத்தைப் பயிர்களால் உறிஞ்ச முடியாது."
+
+#: src/lib/farm-tasks.ts:51
+msgid "Soil is too alkaline — iron and zinc get locked up and leaves may yellow."
+msgstr "மண் அதிக காரத்தன்மை கொண்டது — இரும்பு மற்றும் துத்தநாகம் பூட்டப்பட்டு இலைகள் மஞ்சளாகலாம்."
+
+#: src/lib/farm-tasks.ts:63
+msgid "Soil is waterlogged — roots are short of air and nutrients wash away."
+msgstr "மண்ணில் நீர் தேங்கியுள்ளது — வேர்களுக்குக் காற்றும் ஊட்டச்சத்தும் குறைவு; ஊட்டச்சத்துகள் கழுவப்படுகின்றன."
+
+#: src/lib/i18n/sensor-text.ts:36
+msgid "Soil Moisture (VWC)"
+msgstr "மண் ஈரப்பதம் (VWC)"
+
+#: src/lib/i18n/sensor-text.ts:26
+msgid "Soil Reaction (pH)"
+msgstr "மண் வினை (pH)"
+
+#: src/routes/index.tsx:279
+msgid "Soil Sensor Dashboard"
+msgstr "மண் உணரி டாஷ்போர்டு"
+
+#: src/lib/i18n/sensor-text.ts:41
+msgid "Soil Temperature"
+msgstr "மண் வெப்பநிலை"
+
+#: src/lib/farm-tasks.ts:46
+msgid "Spread agricultural lime (dolomite)"
+msgstr "வேளாண் சுண்ணாம்பு (டோலமைட்) தூவு"
+
+#: src/lib/i18n/sensor-text.ts:58
+msgid "Step 2 ML model input and direct target deficit calculation (ΔK) for MOP recommendations."
+msgstr "படி 2 ML மாதிரி உள்ளீடு மற்றும் MOP பரிந்துரைகளுக்கான நேரடி இலக்குப் பற்றாக்குறைக் கணக்கீடு (ΔK)."
+
+#: src/lib/i18n/sensor-text.ts:48
+msgid "Step 2 ML model input and direct target deficit calculation (ΔN) for Urea recommendations."
+msgstr "படி 2 ML மாதிரி உள்ளீடு மற்றும் யூரியா பரிந்துரைகளுக்கான நேரடி இலக்குப் பற்றாக்குறைக் கணக்கீடு (ΔN)."
+
+#: src/lib/i18n/sensor-text.ts:53
+msgid "Step 2 ML model input and direct target deficit calculation (ΔP) for TSP recommendations."
+msgstr "படி 2 ML மாதிரி உள்ளீடு மற்றும் TSP பரிந்துரைகளுக்கான நேரடி இலக்குப் பற்றாக்குறைக் கணக்கீடு (ΔP)."
+
+#: src/lib/i18n/sensor-text.ts:69
+msgid "Strongly alkaline"
+msgstr "மிகுந்த காரத்தன்மை"
+
+#: src/lib/farm-tasks.ts:100
+msgid "Take a fresh probe reading"
+msgstr "புதிய ஆய்வு அளவீடு எடு"
+
+#: src/components/dashboard/sensor-card.tsx:192
+msgid "Target"
+msgstr "இலக்கு"
+
+#: src/components/dashboard/sensor-card.tsx:164
+msgid "Target {target}"
+msgstr "இலக்கு {target}"
+
+#: src/lib/i18n/sensor-text.ts:42
+msgid "Temp"
+msgstr "வெப்பநிலை"
+
+#: src/routes/index.tsx:580
+msgid "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
+msgstr "வயல் அலகு (RS485 NPK ஆய்வு, FDR ஈரப்பத உணரி, DS18B20 தெர்மிஸ்டர், pH/EC மின்முனைகள் மற்றும் NEO GPS உடன் ESP32/Arduino) ஒவ்வொரு இடத்திற்கும் ஒரு JSON அளவீட்டை POST செய்கிறது — ஆய்வு ஓர் இடத்தில் வைக்கப்பட்டு, அளவிடப்பட்டு, பின்னர் வேறு இடத்திற்கு நகர்த்தப்படுகிறது; எனவே ஒவ்வொரு அளவீட்டிலும் அதன் சொந்த GPS நிலையும் விருப்ப இடப் பெயரும் இருக்கும். SRS உணரி வரம்புகளுக்கு வெளியே உள்ள மதிப்புகள் <0>422</0> மற்றும் சிக்கல் பட்டியலுடன் நிராகரிக்கப்படும் — இது படி 1 கடின விதி வடிகட்டி. அறியப்படாத ஆய்வுகள் முதல் முறை பார்க்கும்போதே தானாகப் பதிவு செய்யப்படும்; ஆய்வில் இருப்பிடம் சேமிக்கப்படுவதில்லை."
+
+#: src/lib/farm-tasks.ts:87
+msgid "There is already plenty of phosphorus — extra just runs off."
+msgstr "ஏற்கனவே போதுமான பாஸ்பரஸ் உள்ளது — கூடுதலானது வீணாக வழிந்தோடும்."
+
+#: src/lib/farm-tasks.ts:95
+msgid "There is already plenty of potassium in the soil."
+msgstr "மண்ணில் ஏற்கனவே போதுமான பொட்டாசியம் உள்ளது."
+
+#: src/lib/farm-tasks.ts:79
+msgid "There is already too much nitrogen — risk of lodging and leaching."
+msgstr "ஏற்கனவே அதிக நைட்ரஜன் உள்ளது — சாய்தல் மற்றும் கசிவு ஆபத்து."
+
+#: src/components/dashboard/trend-chart.tsx:332
+msgid "times shown in Asia/Colombo"
+msgstr "நேரங்கள் Asia/Colombo நேரத்தில் காட்டப்படுகின்றன"
+
+#: src/components/dashboard/todo-list.tsx:165
+msgid "To do"
+msgstr "செய்ய வேண்டியவை"
+
+#: src/components/dashboard/todo-list.tsx:139
+msgid "Today"
+msgstr "இன்று"
+
+#: src/routes/index.tsx:605
+msgid "Unit / note"
+msgstr "அலகு / குறிப்பு"
+
+#: src/lib/i18n/sensor-text.ts:112
+msgid "Upcountry vegetables"
+msgstr "மேட்டுநில காய்கறிகள்"
+
+#: src/lib/i18n/sensor-text.ts:104
+msgid "Vegetable Plot"
+msgstr "காய்கறி நிலம்"
+
+#: src/components/dashboard/sensor-card.tsx:286
+msgid "Waiting for the first reading…"
+msgstr "முதல் அளவீட்டிற்காகக் காத்திருக்கிறது…"
+
+#: src/components/dashboard/osm-map.tsx:167
+#: src/components/dashboard/osm-map.tsx:429
+#: src/components/dashboard/sensor-card.tsx:228
+#: src/routes/index.tsx:380
+msgid "Watch"
+msgstr "கவனம்"
+
+#: src/components/dashboard/trend-chart.tsx:324
+msgid "Watch zone"
+msgstr "கவனிப்பு மண்டலம்"
+
+#: src/lib/farm-tasks.ts:58
+msgid "Water these fields"
+msgstr "இந்த வயல்களுக்கு நீர் பாய்ச்சு"
+
+#: src/lib/i18n/sensor-text.ts:77
+msgid "Waterlogged (lowland paddy conditions)"
+msgstr "நீர் தேங்கியது (தாழ்நில நெல் வயல் நிலைமைகள்)"
+
+#: src/lib/i18n/sensor-text.ts:75
+msgid "Well-drained, field capacity"
+msgstr "நன்கு வடியும், வயல் தேக்கத் திறன்"
+
+#: src/lib/i18n/sensor-text.ts:100
+msgid "Wet Zone"
+msgstr "ஈர மண்டலம்"
+
+#: src/routes/index.tsx:303
+msgid "Wipe all probes and readings and regenerate a week of demo data?"
+msgstr "அனைத்து ஆய்வுகளையும் அளவீடுகளையும் அழித்துவிட்டு ஒரு வார டெமோ தரவை மீண்டும் உருவாக்கவா?"
+
+#: src/lib/farm-tasks.ts:50
+msgid "Work in compost or organic matter"
+msgstr "உரம் அல்லது கரிமப் பொருளைக் கலந்து வேலை செய்"
+
+#: src/routes/index.tsx:398
+msgid "Zone"
+msgstr "மண்டலம்"
+
+#: src/components/dashboard/osm-map.tsx:345
+msgid "Zoom in"
+msgstr "பெரிதாக்கு"
+
+#: src/components/dashboard/osm-map.tsx:355
+msgid "Zoom out"
+msgstr "சிறிதாக்கு"

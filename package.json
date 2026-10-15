@@ -18,9 +18,12 @@
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",
     "db:seed": "tsx src/db/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "i18n:extract": "lingui extract --clean"
   },
   "dependencies": {
+    "@lingui/core": "^6.9.1",
+    "@lingui/react": "^6.9.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "0.10.13",
     "@tanstack/react-form": "1.33.5",
@@ -33,6 +36,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.4.0",
+    "cookie-es": "^3.1.1",
     "drizzle-kit": "^0.31.9",
     "drizzle-orm": "^0.45.1",
     "leaflet": "^1.9.4",
@@ -48,6 +52,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@lingui/cli": "^6.9.1",
+    "@lingui/vite-plugin": "^6.9.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "0.8.5",
     "@tanstack/eslint-config": "0.4.0",

@@ -23,6 +23,9 @@ import {
 import type { SensorValues, StatusLevel } from '#/lib/sensor-rules'
 import type { ReadingDTO } from '#/lib/server/queries'
 import { formatDateTime } from '#/lib/format'
+import { useSensorText } from '#/lib/i18n/sensor-text'
+import type { SensorText } from '#/lib/i18n/sensor-text'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { cn } from '#/lib/utils'
 import { STATUS_DOT } from './status-badge'
 
@@ -69,20 +72,27 @@ function spotKey(r: ReadingDTO): string {
   return r.spot ?? `${r.lat.toFixed(4)}|${r.lon.toFixed(4)}`
 }
 
-function popupHtml(r: ReadingDTO): string {
+function spotLabel(r: ReadingDTO, tx: SensorText): string {
+  return r.spot
+    ? tx.text(r.spot)
+    : `${r.lat.toFixed(4)}°N, ${r.lon.toFixed(4)}°E`
+}
+
+type PopupText = {
+  tx: SensorText
+  locale: string
+  status: Record<StatusLevel, string>
+}
+
+function popupHtml(r: ReadingDTO, { tx, locale, status }: PopupText): string {
   const v = valuesOf(r)
   const overall = overallStatus(v)
-  const label = r.spot ?? `${r.lat.toFixed(4)}°N, ${r.lon.toFixed(4)}°E`
-  const statusText =
-    overall.level === 'ok'
-      ? 'All parameters OK'
-      : overall.level === 'warn'
-        ? 'Watch'
-        : 'Alert'
+  const label = spotLabel(r, tx)
+  const statusText = status[overall.level]
   const rows = SENSOR_PARAM_LIST.map((p) => {
     const level = statusForValue(p, v[p.key]).level
     return `<tr>
-      <td style="padding:1px 10px 1px 0;color:var(--sea-ink-soft)">${p.short}</td>
+      <td style="padding:1px 10px 1px 0;color:var(--sea-ink-soft)">${escapeHtml(tx.short(p))}</td>
       <td style="padding:1px 0;text-align:right;font-weight:700;color:${STATUS_COLOR[level]}">${formatValue(p, v[p.key])}${p.unit ? ` ${p.unit}` : ''}</td>
     </tr>`
   }).join('')
@@ -91,7 +101,7 @@ function popupHtml(r: ReadingDTO): string {
       <div style="font-weight:800;font-size:12px;color:var(--sea-ink)">${escapeHtml(label)}</div>
       <div style="display:flex;align-items:center;gap:5px;margin:2px 0 7px;font-size:10px;color:var(--sea-ink-soft)">
         <span style="display:inline-block;width:7px;height:7px;border-radius:9999px;background:${STATUS_COLOR[overall.level]}"></span>
-        ${escapeHtml(statusText)} · ${escapeHtml(r.deviceId)} · ${escapeHtml(formatDateTime(r.recordedAt))}
+        ${escapeHtml(statusText)} · ${escapeHtml(r.deviceId)} · ${escapeHtml(formatDateTime(r.recordedAt, locale))}
       </div>
       <table style="font-size:11px;border-collapse:collapse;color:var(--sea-ink)">${rows}</table>
     </div>`
@@ -148,6 +158,16 @@ export function OsmMap({
   const [ready, setReady] = useState(false)
   const [zoom, setZoom] = useState(16)
   const [fullscreen, setFullscreen] = useState(false)
+  const { t, i18n } = useLingui()
+  const tx = useSensorText()
+  const popupText = useMemo<PopupText>(
+    () => ({
+      tx,
+      locale: i18n.locale,
+      status: { ok: t`All parameters OK`, warn: t`Watch`, critical: t`Alert` },
+    }),
+    [tx, i18n, t],
+  )
 
   // Latest reading per sampling spot (readings arrive oldest → newest)
   const spotLatest = useMemo(() => {
@@ -234,7 +254,7 @@ export function OsmMap({
       for (const r of spotLatest) {
         const status = overallStatus(valuesOf(r))
         const selected = r.deviceId === selectedDeviceId
-        const label = r.spot ?? `${r.lat.toFixed(4)}°N, ${r.lon.toFixed(4)}°E`
+        const label = spotLabel(r, tx)
         L.circleMarker([r.lat, r.lon], {
           radius: selected ? 11 : 8,
           weight: 2,
@@ -246,7 +266,7 @@ export function OsmMap({
             direction: 'top',
             offset: [0, -6],
           })
-          .bindPopup(popupHtml(r))
+          .bindPopup(popupHtml(r, popupText))
           .addTo(spots)
       }
 
@@ -266,7 +286,7 @@ export function OsmMap({
     return () => {
       cancelled = true
     }
-  }, [ready, readings, spotLatest, selectedDeviceId])
+  }, [ready, readings, spotLatest, selectedDeviceId, tx, popupText])
 
   /* Keep Leaflet's size in sync with fullscreen toggles */
   useEffect(() => {
@@ -315,14 +335,14 @@ export function OsmMap({
         <div
           ref={hostRef}
           className="absolute inset-0 z-0"
-          aria-label="OpenStreetMap of the study area with sampling spots"
+          aria-label={t`OpenStreetMap of the study area with sampling spots`}
         />
         {ready && (
           <>
             <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
               <div className={CONTROL_GROUP}>
                 <MapButton
-                  label="Zoom in"
+                  label={t`Zoom in`}
                   onClick={() => zoomBy(1)}
                   disabled={zoom >= MAX_ZOOM}
                 >
@@ -332,7 +352,7 @@ export function OsmMap({
                   {zoom.toFixed(zoom % 1 === 0 ? 0 : 1)}
                 </div>
                 <MapButton
-                  label="Zoom out"
+                  label={t`Zoom out`}
                   onClick={() => zoomBy(-1)}
                   disabled={zoom <= MIN_ZOOM}
                 >
@@ -340,14 +360,14 @@ export function OsmMap({
                 </MapButton>
               </div>
               <div className={CONTROL_GROUP}>
-                <MapButton label="Fit all sampling spots" onClick={fitSpots}>
+                <MapButton label={t`Fit all sampling spots`} onClick={fitSpots}>
                   <ScanSearch className="size-4" />
                 </MapButton>
-                <MapButton label="Recenter on study area" onClick={recenter}>
+                <MapButton label={t`Recenter on study area`} onClick={recenter}>
                   <Crosshair className="size-4" />
                 </MapButton>
                 <MapButton
-                  label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                  label={fullscreen ? t`Exit fullscreen` : t`Fullscreen`}
                   onClick={toggleFullscreen}
                 >
                   {fullscreen ? (
@@ -361,25 +381,31 @@ export function OsmMap({
 
             <div className="absolute bottom-8 right-3 z-10 grid grid-cols-3 overflow-hidden rounded-lg border border-line bg-[var(--surface-strong)] shadow-sm backdrop-blur">
               <span />
-              <MapButton label="Pan up" onClick={() => panBy(0, -PAN_STEP_PX)}>
+              <MapButton
+                label={t`Pan up`}
+                onClick={() => panBy(0, -PAN_STEP_PX)}
+              >
                 <ChevronUp className="size-4" />
               </MapButton>
               <span />
               <MapButton
-                label="Pan left"
+                label={t`Pan left`}
                 onClick={() => panBy(-PAN_STEP_PX, 0)}
               >
                 <ChevronLeft className="size-4" />
               </MapButton>
               <span />
               <MapButton
-                label="Pan right"
+                label={t`Pan right`}
                 onClick={() => panBy(PAN_STEP_PX, 0)}
               >
                 <ChevronRight className="size-4" />
               </MapButton>
               <span />
-              <MapButton label="Pan down" onClick={() => panBy(0, PAN_STEP_PX)}>
+              <MapButton
+                label={t`Pan down`}
+                onClick={() => panBy(0, PAN_STEP_PX)}
+              >
                 <ChevronDown className="size-4" />
               </MapButton>
               <span />
@@ -388,39 +414,43 @@ export function OsmMap({
         )}
         {!ready && (
           <div className="absolute inset-0 flex items-center justify-center bg-sand/60 text-sm text-sea-ink-soft">
-            Loading OpenStreetMap…
+            <Trans>Loading OpenStreetMap…</Trans>
           </div>
         )}
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-sea-ink-soft">
         <span className="flex items-center gap-1.5">
-          <span className={cn('size-2.5 rounded-full', STATUS_DOT.ok)} /> All
-          parameters OK
+          <span className={cn('size-2.5 rounded-full', STATUS_DOT.ok)} />{' '}
+          <Trans>All parameters OK</Trans>
         </span>
         <span className="flex items-center gap-1.5">
           <span className={cn('size-2.5 rounded-full', STATUS_DOT.warn)} />{' '}
-          Watch
+          <Trans>Watch</Trans>
         </span>
         <span className="flex items-center gap-1.5">
           <span className={cn('size-2.5 rounded-full', STATUS_DOT.critical)} />{' '}
-          Alert
+          <Trans>Alert</Trans>
         </span>
         <span className="w-full text-center">
-          Drag to move · scroll, pinch or double-click to zoom · Shift-drag to
-          zoom to an area · arrow keys pan when the map is focused
+          <Trans>
+            Drag to move · scroll, pinch or double-click to zoom · Shift-drag to
+            zoom to an area · arrow keys pan when the map is focused
+          </Trans>
         </span>
         <span className="w-full text-center">
-          Rings show the latest reading per sampling spot · small dots show
-          every placement · map data ©{' '}
-          <a
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noreferrer"
-          >
-            OpenStreetMap
-          </a>{' '}
-          contributors
+          <Trans>
+            Rings show the latest reading per sampling spot · small dots show
+            every placement · map data ©{' '}
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noreferrer"
+            >
+              OpenStreetMap
+            </a>{' '}
+            contributors
+          </Trans>
         </span>
       </div>
     </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700;800&family=Noto+Serif+Sinhala:wght@500;700&display=swap');
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
@@ -118,7 +118,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    'Manrope', 'Noto Sans Sinhala', ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -292,7 +293,7 @@ pre code {
 }
 
 .display-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Fraunces', 'Noto Serif Sinhala', Georgia, serif;
 }
 
 .island-shell {
@@ -338,6 +339,11 @@ a {
   font-weight: 700;
   font-size: 0.69rem;
   color: var(--kicker);
+}
+
+/* Letter-spacing splits Sinhala conjuncts and vowel signs apart */
+html:lang(si) * {
+  letter-spacing: normal;
 }
 
 .nav-link {

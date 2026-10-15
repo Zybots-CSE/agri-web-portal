@@ -2,6 +2,8 @@ import type { SensorParam, StatusLevel } from '#/lib/sensor-rules'
 import { formatValue, statusForValue } from '#/lib/sensor-rules'
 import { cn } from '#/lib/utils'
 import { formatDateTime } from '#/lib/format'
+import { useSensorText } from '#/lib/i18n/sensor-text'
+import { Trans, useLingui } from '@lingui/react/macro'
 import {
   TriangleAlert,
   Info,
@@ -46,6 +48,7 @@ function ZoneBar({ param, value }: { param: SensorParam; value: number }) {
   const span = param.sensorMax - param.sensorMin
   const pct = (v: number) => ((v - param.sensorMin) / span) * 100
   const markerPct = Math.min(100, Math.max(0, pct(value)))
+  const tx = useSensorText()
 
   return (
     <div className="relative">
@@ -55,7 +58,7 @@ function ZoneBar({ param, value }: { param: SensorParam; value: number }) {
             key={`${zone.from}-${zone.to}`}
             className={cn('h-full', ZONE_BG[zone.level])}
             style={{ width: `${pct(zone.to) - pct(zone.from)}%` }}
-            title={`${zone.from}–${zone.to}: ${zone.label}`}
+            title={`${zone.from}–${zone.to}: ${tx.text(zone.label)}`}
           />
         ))}
       </div>
@@ -131,8 +134,12 @@ export function SensorCard({
   spark?: number[]
   recordedAt?: string
 }) {
+  const { t, i18n } = useLingui()
+  const tx = useSensorText()
   const status = value !== null ? statusForValue(param, value) : null
   const Icon = ICONS[param.key]
+  const label = tx.label(param)
+  const target = param.targetLabel
 
   return (
     <div className="feature-card group relative flex flex-col gap-5 rounded-2xl border border-line p-6 transition-transform">
@@ -152,9 +159,9 @@ export function SensorCard({
             <Icon className="size-5" />
           </span>
           <div className="leading-tight">
-            <div className="text-base font-semibold">{param.label}</div>
+            <div className="text-base font-semibold">{label}</div>
             <div className="text-xs text-sea-ink-soft">
-              Target {param.targetLabel}
+              <Trans>Target {target}</Trans>
               {param.unit && ` ${param.unit}`}
             </div>
           </div>
@@ -164,7 +171,7 @@ export function SensorCard({
             <PopoverTrigger asChild>
               <button
                 type="button"
-                aria-label={`About ${param.label}`}
+                aria-label={t`About ${label}`}
                 className="flex size-7 cursor-pointer items-center justify-center rounded-full text-sea-ink-soft/70 transition-colors hover:bg-accent hover:text-sea-ink focus-visible:ring-2 focus-visible:ring-lagoon focus-visible:outline-none data-[state=open]:bg-accent data-[state=open]:text-sea-ink"
               >
                 <Info className="size-4" />
@@ -173,15 +180,17 @@ export function SensorCard({
             <PopoverContent align="end" className="w-72 text-sm">
               <PopoverHeader>
                 <PopoverTitle className="font-semibold text-sea-ink">
-                  {param.label}
+                  {label}
                 </PopoverTitle>
                 <PopoverDescription className="text-sea-ink-soft">
-                  {param.purpose}
+                  {tx.purpose(param)}
                 </PopoverDescription>
               </PopoverHeader>
               <div className="mt-3 flex flex-col gap-1.5 border-t border-line pt-3 text-xs">
                 <div className="flex justify-between gap-3">
-                  <span className="text-sea-ink-soft">Target</span>
+                  <span className="text-sea-ink-soft">
+                    <Trans>Target</Trans>
+                  </span>
                   <span className="font-medium text-sea-ink">
                     {param.targetLabel}
                     {param.unit && ` ${param.unit}`}
@@ -199,7 +208,7 @@ export function SensorCard({
                           ZONE_BG[zone.level],
                         )}
                       />
-                      {zone.label}
+                      {tx.text(zone.label)}
                     </span>
                     <span className="tabular-nums text-sea-ink">
                       {zone.from}–{zone.to}
@@ -214,10 +223,10 @@ export function SensorCard({
               level={status.level}
               label={
                 status.level === 'ok'
-                  ? 'OK'
+                  ? t`OK`
                   : status.level === 'warn'
-                    ? 'Watch'
-                    : 'Alert'
+                    ? t`Watch`
+                    : t`Alert`
               }
             />
           ) : (
@@ -243,7 +252,7 @@ export function SensorCard({
         )}
         {recordedAt && (
           <span className="ml-auto text-xs text-sea-ink-soft">
-            {formatDateTime(recordedAt)}
+            {formatDateTime(recordedAt, i18n.locale)}
           </span>
         )}
       </div>
@@ -268,13 +277,13 @@ export function SensorCard({
               )}
             >
               <TriangleAlert className="mt-0.5 size-4 shrink-0" />
-              {status!.label}
+              {tx.text(status!.label)}
             </p>
           )}
         </>
       ) : (
         <p className="text-sm text-sea-ink-soft">
-          Waiting for the first reading…
+          <Trans>Waiting for the first reading…</Trans>
         </p>
       )}
     </div>
