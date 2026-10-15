@@ -12,7 +12,7 @@ msgid "(click to expand)"
 msgstr "(click to expand)"
 
 #. placeholder {0}: Math.round(p.confidence * 100)
-#: src/routes/ai-predictions.tsx:225
+#: src/routes/ai-predictions.tsx:198
 msgid "{0}% model confidence"
 msgstr "{0}% model confidence"
 
@@ -148,13 +148,9 @@ msgstr "Chilli"
 msgid "Chilli Nursery"
 msgstr "Chilli Nursery"
 
-#: src/routes/ai-predictions.tsx:280
+#: src/routes/ai-predictions.tsx:250
 msgid "Close prediction"
 msgstr "Close prediction"
-
-#: src/routes/ai-predictions.tsx:158
-msgid "Closed predictions"
-msgstr "Closed predictions"
 
 #: src/lib/farm-tasks.ts:67
 msgid "Cold soil slows roots and soil life, so fertiliser is used poorly."
@@ -172,15 +168,15 @@ msgstr "Compost turning"
 msgid "Compost Yard"
 msgstr "Compost Yard"
 
-#: src/routes/ai-predictions.tsx:295
+#: src/routes/ai-predictions.tsx:265
 msgid "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
 msgstr "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
 
-#: src/routes/ai-predictions.tsx:224
+#: src/routes/ai-predictions.tsx:197
 msgid "Confidence not provided"
 msgstr "Confidence not provided"
 
-#: src/routes/ai-predictions.tsx:289
+#: src/routes/ai-predictions.tsx:259
 msgid "Connect your AI model"
 msgstr "Connect your AI model"
 
@@ -188,19 +184,19 @@ msgstr "Connect your AI model"
 msgid "Corrects raw EC and pH drift before feeding values into algorithms."
 msgstr "Corrects raw EC and pH drift before feeding values into algorithms."
 
-#: src/routes/ai-predictions.tsx:179
+#: src/routes/ai-predictions.tsx:144
+msgid "Could not delete this prediction. Please try again."
+msgstr "Could not delete this prediction. Please try again."
+
+#: src/routes/ai-predictions.tsx:158
 msgid "Could not load predictions"
 msgstr "Could not load predictions"
 
-#: src/routes/ai-predictions.tsx:109
+#: src/routes/ai-predictions.tsx:106
 msgid "Could not send the dummy prediction. Check the connection and try again."
 msgstr "Could not send the dummy prediction. Check the connection and try again."
 
-#: src/routes/ai-predictions.tsx:163
-msgid "Could not update this prediction. Please try again."
-msgstr "Could not update this prediction. Please try again."
-
-#: src/routes/ai-predictions.tsx:238
+#: src/routes/ai-predictions.tsx:211
 #: src/routes/index.tsx:401
 msgid "Crop"
 msgstr "Crop"
@@ -216,6 +212,10 @@ msgstr "Dashboard"
 #: src/routes/index.tsx:158
 msgid "decimal degrees — GPS fix of this placement"
 msgstr "decimal degrees — GPS fix of this placement"
+
+#: src/routes/ai-predictions.tsx:249
+msgid "Deleting…"
+msgstr "Deleting…"
 
 #: src/routes/index.tsx:573
 msgid "Device ingest API — pushing readings from your probe"
@@ -241,7 +241,7 @@ msgstr "Dry — irrigation advised"
 msgid "Dry Zone"
 msgstr "Dry Zone"
 
-#: src/routes/ai-predictions.tsx:117
+#: src/routes/ai-predictions.tsx:114
 msgid "Dummy prediction saved successfully."
 msgstr "Dummy prediction saved successfully."
 
@@ -337,7 +337,7 @@ msgstr "Language"
 msgid "Last reading"
 msgstr "Last reading"
 
-#: src/routes/ai-predictions.tsx:132
+#: src/routes/ai-predictions.tsx:129
 msgid "Latest 100 predictions · refreshes every 30 seconds"
 msgstr "Latest 100 predictions · refreshes every 30 seconds"
 
@@ -361,7 +361,7 @@ msgstr "Live soil data from a single local area — the {farmName}, {district} (
 msgid "Loading OpenStreetMap…"
 msgstr "Loading OpenStreetMap…"
 
-#: src/routes/ai-predictions.tsx:191
+#: src/routes/ai-predictions.tsx:170
 msgid "Loading predictions…"
 msgstr "Loading predictions…"
 
@@ -397,15 +397,15 @@ msgstr "Max"
 msgid "Min"
 msgstr "Min"
 
-#: src/routes/ai-predictions.tsx:234
+#: src/routes/ai-predictions.tsx:207
 msgid "Model"
 msgstr "Model"
 
-#: src/routes/ai-predictions.tsx:81
+#: src/routes/ai-predictions.tsx:78
 msgid "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
 msgstr "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
 
-#: src/routes/ai-predictions.tsx:253
+#: src/routes/ai-predictions.tsx:226
 msgid "Model recommendations"
 msgstr "Model recommendations"
 
@@ -421,7 +421,7 @@ msgstr "Mulch or irrigate to cool the soil"
 msgid "N"
 msgstr "N"
 
-#: src/routes/ai-predictions.tsx:208
+#: src/routes/ai-predictions.tsx:181
 msgid "New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model."
 msgstr "New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model."
 
@@ -445,17 +445,13 @@ msgstr "Nitrogen is low — expect pale leaves and slow growth."
 msgid "Nitrogen low"
 msgstr "Nitrogen low"
 
-#: src/routes/ai-predictions.tsx:200
-msgid "No closed predictions"
-msgstr "No closed predictions"
-
-#: src/routes/ai-predictions.tsx:198
+#: src/routes/ai-predictions.tsx:176
 msgid "No matching predictions"
 msgstr "No matching predictions"
 
-#: src/routes/ai-predictions.tsx:201
-msgid "No open predictions"
-msgstr "No open predictions"
+#: src/routes/ai-predictions.tsx:176
+msgid "No predictions yet"
+msgstr "No predictions yet"
 
 #: src/routes/index.tsx:243
 msgid "No probes registered yet"
@@ -496,10 +492,6 @@ msgstr "OK"
 #: src/lib/farm-tasks.ts:62
 msgid "Open drains and stop irrigating"
 msgstr "Open drains and stop irrigating"
-
-#: src/routes/ai-predictions.tsx:151
-msgid "Open predictions"
-msgstr "Open predictions"
 
 #: src/components/dashboard/osm-map.tsx:338
 msgid "OpenStreetMap of the study area with sampling spots"
@@ -553,6 +545,10 @@ msgstr "Pan right"
 msgid "Pan up"
 msgstr "Pan up"
 
+#: src/routes/ai-predictions.tsx:243
+msgid "Permanently delete this prediction"
+msgstr "Permanently delete this prediction"
+
 #: src/lib/i18n/sensor-text.ts:27
 msgid "pH"
 msgstr "pH"
@@ -581,7 +577,7 @@ msgstr "Phosphorus is low — roots and flowering will be weak."
 msgid "Phosphorus low"
 msgstr "Phosphorus low"
 
-#: src/routes/ai-predictions.tsx:182
+#: src/routes/ai-predictions.tsx:161
 msgid "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
 msgstr "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
 
@@ -605,23 +601,15 @@ msgstr "Potassium is low — crops get weak stems and poor grain or fruit fill."
 msgid "Potassium low"
 msgstr "Potassium low"
 
-#: src/routes/ai-predictions.tsx:235
+#: src/routes/ai-predictions.tsx:208
 msgid "Predicted"
 msgstr "Predicted"
 
-#: src/routes/ai-predictions.tsx:169
-msgid "Prediction closed. You can reopen it from Closed predictions."
-msgstr "Prediction closed. You can reopen it from Closed predictions."
+#: src/routes/ai-predictions.tsx:149
+msgid "Prediction deleted."
+msgstr "Prediction deleted."
 
-#: src/routes/ai-predictions.tsx:170
-msgid "Prediction reopened."
-msgstr "Prediction reopened."
-
-#: src/routes/ai-predictions.tsx:207
-msgid "Predictions you close will appear here. You can reopen them at any time."
-msgstr "Predictions you close will appear here. You can reopen them at any time."
-
-#: src/routes/ai-predictions.tsx:236
+#: src/routes/ai-predictions.tsx:209
 msgid "Probe"
 msgstr "Probe"
 
@@ -637,11 +625,11 @@ msgstr "Probe 02 · Upland route"
 msgid "Probe 03 · Perennial route"
 msgstr "Probe 03 · Perennial route"
 
-#: src/routes/ai-predictions.tsx:139
+#: src/routes/ai-predictions.tsx:136
 msgid "Probe, crop, spot or model…"
 msgstr "Probe, crop, spot or model…"
 
-#: src/routes/ai-predictions.tsx:318
+#: src/routes/ai-predictions.tsx:288
 msgid "Read received results with"
 msgstr "Read received results with"
 
@@ -653,7 +641,7 @@ msgstr "Readings"
 msgid "Recenter on study area"
 msgstr "Recenter on study area"
 
-#: src/routes/ai-predictions.tsx:95
+#: src/routes/ai-predictions.tsx:92
 msgid "Refresh"
 msgstr "Refresh"
 
@@ -669,10 +657,6 @@ msgstr "Regenerating…"
 msgid "Region"
 msgstr "Region"
 
-#: src/routes/ai-predictions.tsx:279
-msgid "Reopen prediction"
-msgstr "Reopen prediction"
-
 #: src/components/dashboard/osm-map.tsx:442
 msgid "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
 msgstr "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
@@ -685,7 +669,7 @@ msgstr "Salinity stress (> 2.0 dS/m)"
 msgid "Salt is building up in the soil and stressing the crop roots."
 msgstr "Salt is building up in the soil and stressing the crop roots."
 
-#: src/routes/ai-predictions.tsx:237
+#: src/routes/ai-predictions.tsx:210
 msgid "Sampling spot"
 msgstr "Sampling spot"
 
@@ -697,11 +681,7 @@ msgstr "Sampling spot map"
 msgid "Saturated — check drainage"
 msgstr "Saturated — check drainage"
 
-#: src/routes/ai-predictions.tsx:277
-msgid "Saving…"
-msgstr "Saving…"
-
-#: src/routes/ai-predictions.tsx:135
+#: src/routes/ai-predictions.tsx:132
 msgid "Search predictions"
 msgstr "Search predictions"
 
@@ -721,15 +701,15 @@ msgstr "Select a device"
 msgid "Select device"
 msgstr "Select device"
 
-#: src/routes/ai-predictions.tsx:293
+#: src/routes/ai-predictions.tsx:263
 msgid "Send a JSON result to"
 msgstr "Send a JSON result to"
 
-#: src/routes/ai-predictions.tsx:125
+#: src/routes/ai-predictions.tsx:122
 msgid "Send dummy prediction"
 msgstr "Send dummy prediction"
 
-#: src/routes/ai-predictions.tsx:125
+#: src/routes/ai-predictions.tsx:122
 msgid "Sending…"
 msgstr "Sending…"
 
@@ -837,7 +817,7 @@ msgstr "Target {target}"
 msgid "Temp"
 msgstr "Temp"
 
-#: src/routes/ai-predictions.tsx:102
+#: src/routes/ai-predictions.tsx:99
 msgid "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
 msgstr "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
 
@@ -869,7 +849,7 @@ msgstr "To do"
 msgid "Today"
 msgstr "Today"
 
-#: src/routes/ai-predictions.tsx:205
+#: src/routes/ai-predictions.tsx:180
 msgid "Try a different probe, crop, spot or model."
 msgstr "Try a different probe, crop, spot or model."
 
@@ -936,6 +916,6 @@ msgstr "Zoom in"
 msgid "Zoom out"
 msgstr "Zoom out"
 
-#: src/routes/ai-predictions.tsx:78
+#: src/routes/ai-predictions.tsx:75
 msgid "Zybot_AI Predictions"
 msgstr "Zybot_AI Predictions"

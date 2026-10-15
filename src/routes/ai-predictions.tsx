@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { BrainCircuit, RefreshCw, Radio } from 'lucide-react'
 import { Trans, useLingui } from '@lingui/react/macro'
-import { getPredictions, updatePredictionStatus } from '#/lib/server/server-fns'
+import { getPredictions, removePrediction } from '#/lib/server/server-fns'
 import { formatDateTime } from '#/lib/format'
 import { Button } from '#/components/ui/button'
 
@@ -31,7 +31,6 @@ const DUMMY_PREDICTION = {
 function PredictionsPage() {
   const { t, i18n } = useLingui()
   const [filter, setFilter] = useState('')
-  const [showClosed, setShowClosed] = useState(false)
   const queryClient = useQueryClient()
   const dummyRequest = useMutation({
     mutationFn: async () => {
@@ -46,19 +45,17 @@ function PredictionsPage() {
     },
     onSuccess: async () => {
       setFilter('')
-      setShowClosed(false)
       await queryClient.invalidateQueries({ queryKey: ['predictions'] })
     },
   })
-  const statusMutation = useMutation({
-    mutationFn: (data: { id: number; closed: boolean }) =>
-      updatePredictionStatus({ data }),
+  const deleteMutation = useMutation({
+    mutationFn: (data: { id: number }) => removePrediction({ data }),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ['predictions'] }),
   })
   const query = useQuery({
-    queryKey: ['predictions', { closed: showClosed }],
-    queryFn: () => getPredictions({ data: { closed: showClosed } }),
+    queryKey: ['predictions'],
+    queryFn: () => getPredictions(),
     refetchInterval: 30_000,
   })
   const predictions = query.data ?? []
@@ -142,32 +139,14 @@ function PredictionsPage() {
         </label>
       </section>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Button
-          variant={showClosed ? 'outline' : 'default'}
-          aria-pressed={!showClosed}
-          onClick={() => setShowClosed(false)}
-        >
-          <Trans>Open predictions</Trans>
-        </Button>
-        <Button
-          variant={showClosed ? 'default' : 'outline'}
-          aria-pressed={showClosed}
-          onClick={() => setShowClosed(true)}
-        >
-          <Trans>Closed predictions</Trans>
-        </Button>
-      </div>
-      {statusMutation.isError && (
+      {deleteMutation.isError && (
         <p role="alert" className="text-sm text-red-700">
-          <Trans>Could not update this prediction. Please try again.</Trans>
+          <Trans>Could not delete this prediction. Please try again.</Trans>
         </p>
       )}
-      {statusMutation.isSuccess && (
+      {deleteMutation.isSuccess && (
         <p role="status" className="text-sm text-lagoon-deep">
-          {statusMutation.variables.closed
-            ? t`Prediction closed. You can reopen it from Closed predictions.`
-            : t`Prediction reopened.`}
+          <Trans>Prediction deleted.</Trans>
         </p>
       )}
       {query.isError && (
@@ -194,18 +173,12 @@ function PredictionsPage() {
         <section className="island-shell flex flex-col items-center rounded-2xl px-6 py-16 text-center">
           <BrainCircuit className="mb-4 size-12 text-lagoon-deep" />
           <h2 className="text-xl font-bold">
-            {filter
-              ? t`No matching predictions`
-              : showClosed
-                ? t`No closed predictions`
-                : t`No open predictions`}
+            {filter ? t`No matching predictions` : t`No predictions yet`}
           </h2>
           <p className="mt-3 max-w-lg text-sm text-sea-ink-soft">
             {filter
               ? t`Try a different probe, crop, spot or model.`
-              : showClosed
-                ? t`Predictions you close will appear here. You can reopen them at any time.`
-                : t`New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model.`}
+              : t`New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model.`}
           </p>
         </section>
       ) : (
@@ -267,17 +240,14 @@ function PredictionsPage() {
               <div className="mt-5 flex justify-end">
                 <Button
                   variant="outline"
-                  disabled={statusMutation.isPending}
-                  onClick={() =>
-                    statusMutation.mutate({ id: p.id, closed: !p.closed })
-                  }
+                  title={t`Permanently delete this prediction`}
+                  disabled={deleteMutation.isPending}
+                  onClick={() => deleteMutation.mutate({ id: p.id })}
                 >
-                  {statusMutation.isPending &&
-                  statusMutation.variables.id === p.id
-                    ? t`Saving…`
-                    : p.closed
-                      ? t`Reopen prediction`
-                      : t`Close prediction`}
+                  {deleteMutation.isPending &&
+                  deleteMutation.variables.id === p.id
+                    ? t`Deleting…`
+                    : t`Close prediction`}
                 </Button>
               </div>
             </article>

@@ -1,5 +1,4 @@
 import {
-  boolean,
   doublePrecision,
   index,
   integer,
@@ -65,7 +64,6 @@ export const predictions = pgTable(
   'predictions',
   {
     id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
-    closed: boolean('closed').notNull().default(false),
     model: text('model').notNull(),
     title: text('title').notNull(),
     category: text('category').notNull(),

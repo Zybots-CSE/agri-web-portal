@@ -12,7 +12,7 @@ msgid "(click to expand)"
 msgstr "(விரிவாக்க கிளிக் செய்யவும்)"
 
 #. placeholder {0}: Math.round(p.confidence * 100)
-#: src/routes/ai-predictions.tsx:225
+#: src/routes/ai-predictions.tsx:198
 msgid "{0}% model confidence"
 msgstr ""
 
@@ -148,12 +148,8 @@ msgstr "மிளகாய்"
 msgid "Chilli Nursery"
 msgstr "மிளகாய் நாற்றங்கால்"
 
-#: src/routes/ai-predictions.tsx:280
+#: src/routes/ai-predictions.tsx:250
 msgid "Close prediction"
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:158
-msgid "Closed predictions"
 msgstr ""
 
 #: src/lib/farm-tasks.ts:67
@@ -172,15 +168,15 @@ msgstr "உரக் குவியலைக் கிளறுதல்"
 msgid "Compost Yard"
 msgstr "உரக் கிடங்கு"
 
-#: src/routes/ai-predictions.tsx:295
+#: src/routes/ai-predictions.tsx:265
 msgid "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:224
+#: src/routes/ai-predictions.tsx:197
 msgid "Confidence not provided"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:289
+#: src/routes/ai-predictions.tsx:259
 msgid "Connect your AI model"
 msgstr ""
 
@@ -188,19 +184,19 @@ msgstr ""
 msgid "Corrects raw EC and pH drift before feeding values into algorithms."
 msgstr "அல்காரிதங்களுக்குத் தரவை அனுப்புவதற்கு முன் மூல EC மற்றும் pH மாற்றத்தைச் சரிசெய்கிறது."
 
-#: src/routes/ai-predictions.tsx:179
+#: src/routes/ai-predictions.tsx:144
+msgid "Could not delete this prediction. Please try again."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:158
 msgid "Could not load predictions"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:109
+#: src/routes/ai-predictions.tsx:106
 msgid "Could not send the dummy prediction. Check the connection and try again."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:163
-msgid "Could not update this prediction. Please try again."
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:238
+#: src/routes/ai-predictions.tsx:211
 #: src/routes/index.tsx:401
 msgid "Crop"
 msgstr "பயிர்"
@@ -216,6 +212,10 @@ msgstr ""
 #: src/routes/index.tsx:158
 msgid "decimal degrees — GPS fix of this placement"
 msgstr "தசம டிகிரி — இந்த இடத்தின் GPS நிலை"
+
+#: src/routes/ai-predictions.tsx:249
+msgid "Deleting…"
+msgstr ""
 
 #: src/routes/index.tsx:573
 msgid "Device ingest API — pushing readings from your probe"
@@ -241,7 +241,7 @@ msgstr "வறண்டது — நீர்ப்பாசனம் பரி
 msgid "Dry Zone"
 msgstr "உலர் மண்டலம்"
 
-#: src/routes/ai-predictions.tsx:117
+#: src/routes/ai-predictions.tsx:114
 msgid "Dummy prediction saved successfully."
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr "மொழி"
 msgid "Last reading"
 msgstr "கடைசி அளவீடு"
 
-#: src/routes/ai-predictions.tsx:132
+#: src/routes/ai-predictions.tsx:129
 msgid "Latest 100 predictions · refreshes every 30 seconds"
 msgstr ""
 
@@ -361,7 +361,7 @@ msgstr "ஒரே உள்ளூர் பகுதியிலிருந்�
 msgid "Loading OpenStreetMap…"
 msgstr "OpenStreetMap ஏற்றப்படுகிறது…"
 
-#: src/routes/ai-predictions.tsx:191
+#: src/routes/ai-predictions.tsx:170
 msgid "Loading predictions…"
 msgstr ""
 
@@ -397,15 +397,15 @@ msgstr "அதிகபட்சம்"
 msgid "Min"
 msgstr "குறைந்தபட்சம்"
 
-#: src/routes/ai-predictions.tsx:234
+#: src/routes/ai-predictions.tsx:207
 msgid "Model"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:81
+#: src/routes/ai-predictions.tsx:78
 msgid "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:253
+#: src/routes/ai-predictions.tsx:226
 msgid "Model recommendations"
 msgstr ""
 
@@ -421,7 +421,7 @@ msgstr "மண்ணைக் குளிர்விக்க தழைக்�
 msgid "N"
 msgstr "N"
 
-#: src/routes/ai-predictions.tsx:208
+#: src/routes/ai-predictions.tsx:181
 msgid "New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model."
 msgstr ""
 
@@ -445,16 +445,12 @@ msgstr "நைட்ரஜன் குறைவு — வெளிறிய �
 msgid "Nitrogen low"
 msgstr "நைட்ரஜன் குறைவு"
 
-#: src/routes/ai-predictions.tsx:200
-msgid "No closed predictions"
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:198
+#: src/routes/ai-predictions.tsx:176
 msgid "No matching predictions"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:201
-msgid "No open predictions"
+#: src/routes/ai-predictions.tsx:176
+msgid "No predictions yet"
 msgstr ""
 
 #: src/routes/index.tsx:243
@@ -496,10 +492,6 @@ msgstr "சரி"
 #: src/lib/farm-tasks.ts:62
 msgid "Open drains and stop irrigating"
 msgstr "வடிகால்களைத் திறந்து நீர்ப்பாசனத்தை நிறுத்தவும்"
-
-#: src/routes/ai-predictions.tsx:151
-msgid "Open predictions"
-msgstr ""
 
 #: src/components/dashboard/osm-map.tsx:338
 msgid "OpenStreetMap of the study area with sampling spots"
@@ -553,6 +545,10 @@ msgstr "வலதுபுறம் நகர்த்து"
 msgid "Pan up"
 msgstr "மேலே நகர்த்து"
 
+#: src/routes/ai-predictions.tsx:243
+msgid "Permanently delete this prediction"
+msgstr ""
+
 #: src/lib/i18n/sensor-text.ts:27
 msgid "pH"
 msgstr "pH"
@@ -581,7 +577,7 @@ msgstr "பாஸ்பரஸ் குறைவு — வேர்களும
 msgid "Phosphorus low"
 msgstr "பாஸ்பரஸ் குறைவு"
 
-#: src/routes/ai-predictions.tsx:182
+#: src/routes/ai-predictions.tsx:161
 msgid "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
 msgstr ""
 
@@ -605,23 +601,15 @@ msgstr "பொட்டாசியம் குறைவு — பயிர்
 msgid "Potassium low"
 msgstr "பொட்டாசியம் குறைவு"
 
-#: src/routes/ai-predictions.tsx:235
+#: src/routes/ai-predictions.tsx:208
 msgid "Predicted"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:169
-msgid "Prediction closed. You can reopen it from Closed predictions."
+#: src/routes/ai-predictions.tsx:149
+msgid "Prediction deleted."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:170
-msgid "Prediction reopened."
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:207
-msgid "Predictions you close will appear here. You can reopen them at any time."
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:236
+#: src/routes/ai-predictions.tsx:209
 msgid "Probe"
 msgstr ""
 
@@ -637,11 +625,11 @@ msgstr "ஆய்வு 02 · மேட்டு நில வழி"
 msgid "Probe 03 · Perennial route"
 msgstr "ஆய்வு 03 · பல்லாண்டுப் பயிர் வழி"
 
-#: src/routes/ai-predictions.tsx:139
+#: src/routes/ai-predictions.tsx:136
 msgid "Probe, crop, spot or model…"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:318
+#: src/routes/ai-predictions.tsx:288
 msgid "Read received results with"
 msgstr ""
 
@@ -653,7 +641,7 @@ msgstr "அளவீடுகள்"
 msgid "Recenter on study area"
 msgstr "ஆய்விடத்திற்கு மையப்படுத்து"
 
-#: src/routes/ai-predictions.tsx:95
+#: src/routes/ai-predictions.tsx:92
 msgid "Refresh"
 msgstr ""
 
@@ -669,10 +657,6 @@ msgstr "மீண்டும் உருவாக்குகிறது…"
 msgid "Region"
 msgstr "பகுதி"
 
-#: src/routes/ai-predictions.tsx:279
-msgid "Reopen prediction"
-msgstr ""
-
 #: src/components/dashboard/osm-map.tsx:442
 msgid "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
 msgstr "வளையங்கள் ஒவ்வொரு மாதிரி இடத்தின் சமீபத்திய அளவீட்டைக் காட்டுகின்றன · சிறு புள்ளிகள் ஒவ்வொரு இடத்தையும் காட்டுகின்றன · வரைபடத் தரவு © <0>OpenStreetMap</0> பங்களிப்பாளர்கள்"
@@ -685,7 +669,7 @@ msgstr "உப்புத்தன்மை அழுத்தம் (> 2.0 dS/
 msgid "Salt is building up in the soil and stressing the crop roots."
 msgstr "மண்ணில் உப்பு சேர்ந்து பயிரின் வேர்களை அழுத்துகிறது."
 
-#: src/routes/ai-predictions.tsx:237
+#: src/routes/ai-predictions.tsx:210
 msgid "Sampling spot"
 msgstr ""
 
@@ -697,11 +681,7 @@ msgstr "மாதிரி இட வரைபடம்"
 msgid "Saturated — check drainage"
 msgstr "நிறைவுற்றது — வடிகாலைச் சரிபார்க்கவும்"
 
-#: src/routes/ai-predictions.tsx:277
-msgid "Saving…"
-msgstr ""
-
-#: src/routes/ai-predictions.tsx:135
+#: src/routes/ai-predictions.tsx:132
 msgid "Search predictions"
 msgstr ""
 
@@ -721,15 +701,15 @@ msgstr "ஒரு சாதனத்தைத் தேர்ந்தெடு�
 msgid "Select device"
 msgstr "சாதனத்தைத் தேர்ந்தெடு"
 
-#: src/routes/ai-predictions.tsx:293
+#: src/routes/ai-predictions.tsx:263
 msgid "Send a JSON result to"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:125
+#: src/routes/ai-predictions.tsx:122
 msgid "Send dummy prediction"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:125
+#: src/routes/ai-predictions.tsx:122
 msgid "Sending…"
 msgstr ""
 
@@ -837,7 +817,7 @@ msgstr "இலக்கு {target}"
 msgid "Temp"
 msgstr "வெப்பநிலை"
 
-#: src/routes/ai-predictions.tsx:102
+#: src/routes/ai-predictions.tsx:99
 msgid "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
 msgstr ""
 
@@ -869,7 +849,7 @@ msgstr "செய்ய வேண்டியவை"
 msgid "Today"
 msgstr "இன்று"
 
-#: src/routes/ai-predictions.tsx:205
+#: src/routes/ai-predictions.tsx:180
 msgid "Try a different probe, crop, spot or model."
 msgstr ""
 
@@ -936,6 +916,6 @@ msgstr "பெரிதாக்கு"
 msgid "Zoom out"
 msgstr "சிறிதாக்கு"
 
-#: src/routes/ai-predictions.tsx:78
+#: src/routes/ai-predictions.tsx:75
 msgid "Zybot_AI Predictions"
 msgstr ""
