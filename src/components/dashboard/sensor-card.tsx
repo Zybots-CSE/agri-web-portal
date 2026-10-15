@@ -13,6 +13,14 @@ import {
   Sprout,
   Flower2,
 } from 'lucide-react'
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from '#/components/ui/popover'
 import { StatusBadge } from './status-badge'
 
 const ICONS: Record<
@@ -152,12 +160,55 @@ export function SensorCard({
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <span
-            title={param.purpose}
-            className="flex size-7 items-center justify-center rounded-full text-sea-ink-soft/70 transition-colors hover:bg-accent hover:text-sea-ink"
-          >
-            <Info className="size-4" />
-          </span>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                aria-label={`About ${param.label}`}
+                className="flex size-7 cursor-pointer items-center justify-center rounded-full text-sea-ink-soft/70 transition-colors hover:bg-accent hover:text-sea-ink focus-visible:ring-2 focus-visible:ring-lagoon focus-visible:outline-none data-[state=open]:bg-accent data-[state=open]:text-sea-ink"
+              >
+                <Info className="size-4" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-72 text-sm">
+              <PopoverHeader>
+                <PopoverTitle className="font-semibold text-sea-ink">
+                  {param.label}
+                </PopoverTitle>
+                <PopoverDescription className="text-sea-ink-soft">
+                  {param.purpose}
+                </PopoverDescription>
+              </PopoverHeader>
+              <div className="mt-3 flex flex-col gap-1.5 border-t border-line pt-3 text-xs">
+                <div className="flex justify-between gap-3">
+                  <span className="text-sea-ink-soft">Target</span>
+                  <span className="font-medium text-sea-ink">
+                    {param.targetLabel}
+                    {param.unit && ` ${param.unit}`}
+                  </span>
+                </div>
+                {param.zones.map((zone) => (
+                  <div
+                    key={`${zone.from}-${zone.to}`}
+                    className="flex items-center justify-between gap-3"
+                  >
+                    <span className="flex items-center gap-1.5 text-sea-ink-soft">
+                      <span
+                        className={cn(
+                          'size-2 shrink-0 rounded-full',
+                          ZONE_BG[zone.level],
+                        )}
+                      />
+                      {zone.label}
+                    </span>
+                    <span className="tabular-nums text-sea-ink">
+                      {zone.from}–{zone.to}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
           {status ? (
             <StatusBadge
               level={status.level}

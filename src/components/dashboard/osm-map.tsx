@@ -1,6 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import type { LayerGroup, Map as LeafletMap } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Crosshair,
+  Maximize2,
+  Minimize2,
+  Minus,
+  Plus,
+  ScanSearch,
+} from 'lucide-react'
 import {
   SENSOR_PARAM_LIST,
   formatValue,
@@ -84,6 +97,38 @@ function popupHtml(r: ReadingDTO): string {
     </div>`
 }
 
+const MIN_ZOOM = 3
+const MAX_ZOOM = 19
+const PAN_STEP_PX = 120
+
+function MapButton({
+  label,
+  onClick,
+  disabled,
+  children,
+}: {
+  label: string
+  onClick: () => void
+  disabled?: boolean
+  children: ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      onClick={onClick}
+      disabled={disabled}
+      className="flex size-8 items-center justify-center text-sea-ink transition-colors hover:bg-sand disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      {children}
+    </button>
+  )
+}
+
+const CONTROL_GROUP =
+  'flex flex-col overflow-hidden rounded-lg border border-line bg-[var(--surface-strong)] shadow-sm backdrop-blur divide-y divide-line'
+
 export function OsmMap({
   center,
   readings,
@@ -98,8 +143,11 @@ export function OsmMap({
   const mapRef = useRef<LeafletMap | null>(null)
   const trailLayerRef = useRef<LayerGroup | null>(null)
   const spotsLayerRef = useRef<LayerGroup | null>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const didFitRef = useRef(false)
   const [ready, setReady] = useState(false)
+  const [zoom, setZoom] = useState(16)
+  const [fullscreen, setFullscreen] = useState(false)
 
   // Latest reading per sampling spot (readings arrive oldest → newest)
   const spotLatest = useMemo(() => {
@@ -116,14 +164,31 @@ export function OsmMap({
       const map = L.map(hostRef.current, {
         center: [center.lat, center.lon],
         zoom: 16,
-        scrollWheelZoom: false,
+        minZoom: MIN_ZOOM,
+        maxZoom: MAX_ZOOM,
+        // Custom zoom buttons are rendered as a React overlay instead
+        zoomControl: false,
+        scrollWheelZoom: true,
+        wheelPxPerZoomLevel: 90,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        doubleClickZoom: true,
+        boxZoom: true,
+        touchZoom: true,
+        dragging: true,
+        inertia: true,
+        keyboard: true,
+        keyboardPanDelta: PAN_STEP_PX,
         preferCanvas: true,
       })
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        maxZoom: MAX_ZOOM,
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
       }).addTo(map)
+      L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map)
+      map.on('zoomend', () => setZoom(map.getZoom()))
+      setZoom(map.getZoom())
       mapRef.current = map
       // The container may still be mid-layout on first paint
       requestAnimationFrame(() => map.invalidateSize())
@@ -203,14 +268,124 @@ export function OsmMap({
     }
   }, [ready, readings, spotLatest, selectedDeviceId])
 
+  /* Keep Leaflet's size in sync with fullscreen toggles */
+  useEffect(() => {
+    const onChange = () => {
+      setFullscreen(document.fullscreenElement === wrapperRef.current)
+      requestAnimationFrame(() => mapRef.current?.invalidateSize())
+    }
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
+
+  const zoomBy = (delta: number) => mapRef.current?.zoomIn(delta)
+  const panBy = (x: number, y: number) => mapRef.current?.panBy([x, y])
+
+  const fitSpots = () => {
+    const map = mapRef.current
+    if (!map) return
+    if (spotLatest.length === 0) {
+      map.setView([center.lat, center.lon], 16)
+      return
+    }
+    map.fitBounds(
+      spotLatest.map((r) => [r.lat, r.lon] as [number, number]),
+      { padding: [28, 28], maxZoom: 17 },
+    )
+  }
+
+  const recenter = () => mapRef.current?.setView([center.lat, center.lon], 16)
+
+  const toggleFullscreen = () => {
+    const el = wrapperRef.current
+    if (!el) return
+    if (document.fullscreenElement) void document.exitFullscreen()
+    else void el.requestFullscreen()
+  }
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative h-[400px] overflow-hidden rounded-xl border border-line">
+      <div
+        ref={wrapperRef}
+        className={cn(
+          'relative overflow-hidden border border-line bg-sand',
+          fullscreen ? 'h-full w-full' : 'h-[400px] rounded-xl',
+        )}
+      >
         <div
           ref={hostRef}
           className="absolute inset-0 z-0"
           aria-label="OpenStreetMap of the study area with sampling spots"
         />
+        {ready && (
+          <>
+            <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
+              <div className={CONTROL_GROUP}>
+                <MapButton
+                  label="Zoom in"
+                  onClick={() => zoomBy(1)}
+                  disabled={zoom >= MAX_ZOOM}
+                >
+                  <Plus className="size-4" />
+                </MapButton>
+                <div className="flex h-6 items-center justify-center text-[10px] font-semibold tabular-nums text-sea-ink-soft">
+                  {zoom.toFixed(zoom % 1 === 0 ? 0 : 1)}
+                </div>
+                <MapButton
+                  label="Zoom out"
+                  onClick={() => zoomBy(-1)}
+                  disabled={zoom <= MIN_ZOOM}
+                >
+                  <Minus className="size-4" />
+                </MapButton>
+              </div>
+              <div className={CONTROL_GROUP}>
+                <MapButton label="Fit all sampling spots" onClick={fitSpots}>
+                  <ScanSearch className="size-4" />
+                </MapButton>
+                <MapButton label="Recenter on study area" onClick={recenter}>
+                  <Crosshair className="size-4" />
+                </MapButton>
+                <MapButton
+                  label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                  onClick={toggleFullscreen}
+                >
+                  {fullscreen ? (
+                    <Minimize2 className="size-4" />
+                  ) : (
+                    <Maximize2 className="size-4" />
+                  )}
+                </MapButton>
+              </div>
+            </div>
+
+            <div className="absolute bottom-8 right-3 z-10 grid grid-cols-3 overflow-hidden rounded-lg border border-line bg-[var(--surface-strong)] shadow-sm backdrop-blur">
+              <span />
+              <MapButton label="Pan up" onClick={() => panBy(0, -PAN_STEP_PX)}>
+                <ChevronUp className="size-4" />
+              </MapButton>
+              <span />
+              <MapButton
+                label="Pan left"
+                onClick={() => panBy(-PAN_STEP_PX, 0)}
+              >
+                <ChevronLeft className="size-4" />
+              </MapButton>
+              <span />
+              <MapButton
+                label="Pan right"
+                onClick={() => panBy(PAN_STEP_PX, 0)}
+              >
+                <ChevronRight className="size-4" />
+              </MapButton>
+              <span />
+              <MapButton label="Pan down" onClick={() => panBy(0, PAN_STEP_PX)}>
+                <ChevronDown className="size-4" />
+              </MapButton>
+              <span />
+            </div>
+          </>
+        )}
         {!ready && (
           <div className="absolute inset-0 flex items-center justify-center bg-sand/60 text-sm text-sea-ink-soft">
             Loading OpenStreetMap…
@@ -230,6 +405,10 @@ export function OsmMap({
         <span className="flex items-center gap-1.5">
           <span className={cn('size-2.5 rounded-full', STATUS_DOT.critical)} />{' '}
           Alert
+        </span>
+        <span className="w-full text-center">
+          Drag to move · scroll, pinch or double-click to zoom · Shift-drag to
+          zoom to an area · arrow keys pan when the map is focused
         </span>
         <span className="w-full text-center">
           Rings show the latest reading per sampling spot · small dots show

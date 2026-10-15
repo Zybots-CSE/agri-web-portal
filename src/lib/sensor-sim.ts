@@ -15,15 +15,17 @@ import type { ParamKey, SensorValues } from './sensor-rules'
  * Soil chemistry belongs to the PLOT, not the probe, so values are
  * produced by a deterministic, time-based model per plot:
  *
- *   value(t) = midpoint + slow oscillation (days-scale)
- *            ± diurnal cycle (temp / moisture)
- *            + scheduled events (irrigation, fertilisation)
- *            + probe-specific measurement noise
+ *   value(t) = midpoint + smooth random drift (hours → days scale)
+ *            ± asymmetric diurnal cycle, damped on cloudy days
+ *            + irrigation / fertiliser events (ramp up, decay)
+ *            + cross-parameter coupling (wetness → EC, NPK, temp)
+ *            + probe calibration bias + Gaussian measurement noise
  *
- * The reading index drives the walk: reading i lands on
- * `route[i mod route.length]`, jittered around the plot centre — so the
- * seeded history and the live "Simulate reading" action produce one
- * continuous timeline.
+ * The reading index drives the walk: the operator works one plot for a
+ * session of several readings (3–9 h), then moves to the next plot on the
+ * route. Each reading is jittered around the plot centre, and the seeded
+ * history and the live "Simulate reading" action produce one continuous
+ * timeline.
  */
 
 export type PlotProfile = {
@@ -293,88 +295,153 @@ function hash01(str: string): number {
   return (hashString(str) % 100000) / 100000
 }
 
-/* ------------------------------ Event model ------------------------------- */
+/* ------------------------------ Noise model -------------------------------- */
+
+const HOUR_MS = 3600_000
 
 /**
- * Find the most recent scheduled event before `tMs`.
- * A slot fires when hash01(key + slot) < probability; the exact event time
- * sits at a hashed offset inside the slot.
+ * Smooth 1-D value noise in roughly [-1, 1]: hashed random knots every
+ * `knotHours`, joined with a Catmull-Rom spline so the curve wanders
+ * irregularly instead of repeating like a sine wave.
  */
-function lastEventBefore(
-  key: string,
-  tMs: number,
-  everyHours: number,
-  probability: number,
-): number | null {
-  const slotMs = everyHours * 3600_000
-  const slot = Math.floor(tMs / slotMs)
-  for (let i = 0; i < 12; i++) {
-    const s = slot - i
-    if (hash01(`${key}:slot:${s}`) < probability) {
-      const offset = hash01(`${key}:slot:${s}:offset`) * (slotMs - 1)
-      const eventTime = s * slotMs + offset
-      if (eventTime <= tMs) return eventTime
-    }
-  }
-  return null
+function valueNoise(key: string, tMs: number, knotHours: number): number {
+  const x = tMs / (knotHours * HOUR_MS)
+  const i = Math.floor(x)
+  const f = x - i
+  const k = (n: number) => hash01(`${key}:${n}`) * 2 - 1
+  const p0 = k(i - 1)
+  const p1 = k(i)
+  const p2 = k(i + 1)
+  const p3 = k(i + 2)
+  return (
+    0.5 *
+    (2 * p1 +
+      (-p0 + p2) * f +
+      (2 * p0 - 5 * p1 + 4 * p2 - p3) * f * f +
+      (-p0 + 3 * p1 - 3 * p2 + p3) * f * f * f)
+  )
 }
 
-/** Event boost with exponential decay since the last event, in ms-space */
-function eventBoost(
+/** Two-octave drift: a slow multi-day trend plus a faster wobble */
+function drift(
   key: string,
   tMs: number,
-  cfg: {
-    everyHours: number
-    probability: number
-    boost: number
-    decayHours: number
-  },
+  slowHours: number,
+  fastHours: number,
+  fastWeight: number,
 ): number {
-  const last = lastEventBefore(key, tMs, cfg.everyHours, cfg.probability)
-  if (last === null) return 0
-  const decayMs = cfg.decayHours * 3600_000
-  return cfg.boost * Math.exp(-(tMs - last) / decayMs)
+  return (
+    (1 - fastWeight) * valueNoise(`${key}:slow`, tMs, slowHours) +
+    fastWeight * valueNoise(`${key}:fast`, tMs, fastHours)
+  )
+}
+
+/** Standard normal sample (Box–Muller) from a uniform PRNG */
+function gaussian(rnd: () => number): number {
+  const u = Math.max(rnd(), 1e-9)
+  const v = rnd()
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v)
+}
+
+/* ------------------------------ Event model ------------------------------- */
+
+type EventSchedule = { everyHours: number; probability: number }
+
+/**
+ * Scheduled events (irrigation, rain, fertiliser) that happened within
+ * `lookbackHours` before `tMs`. A slot fires when hash01(key + slot) <
+ * probability; the exact event time sits at a hashed offset in the slot.
+ */
+function eventsBefore(
+  key: string,
+  tMs: number,
+  cfg: EventSchedule,
+  lookbackHours: number,
+): Array<{ at: number; size: number }> {
+  const slotMs = cfg.everyHours * HOUR_MS
+  const slot = Math.floor(tMs / slotMs)
+  const slots = Math.ceil(lookbackHours / cfg.everyHours) + 1
+  const out: Array<{ at: number; size: number }> = []
+  for (let i = 0; i < slots; i++) {
+    const s = slot - i
+    if (hash01(`${key}:slot:${s}`) >= cfg.probability) continue
+    const at = s * slotMs + hash01(`${key}:slot:${s}:offset`) * (slotMs - 1)
+    // Not every event is the same size (a light shower vs. a full flood)
+    const size = 0.55 + 0.45 * hash01(`${key}:slot:${s}:size`)
+    if (at <= tMs) out.push({ at, size })
+  }
+  return out
+}
+
+/**
+ * Summed response of all recent events: each one ramps up over `riseHours`
+ * (water soaking in, granules dissolving) and then decays exponentially.
+ */
+function eventResponse(
+  key: string,
+  tMs: number,
+  cfg: EventSchedule,
+  riseHours: number,
+  decayHours: number,
+): number {
+  let total = 0
+  for (const e of eventsBefore(key, tMs, cfg, decayHours * 5)) {
+    const dtH = (tMs - e.at) / HOUR_MS
+    total +=
+      e.size * (1 - Math.exp(-dtH / riseHours)) * Math.exp(-dtH / decayHours)
+  }
+  return total
 }
 
 /* ------------------------------ Core generator ----------------------------- */
 
+/** Per-reading measurement + spot-to-spot scatter (1 σ) */
 const NOISE: Record<ParamKey, number> = {
-  ph: 0.06,
-  ec: 0.05,
-  moisture: 0.9,
-  temperature: 0.35,
-  nitrogen: 2.5,
-  phosphorus: 1.5,
-  potassium: 3,
+  ph: 0.04,
+  ec: 0.03,
+  moisture: 0.6,
+  temperature: 0.2,
+  nitrogen: 2.2,
+  phosphorus: 1.2,
+  potassium: 3.5,
 }
 
-function bandMid([lo, hi]: [number, number]): number {
-  return (lo + hi) / 2
+const bandMid = ([lo, hi]: [number, number]) => (lo + hi) / 2
+const bandHalf = ([lo, hi]: [number, number]) => (hi - lo) / 2
+
+/** Local hour of day in Asia/Colombo (UTC+5:30) */
+function localHour(tMs: number): number {
+  return (((tMs / HOUR_MS + 5.5) % 24) + 24) % 24
 }
 
-function bandHalf([lo, hi]: [number, number]): number {
-  return (hi - lo) / 2
+/**
+ * Asymmetric day curve in [-1, 1]: minimum at `minHour`, a fairly quick
+ * warm-up to `peakHour`, then a long slow cool-down through the night —
+ * the way soil temperature actually behaves.
+ */
+function dayCurve(tMs: number, minHour: number, peakHour: number): number {
+  const rise = peakHour - minHour
+  const d = (((localHour(tMs) - minHour) % 24) + 24) % 24
+  return d < rise
+    ? -Math.cos((Math.PI * d) / rise)
+    : Math.cos((Math.PI * (d - rise)) / (24 - rise))
 }
 
-/** Slow multi-day oscillation phase/period derived from plot + param */
-function slowWave(plot: PlotProfile, param: ParamKey, tMs: number): number {
-  const seed = hashString(`${plot.id}:${param}`)
-  const periodDays = 2 + (seed % 4) // 2–5 day cycles
-  const phase = (seed % 997) / 997
-  return Math.sin(
-    (tMs / (periodDays * 86_400_000)) * Math.PI * 2 + phase * Math.PI * 2,
-  )
-}
-
-/** Diurnal cycle: returns 0..1..0 with peak at `peakHour` local time */
-function diurnal(tMs: number, peakHour: number): number {
-  // Use UTC+5:30 (Asia/Colombo) for the demo day cycle
-  const hour = (((tMs / 3600_000 + 5.5) % 24) + 24) % 24
-  return Math.sin(((hour - peakHour + 6) / 24) * Math.PI * 2)
+/** Sun-driven evaporation weight: 0 at night, peaking early afternoon */
+function sunWeight(tMs: number): number {
+  const h = localHour(tMs)
+  return h < 6.5 || h > 18.5 ? 0 : Math.sin(((h - 6.5) / 12) * Math.PI)
 }
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v))
+
+/** Clamp that eases into the limits instead of producing flat plateaus */
+function softClamp(v: number, lo: number, hi: number, margin: number): number {
+  if (v > hi) return hi + margin * Math.tanh((v - hi) / margin)
+  if (v < lo) return lo - margin * Math.tanh((lo - v) / margin)
+  return v
+}
 
 export function roundFor(param: ParamKey, v: number): number {
   switch (param) {
@@ -392,6 +459,11 @@ export function roundFor(param: ParamKey, v: number): number {
 /**
  * Generate the reading values for a plot at a point in time, as measured
  * by a specific probe. Deterministic: same (plot, probe, t) → same values.
+ *
+ * The parameters are coupled the way they are in a real field: irrigation
+ * wets and cools the soil, wetter soil reads higher bulk EC and NPK,
+ * fertiliser raises EC and urea briefly acidifies the soil, and cloudy
+ * days flatten the temperature curve.
  */
 export function simulatePlotValues(
   plot: PlotProfile,
@@ -399,67 +471,109 @@ export function simulatePlotValues(
   at: Date,
 ): SensorValues {
   const t = at.getTime()
-  const noiseRnd = mulberry32(hashString(`${probeId}:${plot.id}:${t}`))
+  const b = plot.bands
+  const rnd = mulberry32(hashString(`${probeId}:${plot.id}:${t}`))
+  /** Fixed calibration offset of this particular probe */
+  const bias = (param: ParamKey) =>
+    (hash01(`${probeId}:bias:${param}`) * 2 - 1) * NOISE[param] * 0.8
+  const noisy = (param: ParamKey, v: number) =>
+    v + bias(param) + gaussian(rnd) * NOISE[param]
+  const key = (s: string) => `${plot.id}:${s}`
+
+  /* Moisture: dries down between irrigation / rain events */
+  const [mLo, mHi] = b.moisture
+  const mRange = mHi - mLo
+  const wetting = eventResponse(
+    key('irrigation'),
+    t,
+    plot.irrigation,
+    0.75,
+    plot.irrigation.decayHours,
+  )
+  let moisture =
+    mLo +
+    mRange * 0.28 +
+    mRange * 0.26 * drift(key('moisture'), t, 40, 9, 0.3) +
+    plot.irrigation.boost * wetting -
+    1.6 * sunWeight(t)
+  moisture = softClamp(moisture, mLo - 2, mHi + 4, 2)
+  /** -0.5 … +0.5 relative wetness, used to couple the other parameters */
+  const wet = (moisture - bandMid(b.moisture)) / mRange
+
+  /* Temperature: daily mean drifts with the weather, clouds damp the swing */
+  const sunny = 0.5 + 0.5 * (valueNoise(key('cloud'), t, 20) * 0.5 + 0.5)
+  let temperature =
+    bandMid(b.temperature) +
+    bandHalf(b.temperature) *
+      0.45 *
+      drift(key('temperature'), t, 60, 14, 0.25) +
+    (sunny - 0.75) * 2.5 +
+    plot.diurnalAmp * sunny * dayCurve(t, 6, 14.5) -
+    1.8 * wetting
+  temperature = softClamp(
+    temperature,
+    b.temperature[0] - 2,
+    b.temperature[1] + 2,
+    1,
+  )
+
+  /* Fertiliser applications (granules dissolve over a few hours) */
+  const fert = (name: string) =>
+    eventResponse(key(name), t, plot.fertiliser, 4, plot.fertiliser.decayHours)
+  const urea = fert('urea')
+  const tsp = fert('tsp')
+  const mop = fert('mop')
+
+  /* pH: very slow drift; urea hydrolysis gives a short acid dip */
+  const ph =
+    bandMid(b.ph) +
+    bandHalf(b.ph) * 1.4 * drift(key('ph'), t, 72, 18, 0.2) -
+    0.12 * urea
+
+  /* EC: follows soil water and dissolved fertiliser salts */
+  const ec =
+    bandMid(b.ec) +
+    bandHalf(b.ec) * 1.3 * drift(key('ec'), t, 50, 12, 0.25) +
+    bandHalf(b.ec) * 0.5 * wet +
+    bandHalf(b.ec) * 0.25 * (urea + mop)
+
+  /* NPK: slow drift + fertiliser pulses; probe readings scale with wetness */
+  const npk = (
+    param: 'nitrogen' | 'phosphorus' | 'potassium',
+    pulse: number,
+    boost: number,
+  ) =>
+    (bandMid(b[param]) +
+      bandHalf(b[param]) * 1.3 * drift(key(param), t, 48, 10, 0.25) +
+      boost * pulse) *
+    (1 + 0.22 * wet)
+
+  const raw: Record<ParamKey, number> = {
+    ph,
+    ec,
+    moisture,
+    temperature,
+    nitrogen: npk('nitrogen', urea, 32),
+    phosphorus: npk('phosphorus', tsp, 11),
+    potassium: npk('potassium', mop, 24),
+  }
 
   const result = {} as Record<ParamKey, number>
-
-  for (const param of Object.keys(plot.bands) as ParamKey[]) {
-    const band = plot.bands[param]
-    const mid = bandMid(band)
+  for (const param of Object.keys(raw) as ParamKey[]) {
+    const band = b[param]
     const half = bandHalf(band)
-    let v = mid + half * 0.92 * slowWave(plot, param, t)
-
-    switch (param) {
-      case 'temperature': {
-        // Day peaks ~14:00, overnight minimum
-        v += plot.diurnalAmp * diurnal(t, 14)
-        break
-      }
-      case 'moisture': {
-        // Midday evaporation dip + irrigation/rain events
-        v -= 2.2 * diurnal(t, 15)
-        v += eventBoost(`${plot.id}:irrigation`, t, plot.irrigation)
-        break
-      }
-      case 'nitrogen': {
-        v += eventBoost(`${plot.id}:urea`, t, {
-          ...plot.fertiliser,
-          boost: 32,
-        })
-        break
-      }
-      case 'phosphorus': {
-        v += eventBoost(`${plot.id}:tsp`, t, {
-          ...plot.fertiliser,
-          boost: 11,
-        })
-        break
-      }
-      case 'potassium': {
-        v += eventBoost(`${plot.id}:mop`, t, {
-          ...plot.fertiliser,
-          boost: 24,
-        })
-        break
-      }
-      default:
-        break
-    }
-
-    // Probe-specific sensor noise
-    v += (noiseRnd() - 0.5) * 2 * NOISE[param]
-    // Allow events to overshoot the typical band slightly, but stay plausible
-    v = clamp(
-      v,
+    const v = softClamp(
+      noisy(param, raw[param]),
       band[0] - Math.min(half * 0.25, 1.5),
-      band[1] + Math.min(half * 0.25, 3),
+      band[1] + Math.min(half * 0.3, 4),
+      Math.max(half * 0.08, 0.02),
     )
     result[param] = roundFor(param, v)
   }
 
   return {
     ph: result.ph,
-    ec: result.ec,
+    ec: Math.max(0, result.ec),
     moisture: result.moisture,
     temperature: result.temperature,
     nitrogen: result.nitrogen,
@@ -470,12 +584,32 @@ export function simulatePlotValues(
 
 /* ------------------------------- Probe walk -------------------------------- */
 
-/** The plot the probe's `readingIndex`-th placement lands on */
+/** Readings a probe takes on one plot before the operator moves on */
+const DWELL_MIN = 6 // 3 h at 30-min cadence
+const DWELL_SPREAD = 13 // up to 9 h
+
+/**
+ * The plot the probe's `readingIndex`-th placement lands on. The operator
+ * works one plot for a session (several readings at spots around it)
+ * before carrying the probe to the next plot on the route, so each plot
+ * shows up as a continuous stretch in the chart rather than alternating
+ * on every reading.
+ */
 export function probeRouteAt(
   probe: ProbeProfile,
   readingIndex: number,
 ): PlotProfile {
-  const plotId = probe.route[readingIndex % probe.route.length]!
+  let start = 0
+  let visit = 0
+  for (;;) {
+    const len =
+      DWELL_MIN +
+      Math.floor(hash01(`${probe.id}:dwell:${visit}`) * DWELL_SPREAD)
+    if (readingIndex < start + len) break
+    start += len
+    visit++
+  }
+  const plotId = probe.route[visit % probe.route.length]!
   const plot = FARM_PLOTS.find((p) => p.id === plotId)
   if (!plot) throw new Error(`Unknown plot on route: ${probe.id} → ${plotId}`)
   return plot

@@ -86,7 +86,10 @@ export function TrendChart({
   // X labels: 5 evenly spaced points
   const xTickCount = Math.min(5, points.length)
   const xTicks = Array.from({ length: xTickCount }, (_, i) => {
-    const idx = Math.round((i / (xTickCount - 1)) * (points.length - 1))
+    const idx =
+      xTickCount > 1
+        ? Math.round((i / (xTickCount - 1)) * (points.length - 1))
+        : 0
     return points[idx]!
   })
 
@@ -247,6 +250,14 @@ export function TrendChart({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
+          {points.length === 1 && (
+            <circle
+              cx={xOf(points[0]!.t)}
+              cy={yOf(points[0]!.v)}
+              r="4"
+              fill="var(--lagoon-deep)"
+            />
+          )}
 
           {/* Hover crosshair */}
           {hoverPoint && (

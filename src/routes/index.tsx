@@ -45,6 +45,7 @@ import { SensorCard } from '#/components/dashboard/sensor-card'
 import { TrendChart } from '#/components/dashboard/trend-chart'
 import { OsmMap } from '#/components/dashboard/osm-map'
 import { StatusBadge, STATUS_DOT } from '#/components/dashboard/status-badge'
+import { TodoList } from '#/components/dashboard/todo-list'
 
 /* ------------------------------- data wiring ------------------------------ */
 
@@ -229,6 +230,27 @@ function DashboardPage() {
             </span>
             Live · refresh 30s
           </span>
+          <Button
+            variant="outline"
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Wipe all probes and readings and regenerate a week of demo data?',
+                )
+              ) {
+                seedMutation.mutate()
+              }
+            }}
+            disabled={seedMutation.isPending || simulateMutation.isPending}
+          >
+            <DatabaseZap
+              className={cn(
+                'size-4',
+                seedMutation.isPending && 'animate-pulse',
+              )}
+            />
+            {seedMutation.isPending ? 'Regenerating…' : 'Regenerate demo data'}
+          </Button>
           {selectedDevice && (
             <Button
               onClick={() => simulateMutation.mutate()}
@@ -245,6 +267,9 @@ function DashboardPage() {
           )}
         </div>
       </header>
+
+      {/* Farmer to-do list */}
+      <TodoList readings={allReadings} />
 
       {/* Device context bar */}
       <section className="island-shell flex flex-wrap items-center gap-4 rounded-2xl p-5">
