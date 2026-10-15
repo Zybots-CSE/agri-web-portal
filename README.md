@@ -163,3 +163,12 @@ rendered with Leaflet.
 3. Set `DATABASE_URL` under **Settings → Environment Variables** — the same
    Neon connection string as `.env.local`. The pooled endpoint + TLS make it
    safe for serverless functions; no other production setup is needed
+
+## AI predictions — AgriCSE / Zybots
+
+Open `/ai-predictions` to view model outputs, confidence, sampling spot context,
+and recommendations. Apply `npm run db:migrate` to add prediction storage.
+Your model sends results to `POST /api/predictions`; `GET /api/predictions`
+returns the latest 100, optionally filtered by `deviceId`. The page refreshes
+every 30 seconds. See [the integration guide](docs/ai-predictions.md) for the
+payload format and a Python example.
