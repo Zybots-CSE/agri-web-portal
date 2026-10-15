@@ -45,3 +45,10 @@ export const simulateNextReading = createServerFn({ method: 'POST' })
 export const seedDemoData = createServerFn({ method: 'POST' }).handler(() =>
   svc.seedDemoData(),
 )
+
+export const getPredictions = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { listPredictions } = await import('./predictions')
+    return listPredictions()
+  },
+)

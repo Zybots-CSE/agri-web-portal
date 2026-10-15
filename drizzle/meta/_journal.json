@@ -8,6 +8,13 @@
       "when": 1791869779783,
       "tag": "0000_solid_pestilence",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792067708116,
+      "tag": "0001_handy_red_hulk",
+      "breakpoints": true
     }
   ]
 }

@@ -58,3 +58,25 @@ export const readings = pgTable(
     index('readings_recorded_idx').on(t.recordedAt),
   ],
 )
+
+/** Model outputs keep their original probe/spot labels even if demo probes reset. */
+export const predictions = pgTable(
+  'predictions',
+  {
+    id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
+    model: text('model').notNull(),
+    title: text('title').notNull(),
+    category: text('category').notNull(),
+    summary: text('summary').notNull(),
+    confidence: doublePrecision('confidence'),
+    deviceId: text('device_id'),
+    spot: text('spot'),
+    crop: text('crop'),
+    recommendations: text('recommendations').array().notNull(),
+    predictedAt: timestamp('predicted_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index('predictions_created_idx').on(t.createdAt)],
+)
