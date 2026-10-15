@@ -46,9 +46,16 @@ export const seedDemoData = createServerFn({ method: 'POST' }).handler(() =>
   svc.seedDemoData(),
 )
 
-export const getPredictions = createServerFn({ method: 'GET' }).handler(
-  async () => {
+export const getPredictions = createServerFn({ method: 'GET' })
+  .validator(z.object({ closed: z.boolean().optional() }))
+  .handler(async ({ data }) => {
     const { listPredictions } = await import('./predictions')
-    return listPredictions()
-  },
-)
+    return listPredictions(undefined, data.closed)
+  })
+
+export const updatePredictionStatus = createServerFn({ method: 'POST' })
+  .validator(z.object({ id: z.number().int().positive(), closed: z.boolean() }))
+  .handler(async ({ data }) => {
+    const { setPredictionClosed } = await import('./predictions')
+    return setPredictionClosed(data.id, data.closed)
+  })

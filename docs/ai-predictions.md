@@ -1,7 +1,8 @@
 # AgriCSE / Zybots AI predictions
 
 Open `/ai-predictions` from the main navigation. The page displays stored model
-outputs, newest received first (up to 100), and refreshes every 30 seconds.
+outputs, newest received first (up to 100 per open/closed view), and refreshes
+every 30 seconds.
 It does not train or run an AI model. Output text is displayed as supplied by
 that model; confidence is model-reported, not independently calibrated.
 
@@ -50,3 +51,14 @@ GPS remains attached to source readings, not the probe or prediction.
 Like the existing sensor endpoints, this endpoint currently has no authentication.
 Add authentication before exposing ingestion to untrusted clients. Send requests
 from the model backend; cross-origin browser ingestion is not configured.
+
+## Close older predictions
+
+Use **Close prediction** on a card to move it out of the default **Open
+predictions** view. The change is saved in the database and survives refreshes.
+Select **Closed predictions** to review older results and choose **Reopen
+prediction** to bring one back. Closing never deletes the prediction.
+
+Apply `npm run db:migrate` to add the `closed` column. Existing and newly
+received predictions start open. The read API continues returning both open
+and closed results and includes a `closed` boolean on each result.

@@ -12,7 +12,7 @@ msgid "(click to expand)"
 msgstr "(විහිදීමට ක්ලික් කරන්න)"
 
 #. placeholder {0}: Math.round(p.confidence * 100)
-#: src/routes/ai-predictions.tsx:185
+#: src/routes/ai-predictions.tsx:225
 msgid "{0}% model confidence"
 msgstr ""
 
@@ -148,6 +148,14 @@ msgstr "මිරිස්"
 msgid "Chilli Nursery"
 msgstr "මිරිස් තවාන"
 
+#: src/routes/ai-predictions.tsx:280
+msgid "Close prediction"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:158
+msgid "Closed predictions"
+msgstr ""
+
 #: src/lib/farm-tasks.ts:67
 msgid "Cold soil slows roots and soil life, so fertiliser is used poorly."
 msgstr "සීතල පස මුල් සහ පාංශු ජීවීන්ගේ ක්‍රියාකාරිත්වය අඩාල කරයි, එබැවින් පොහොර හොඳින් භාවිත නොවේ."
@@ -164,15 +172,15 @@ msgstr "කොම්පෝස්ට් පෙරළීම"
 msgid "Compost Yard"
 msgstr "කොම්පෝස්ට් අංගනය"
 
-#: src/routes/ai-predictions.tsx:239
+#: src/routes/ai-predictions.tsx:295
 msgid "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:184
+#: src/routes/ai-predictions.tsx:224
 msgid "Confidence not provided"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:233
+#: src/routes/ai-predictions.tsx:289
 msgid "Connect your AI model"
 msgstr ""
 
@@ -180,15 +188,19 @@ msgstr ""
 msgid "Corrects raw EC and pH drift before feeding values into algorithms."
 msgstr "ඇල්ගොරිතම වෙත අගයන් ලබා දීමට පෙර අමු EC සහ pH ප්ලාවනය නිවැරදි කරයි."
 
-#: src/routes/ai-predictions.tsx:143
+#: src/routes/ai-predictions.tsx:179
 msgid "Could not load predictions"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:101
+#: src/routes/ai-predictions.tsx:109
 msgid "Could not send the dummy prediction. Check the connection and try again."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:198
+#: src/routes/ai-predictions.tsx:163
+msgid "Could not update this prediction. Please try again."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:238
 #: src/routes/index.tsx:401
 msgid "Crop"
 msgstr "බෝගය"
@@ -229,7 +241,7 @@ msgstr "වියළියි — ජල සම්පාදනය නිර්�
 msgid "Dry Zone"
 msgstr "වියළි කලාපය"
 
-#: src/routes/ai-predictions.tsx:109
+#: src/routes/ai-predictions.tsx:117
 msgid "Dummy prediction saved successfully."
 msgstr ""
 
@@ -325,7 +337,7 @@ msgstr "භාෂාව"
 msgid "Last reading"
 msgstr "අවසන් කියවීම"
 
-#: src/routes/ai-predictions.tsx:124
+#: src/routes/ai-predictions.tsx:132
 msgid "Latest 100 predictions · refreshes every 30 seconds"
 msgstr ""
 
@@ -349,7 +361,7 @@ msgstr "එක් ප්‍රාදේශීය ප්‍රදේශයක ස
 msgid "Loading OpenStreetMap…"
 msgstr "OpenStreetMap පූරණය වෙමින්…"
 
-#: src/routes/ai-predictions.tsx:155
+#: src/routes/ai-predictions.tsx:191
 msgid "Loading predictions…"
 msgstr ""
 
@@ -385,15 +397,15 @@ msgstr "උපරිම"
 msgid "Min"
 msgstr "අවම"
 
-#: src/routes/ai-predictions.tsx:194
+#: src/routes/ai-predictions.tsx:234
 msgid "Model"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:73
+#: src/routes/ai-predictions.tsx:81
 msgid "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:213
+#: src/routes/ai-predictions.tsx:253
 msgid "Model recommendations"
 msgstr ""
 
@@ -408,6 +420,10 @@ msgstr "පස සිසිල් කිරීමට වසුන් යොද�
 #: src/lib/i18n/sensor-text.ts:47
 msgid "N"
 msgstr "N"
+
+#: src/routes/ai-predictions.tsx:208
+msgid "New predictions appear here automatically. Send a dummy prediction to test, or connect your AI model."
+msgstr ""
 
 #: src/lib/i18n/sensor-text.ts:46
 msgid "Nitrogen (N)"
@@ -429,8 +445,16 @@ msgstr "නයිට්‍රජන් අඩුයි — කොළ සුද�
 msgid "Nitrogen low"
 msgstr "නයිට්‍රජන් අඩුයි"
 
-#: src/routes/ai-predictions.tsx:162
+#: src/routes/ai-predictions.tsx:200
+msgid "No closed predictions"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:198
 msgid "No matching predictions"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:201
+msgid "No open predictions"
 msgstr ""
 
 #: src/routes/index.tsx:243
@@ -472,6 +496,10 @@ msgstr "හොඳයි"
 #: src/lib/farm-tasks.ts:62
 msgid "Open drains and stop irrigating"
 msgstr "කානු විවෘත කර ජලය දැමීම නවත්වන්න"
+
+#: src/routes/ai-predictions.tsx:151
+msgid "Open predictions"
+msgstr ""
 
 #: src/components/dashboard/osm-map.tsx:338
 msgid "OpenStreetMap of the study area with sampling spots"
@@ -553,7 +581,7 @@ msgstr "පොස්පරස් අඩුයි — මුල් සහ මල�
 msgid "Phosphorus low"
 msgstr "පොස්පරස් අඩුයි"
 
-#: src/routes/ai-predictions.tsx:146
+#: src/routes/ai-predictions.tsx:182
 msgid "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
 msgstr ""
 
@@ -577,11 +605,23 @@ msgstr "පොටෑසියම් අඩුයි — බෝගවල කඳ�
 msgid "Potassium low"
 msgstr "පොටෑසියම් අඩුයි"
 
-#: src/routes/ai-predictions.tsx:195
+#: src/routes/ai-predictions.tsx:235
 msgid "Predicted"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:196
+#: src/routes/ai-predictions.tsx:169
+msgid "Prediction closed. You can reopen it from Closed predictions."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:170
+msgid "Prediction reopened."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:207
+msgid "Predictions you close will appear here. You can reopen them at any time."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:236
 msgid "Probe"
 msgstr ""
 
@@ -597,11 +637,11 @@ msgstr "ප්‍රෝබ 02 · උස්බිම් මාර්ගය"
 msgid "Probe 03 · Perennial route"
 msgstr "ප්‍රෝබ 03 · බහුවාර්ෂික බෝග මාර්ගය"
 
-#: src/routes/ai-predictions.tsx:131
+#: src/routes/ai-predictions.tsx:139
 msgid "Probe, crop, spot or model…"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:262
+#: src/routes/ai-predictions.tsx:318
 msgid "Read received results with"
 msgstr ""
 
@@ -609,15 +649,11 @@ msgstr ""
 msgid "Readings"
 msgstr "කියවීම්"
 
-#: src/routes/ai-predictions.tsx:163
-msgid "Ready for your first prediction"
-msgstr ""
-
 #: src/components/dashboard/osm-map.tsx:366
 msgid "Recenter on study area"
 msgstr "අධ්‍යයන ප්‍රදේශය මැදට ගන්න"
 
-#: src/routes/ai-predictions.tsx:87
+#: src/routes/ai-predictions.tsx:95
 msgid "Refresh"
 msgstr ""
 
@@ -633,6 +669,10 @@ msgstr "නැවත සාදමින්…"
 msgid "Region"
 msgstr "ප්‍රදේශය"
 
+#: src/routes/ai-predictions.tsx:279
+msgid "Reopen prediction"
+msgstr ""
+
 #: src/components/dashboard/osm-map.tsx:442
 msgid "Rings show the latest reading per sampling spot · small dots show every placement · map data © <0>OpenStreetMap</0> contributors"
 msgstr "වළලුවලින් එක් එක් නියැදි ස්ථානයේ නවතම කියවීම පෙන්වයි · කුඩා තිත්වලින් සෑම ස්ථාපනයක්ම පෙන්වයි · සිතියම් දත්ත © <0>OpenStreetMap</0> දායකයින්"
@@ -645,7 +685,7 @@ msgstr "ලවණතා ආතතිය (> 2.0 dS/m)"
 msgid "Salt is building up in the soil and stressing the crop roots."
 msgstr "පසෙහි ලවණ එකතු වෙමින් බෝග මුල්වලට ආතතියක් ඇති කරයි."
 
-#: src/routes/ai-predictions.tsx:197
+#: src/routes/ai-predictions.tsx:237
 msgid "Sampling spot"
 msgstr ""
 
@@ -657,7 +697,11 @@ msgstr "නියැදි ස්ථාන සිතියම"
 msgid "Saturated — check drainage"
 msgstr "සංතෘප්තයි — ජලවහනය පරීක්ෂා කරන්න"
 
-#: src/routes/ai-predictions.tsx:127
+#: src/routes/ai-predictions.tsx:277
+msgid "Saving…"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:135
 msgid "Search predictions"
 msgstr ""
 
@@ -677,15 +721,15 @@ msgstr "උපාංගයක් තෝරන්න"
 msgid "Select device"
 msgstr "උපාංගය තෝරන්න"
 
-#: src/routes/ai-predictions.tsx:237
+#: src/routes/ai-predictions.tsx:293
 msgid "Send a JSON result to"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:117
+#: src/routes/ai-predictions.tsx:125
 msgid "Send dummy prediction"
 msgstr ""
 
-#: src/routes/ai-predictions.tsx:117
+#: src/routes/ai-predictions.tsx:125
 msgid "Sending…"
 msgstr ""
 
@@ -793,7 +837,7 @@ msgstr "ඉලක්කය {target}"
 msgid "Temp"
 msgstr "උෂ්ණත්වය"
 
-#: src/routes/ai-predictions.tsx:94
+#: src/routes/ai-predictions.tsx:102
 msgid "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
 msgstr ""
 
@@ -825,7 +869,7 @@ msgstr "කළ යුතු දේ"
 msgid "Today"
 msgstr "අද"
 
-#: src/routes/ai-predictions.tsx:167
+#: src/routes/ai-predictions.tsx:205
 msgid "Try a different probe, crop, spot or model."
 msgstr ""
 
@@ -880,10 +924,6 @@ msgstr "සියලු ප්‍රෝබ සහ කියවීම් මක�
 msgid "Work in compost or organic matter"
 msgstr "කොම්පෝස්ට් හෝ කාබනික ද්‍රව්‍ය පසට මිශ්‍ර කරන්න"
 
-#: src/routes/ai-predictions.tsx:168
-msgid "Your AI model will send its results here. Predictions appear automatically once received; no model is connected yet."
-msgstr ""
-
 #: src/routes/index.tsx:398
 msgid "Zone"
 msgstr "කලාපය"
@@ -896,6 +936,6 @@ msgstr "විශාලනය කරන්න"
 msgid "Zoom out"
 msgstr "කුඩා කරන්න"
 
-#: src/routes/ai-predictions.tsx:70
+#: src/routes/ai-predictions.tsx:78
 msgid "Zybot_AI Predictions"
 msgstr ""

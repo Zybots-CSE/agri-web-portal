@@ -15,6 +15,13 @@
       "when": 1792067708116,
       "tag": "0001_handy_red_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792072856573,
+      "tag": "0002_wandering_dracula",
+      "breakpoints": true
     }
   ]
 }
