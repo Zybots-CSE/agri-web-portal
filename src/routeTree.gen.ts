@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiPredictionsRouteImport } from './routes/ai-predictions'
 import { Route as ApiDevicesRouteImport } from './routes/api/devices'
+import { Route as ApiPredictionsRouteImport } from './routes/api/predictions'
 import { Route as ApiReadingsRouteImport } from './routes/api/readings'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +20,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiPredictionsRoute = AiPredictionsRouteImport.update({
+  id: '/ai-predictions',
+  path: '/ai-predictions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDevicesRoute = ApiDevicesRouteImport.update({
   id: '/api/devices',
   path: '/api/devices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPredictionsRoute = ApiPredictionsRouteImport.update({
+  id: '/api/predictions',
+  path: '/api/predictions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiReadingsRoute = ApiReadingsRouteImport.update({
@@ -31,31 +43,55 @@ const ApiReadingsRoute = ApiReadingsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-predictions': typeof AiPredictionsRoute
   '/api/devices': typeof ApiDevicesRoute
+  '/api/predictions': typeof ApiPredictionsRoute
   '/api/readings': typeof ApiReadingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-predictions': typeof AiPredictionsRoute
   '/api/devices': typeof ApiDevicesRoute
+  '/api/predictions': typeof ApiPredictionsRoute
   '/api/readings': typeof ApiReadingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-predictions': typeof AiPredictionsRoute
   '/api/devices': typeof ApiDevicesRoute
+  '/api/predictions': typeof ApiPredictionsRoute
   '/api/readings': typeof ApiReadingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/devices' | '/api/readings'
+  fullPaths:
+    | '/'
+    | '/ai-predictions'
+    | '/api/devices'
+    | '/api/predictions'
+    | '/api/readings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/devices' | '/api/readings'
-  id: '__root__' | '/' | '/api/devices' | '/api/readings'
+  to:
+    | '/'
+    | '/ai-predictions'
+    | '/api/devices'
+    | '/api/predictions'
+    | '/api/readings'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-predictions'
+    | '/api/devices'
+    | '/api/predictions'
+    | '/api/readings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiPredictionsRoute: typeof AiPredictionsRoute
   ApiDevicesRoute: typeof ApiDevicesRoute
+  ApiPredictionsRoute: typeof ApiPredictionsRoute
   ApiReadingsRoute: typeof ApiReadingsRoute
 }
 
@@ -68,11 +104,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-predictions': {
+      id: '/ai-predictions'
+      path: '/ai-predictions'
+      fullPath: '/ai-predictions'
+      preLoaderRoute: typeof AiPredictionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/devices': {
       id: '/api/devices'
       path: '/api/devices'
       fullPath: '/api/devices'
       preLoaderRoute: typeof ApiDevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/predictions': {
+      id: '/api/predictions'
+      path: '/api/predictions'
+      fullPath: '/api/predictions'
+      preLoaderRoute: typeof ApiPredictionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/readings': {
@@ -87,7 +137,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiPredictionsRoute: AiPredictionsRoute,
   ApiDevicesRoute: ApiDevicesRoute,
+  ApiPredictionsRoute: ApiPredictionsRoute,
   ApiReadingsRoute: ApiReadingsRoute,
 }
 export const routeTree = rootRouteImport

@@ -11,6 +11,11 @@ msgstr ""
 msgid "(click to expand)"
 msgstr "(click to expand)"
 
+#. placeholder {0}: Math.round(p.confidence * 100)
+#: src/routes/ai-predictions.tsx:185
+msgid "{0}% model confidence"
+msgstr "{0}% model confidence"
+
 #: src/routes/index.tsx:497
 msgid "{paramLabel} — target {target}"
 msgstr "{paramLabel} — target {target}"
@@ -71,13 +76,17 @@ msgstr "Adequate N supply"
 msgid "Adequate P supply"
 msgstr "Adequate P supply"
 
-#: src/routes/__root.tsx:37
+#: src/routes/__root.tsx:38
 msgid "Agri Web Portal — Soil Sensor Dashboard"
 msgstr "Agri Web Portal — Soil Sensor Dashboard"
 
 #: src/routes/index.tsx:276
 msgid "Agri Web Portal · Soil Intelligence"
 msgstr "Agri Web Portal · Soil Intelligence"
+
+#: src/routes/__root.tsx:81
+msgid "AI predictions"
+msgstr "AI predictions"
 
 #: src/components/dashboard/osm-map.tsx:167
 #: src/components/dashboard/osm-map.tsx:433
@@ -127,7 +136,7 @@ msgstr "Apply Urea (nitrogen)"
 msgid "Avg"
 msgstr "Avg"
 
-#: src/routes/__root.tsx:65
+#: src/routes/__root.tsx:88
 msgid "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
 msgstr "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
 
@@ -155,10 +164,31 @@ msgstr "Compost turning"
 msgid "Compost Yard"
 msgstr "Compost Yard"
 
+#: src/routes/ai-predictions.tsx:239
+msgid "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
+msgstr "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
+
+#: src/routes/ai-predictions.tsx:184
+msgid "Confidence not provided"
+msgstr "Confidence not provided"
+
+#: src/routes/ai-predictions.tsx:233
+msgid "Connect your AI model"
+msgstr "Connect your AI model"
+
 #: src/lib/i18n/sensor-text.ts:43
 msgid "Corrects raw EC and pH drift before feeding values into algorithms."
 msgstr "Corrects raw EC and pH drift before feeding values into algorithms."
 
+#: src/routes/ai-predictions.tsx:143
+msgid "Could not load predictions"
+msgstr "Could not load predictions"
+
+#: src/routes/ai-predictions.tsx:101
+msgid "Could not send the dummy prediction. Check the connection and try again."
+msgstr "Could not send the dummy prediction. Check the connection and try again."
+
+#: src/routes/ai-predictions.tsx:198
 #: src/routes/index.tsx:401
 msgid "Crop"
 msgstr "Crop"
@@ -166,6 +196,10 @@ msgstr "Crop"
 #: src/routes/index.tsx:405
 msgid "Current spot"
 msgstr "Current spot"
+
+#: src/routes/__root.tsx:73
+msgid "Dashboard"
+msgstr "Dashboard"
 
 #: src/routes/index.tsx:158
 msgid "decimal degrees — GPS fix of this placement"
@@ -194,6 +228,10 @@ msgstr "Dry — irrigation advised"
 #: src/lib/i18n/sensor-text.ts:98
 msgid "Dry Zone"
 msgstr "Dry Zone"
+
+#: src/routes/ai-predictions.tsx:109
+msgid "Dummy prediction saved successfully."
+msgstr "Dummy prediction saved successfully."
 
 #: src/lib/i18n/sensor-text.ts:32
 msgid "EC"
@@ -287,6 +325,10 @@ msgstr "Language"
 msgid "Last reading"
 msgstr "Last reading"
 
+#: src/routes/ai-predictions.tsx:124
+msgid "Latest 100 predictions · refreshes every 30 seconds"
+msgstr "Latest 100 predictions · refreshes every 30 seconds"
+
 #: src/routes/index.tsx:446
 msgid "Latest sensor readings"
 msgstr "Latest sensor readings"
@@ -306,6 +348,10 @@ msgstr "Live soil data from a single local area — the {farmName}, {district} (
 #: src/components/dashboard/osm-map.tsx:417
 msgid "Loading OpenStreetMap…"
 msgstr "Loading OpenStreetMap…"
+
+#: src/routes/ai-predictions.tsx:155
+msgid "Loading predictions…"
+msgstr "Loading predictions…"
 
 #: src/lib/i18n/sensor-text.ts:110
 msgid "Lowland paddy"
@@ -339,6 +385,18 @@ msgstr "Max"
 msgid "Min"
 msgstr "Min"
 
+#: src/routes/ai-predictions.tsx:194
+msgid "Model"
+msgstr "Model"
+
+#: src/routes/ai-predictions.tsx:73
+msgid "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
+msgstr "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
+
+#: src/routes/ai-predictions.tsx:213
+msgid "Model recommendations"
+msgstr "Model recommendations"
+
 #: src/lib/i18n/sensor-text.ts:37
 msgid "Moisture"
 msgstr "Moisture"
@@ -370,6 +428,10 @@ msgstr "Nitrogen is low — expect pale leaves and slow growth."
 #: src/lib/i18n/sensor-text.ts:83
 msgid "Nitrogen low"
 msgstr "Nitrogen low"
+
+#: src/routes/ai-predictions.tsx:162
+msgid "No matching predictions"
+msgstr "No matching predictions"
 
 #: src/routes/index.tsx:243
 msgid "No probes registered yet"
@@ -491,6 +553,10 @@ msgstr "Phosphorus is low — roots and flowering will be weak."
 msgid "Phosphorus low"
 msgstr "Phosphorus low"
 
+#: src/routes/ai-predictions.tsx:146
+msgid "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
+msgstr "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
+
 #: src/lib/i18n/sensor-text.ts:56
 msgid "Potassium (K)"
 msgstr "Potassium (K)"
@@ -511,6 +577,14 @@ msgstr "Potassium is low — crops get weak stems and poor grain or fruit fill."
 msgid "Potassium low"
 msgstr "Potassium low"
 
+#: src/routes/ai-predictions.tsx:195
+msgid "Predicted"
+msgstr "Predicted"
+
+#: src/routes/ai-predictions.tsx:196
+msgid "Probe"
+msgstr "Probe"
+
 #: src/lib/i18n/sensor-text.ts:118
 msgid "Probe 01 · Lowland route"
 msgstr "Probe 01 · Lowland route"
@@ -523,13 +597,29 @@ msgstr "Probe 02 · Upland route"
 msgid "Probe 03 · Perennial route"
 msgstr "Probe 03 · Perennial route"
 
+#: src/routes/ai-predictions.tsx:131
+msgid "Probe, crop, spot or model…"
+msgstr "Probe, crop, spot or model…"
+
+#: src/routes/ai-predictions.tsx:262
+msgid "Read received results with"
+msgstr "Read received results with"
+
 #: src/routes/index.tsx:415
 msgid "Readings"
 msgstr "Readings"
 
+#: src/routes/ai-predictions.tsx:163
+msgid "Ready for your first prediction"
+msgstr "Ready for your first prediction"
+
 #: src/components/dashboard/osm-map.tsx:366
 msgid "Recenter on study area"
 msgstr "Recenter on study area"
+
+#: src/routes/ai-predictions.tsx:87
+msgid "Refresh"
+msgstr "Refresh"
 
 #: src/routes/index.tsx:319
 msgid "Regenerate demo data"
@@ -555,6 +645,10 @@ msgstr "Salinity stress (> 2.0 dS/m)"
 msgid "Salt is building up in the soil and stressing the crop roots."
 msgstr "Salt is building up in the soil and stressing the crop roots."
 
+#: src/routes/ai-predictions.tsx:197
+msgid "Sampling spot"
+msgstr "Sampling spot"
+
 #: src/routes/index.tsx:550
 msgid "Sampling spot map"
 msgstr "Sampling spot map"
@@ -562,6 +656,10 @@ msgstr "Sampling spot map"
 #: src/lib/i18n/sensor-text.ts:76
 msgid "Saturated — check drainage"
 msgstr "Saturated — check drainage"
+
+#: src/routes/ai-predictions.tsx:127
+msgid "Search predictions"
+msgstr "Search predictions"
 
 #: src/routes/index.tsx:246
 msgid "Seed the demo fleet — three roving probes sampling eight plots of the {farmName} with a week of simulated readings — or point your hardware at <0>POST /api/readings</0>."
@@ -578,6 +676,18 @@ msgstr "Select a device"
 #: src/routes/index.tsx:350
 msgid "Select device"
 msgstr "Select device"
+
+#: src/routes/ai-predictions.tsx:237
+msgid "Send a JSON result to"
+msgstr "Send a JSON result to"
+
+#: src/routes/ai-predictions.tsx:117
+msgid "Send dummy prediction"
+msgstr "Send dummy prediction"
+
+#: src/routes/ai-predictions.tsx:117
+msgid "Sending…"
+msgstr "Sending…"
 
 #: src/lib/i18n/sensor-text.ts:81
 msgid "Severe heat — root damage"
@@ -683,6 +793,10 @@ msgstr "Target {target}"
 msgid "Temp"
 msgstr "Temp"
 
+#: src/routes/ai-predictions.tsx:94
+msgid "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
+msgstr "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
+
 #: src/routes/index.tsx:580
 msgid "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
 msgstr "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
@@ -710,6 +824,10 @@ msgstr "To do"
 #: src/components/dashboard/todo-list.tsx:139
 msgid "Today"
 msgstr "Today"
+
+#: src/routes/ai-predictions.tsx:167
+msgid "Try a different probe, crop, spot or model."
+msgstr "Try a different probe, crop, spot or model."
 
 #: src/routes/index.tsx:605
 msgid "Unit / note"
@@ -762,6 +880,10 @@ msgstr "Wipe all probes and readings and regenerate a week of demo data?"
 msgid "Work in compost or organic matter"
 msgstr "Work in compost or organic matter"
 
+#: src/routes/ai-predictions.tsx:168
+msgid "Your AI model will send its results here. Predictions appear automatically once received; no model is connected yet."
+msgstr "Your AI model will send its results here. Predictions appear automatically once received; no model is connected yet."
+
 #: src/routes/index.tsx:398
 msgid "Zone"
 msgstr "Zone"
@@ -773,3 +895,7 @@ msgstr "Zoom in"
 #: src/components/dashboard/osm-map.tsx:355
 msgid "Zoom out"
 msgstr "Zoom out"
+
+#: src/routes/ai-predictions.tsx:70
+msgid "Zybot_AI Predictions"
+msgstr "Zybot_AI Predictions"

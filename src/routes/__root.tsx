@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
@@ -57,7 +58,29 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="paddy-bg" aria-hidden="true" />
-        <div className="page-wrap flex justify-end pt-4">
+        <div className="page-wrap flex flex-wrap items-center justify-between gap-4 pt-4">
+          <nav
+            aria-label="Main navigation"
+            className="flex gap-4 text-sm font-semibold"
+          >
+            <Link
+              to="/"
+              activeOptions={{ exact: true }}
+              activeProps={{
+                className: 'text-lagoon-deep underline underline-offset-4',
+              }}
+            >
+              <Trans>Dashboard</Trans>
+            </Link>
+            <Link
+              to="/ai-predictions"
+              activeProps={{
+                className: 'text-lagoon-deep underline underline-offset-4',
+              }}
+            >
+              <Trans>AI predictions</Trans>
+            </Link>
+          </nav>
           <LanguageSwitcher />
         </div>
         {children}

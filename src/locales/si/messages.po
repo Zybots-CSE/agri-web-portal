@@ -11,6 +11,11 @@ msgstr ""
 msgid "(click to expand)"
 msgstr "(විහිදීමට ක්ලික් කරන්න)"
 
+#. placeholder {0}: Math.round(p.confidence * 100)
+#: src/routes/ai-predictions.tsx:185
+msgid "{0}% model confidence"
+msgstr ""
+
 #: src/routes/index.tsx:497
 msgid "{paramLabel} — target {target}"
 msgstr "{paramLabel} — ඉලක්කය {target}"
@@ -71,13 +76,17 @@ msgstr "ප්‍රමාණවත් N සැපයුමක්"
 msgid "Adequate P supply"
 msgstr "ප්‍රමාණවත් P සැපයුමක්"
 
-#: src/routes/__root.tsx:37
+#: src/routes/__root.tsx:38
 msgid "Agri Web Portal — Soil Sensor Dashboard"
 msgstr "කෘෂි වෙබ් ද්වාරය — පාංශු සංවේදක උපකරණ පුවරුව"
 
 #: src/routes/index.tsx:276
 msgid "Agri Web Portal · Soil Intelligence"
 msgstr "කෘෂි වෙබ් ද්වාරය · පාංශු බුද්ධිය"
+
+#: src/routes/__root.tsx:81
+msgid "AI predictions"
+msgstr ""
 
 #: src/components/dashboard/osm-map.tsx:167
 #: src/components/dashboard/osm-map.tsx:433
@@ -127,7 +136,7 @@ msgstr "යූරියා (නයිට්‍රජන්) යොදන්න"
 msgid "Avg"
 msgstr "සාමාන්‍යය"
 
-#: src/routes/__root.tsx:65
+#: src/routes/__root.tsx:88
 msgid "Background photo: <0>Paddy fields, Sri Lanka</0> by Kasundg, <1>CC BY-SA 4.0</1>"
 msgstr "පසුබිම් ඡායාරූපය: <0>කුඹුරු, ශ්‍රී ලංකාව</0> — Kasundg, <1>CC BY-SA 4.0</1>"
 
@@ -155,10 +164,31 @@ msgstr "කොම්පෝස්ට් පෙරළීම"
 msgid "Compost Yard"
 msgstr "කොම්පෝස්ට් අංගනය"
 
+#: src/routes/ai-predictions.tsx:239
+msgid "Confidence is optional and ranges from 0 to 1. Probe and sampling spot labels are optional."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:184
+msgid "Confidence not provided"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:233
+msgid "Connect your AI model"
+msgstr ""
+
 #: src/lib/i18n/sensor-text.ts:43
 msgid "Corrects raw EC and pH drift before feeding values into algorithms."
 msgstr "ඇල්ගොරිතම වෙත අගයන් ලබා දීමට පෙර අමු EC සහ pH ප්ලාවනය නිවැරදි කරයි."
 
+#: src/routes/ai-predictions.tsx:143
+msgid "Could not load predictions"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:101
+msgid "Could not send the dummy prediction. Check the connection and try again."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:198
 #: src/routes/index.tsx:401
 msgid "Crop"
 msgstr "බෝගය"
@@ -166,6 +196,10 @@ msgstr "බෝගය"
 #: src/routes/index.tsx:405
 msgid "Current spot"
 msgstr "වත්මන් ස්ථානය"
+
+#: src/routes/__root.tsx:73
+msgid "Dashboard"
+msgstr ""
 
 #: src/routes/index.tsx:158
 msgid "decimal degrees — GPS fix of this placement"
@@ -194,6 +228,10 @@ msgstr "වියළියි — ජල සම්පාදනය නිර්�
 #: src/lib/i18n/sensor-text.ts:98
 msgid "Dry Zone"
 msgstr "වියළි කලාපය"
+
+#: src/routes/ai-predictions.tsx:109
+msgid "Dummy prediction saved successfully."
+msgstr ""
 
 #: src/lib/i18n/sensor-text.ts:32
 msgid "EC"
@@ -287,6 +325,10 @@ msgstr "භාෂාව"
 msgid "Last reading"
 msgstr "අවසන් කියවීම"
 
+#: src/routes/ai-predictions.tsx:124
+msgid "Latest 100 predictions · refreshes every 30 seconds"
+msgstr ""
+
 #: src/routes/index.tsx:446
 msgid "Latest sensor readings"
 msgstr "නවතම සංවේදක කියවීම්"
@@ -306,6 +348,10 @@ msgstr "එක් ප්‍රාදේශීය ප්‍රදේශයක ස
 #: src/components/dashboard/osm-map.tsx:417
 msgid "Loading OpenStreetMap…"
 msgstr "OpenStreetMap පූරණය වෙමින්…"
+
+#: src/routes/ai-predictions.tsx:155
+msgid "Loading predictions…"
+msgstr ""
 
 #: src/lib/i18n/sensor-text.ts:110
 msgid "Lowland paddy"
@@ -339,6 +385,18 @@ msgstr "උපරිම"
 msgid "Min"
 msgstr "අවම"
 
+#: src/routes/ai-predictions.tsx:194
+msgid "Model"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:73
+msgid "Model predictions and recommendations for your farm, connected to the probes and sampling spots behind them."
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:213
+msgid "Model recommendations"
+msgstr ""
+
 #: src/lib/i18n/sensor-text.ts:37
 msgid "Moisture"
 msgstr "තෙතමනය"
@@ -370,6 +428,10 @@ msgstr "නයිට්‍රජන් අඩුයි — කොළ සුද�
 #: src/lib/i18n/sensor-text.ts:83
 msgid "Nitrogen low"
 msgstr "නයිට්‍රජන් අඩුයි"
+
+#: src/routes/ai-predictions.tsx:162
+msgid "No matching predictions"
+msgstr ""
 
 #: src/routes/index.tsx:243
 msgid "No probes registered yet"
@@ -491,6 +553,10 @@ msgstr "පොස්පරස් අඩුයි — මුල් සහ මල�
 msgid "Phosphorus low"
 msgstr "පොස්පරස් අඩුයි"
 
+#: src/routes/ai-predictions.tsx:146
+msgid "Please try refreshing. If this is your first setup, check the database connection and apply the predictions migration."
+msgstr ""
+
 #: src/lib/i18n/sensor-text.ts:56
 msgid "Potassium (K)"
 msgstr "පොටෑසියම් (K)"
@@ -511,6 +577,14 @@ msgstr "පොටෑසියම් අඩුයි — බෝගවල කඳ�
 msgid "Potassium low"
 msgstr "පොටෑසියම් අඩුයි"
 
+#: src/routes/ai-predictions.tsx:195
+msgid "Predicted"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:196
+msgid "Probe"
+msgstr ""
+
 #: src/lib/i18n/sensor-text.ts:118
 msgid "Probe 01 · Lowland route"
 msgstr "ප්‍රෝබ 01 · පහත්බිම් මාර්ගය"
@@ -523,13 +597,29 @@ msgstr "ප්‍රෝබ 02 · උස්බිම් මාර්ගය"
 msgid "Probe 03 · Perennial route"
 msgstr "ප්‍රෝබ 03 · බහුවාර්ෂික බෝග මාර්ගය"
 
+#: src/routes/ai-predictions.tsx:131
+msgid "Probe, crop, spot or model…"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:262
+msgid "Read received results with"
+msgstr ""
+
 #: src/routes/index.tsx:415
 msgid "Readings"
 msgstr "කියවීම්"
 
+#: src/routes/ai-predictions.tsx:163
+msgid "Ready for your first prediction"
+msgstr ""
+
 #: src/components/dashboard/osm-map.tsx:366
 msgid "Recenter on study area"
 msgstr "අධ්‍යයන ප්‍රදේශය මැදට ගන්න"
+
+#: src/routes/ai-predictions.tsx:87
+msgid "Refresh"
+msgstr ""
 
 #: src/routes/index.tsx:319
 msgid "Regenerate demo data"
@@ -555,6 +645,10 @@ msgstr "ලවණතා ආතතිය (> 2.0 dS/m)"
 msgid "Salt is building up in the soil and stressing the crop roots."
 msgstr "පසෙහි ලවණ එකතු වෙමින් බෝග මුල්වලට ආතතියක් ඇති කරයි."
 
+#: src/routes/ai-predictions.tsx:197
+msgid "Sampling spot"
+msgstr ""
+
 #: src/routes/index.tsx:550
 msgid "Sampling spot map"
 msgstr "නියැදි ස්ථාන සිතියම"
@@ -562,6 +656,10 @@ msgstr "නියැදි ස්ථාන සිතියම"
 #: src/lib/i18n/sensor-text.ts:76
 msgid "Saturated — check drainage"
 msgstr "සංතෘප්තයි — ජලවහනය පරීක්ෂා කරන්න"
+
+#: src/routes/ai-predictions.tsx:127
+msgid "Search predictions"
+msgstr ""
 
 #: src/routes/index.tsx:246
 msgid "Seed the demo fleet — three roving probes sampling eight plots of the {farmName} with a week of simulated readings — or point your hardware at <0>POST /api/readings</0>."
@@ -578,6 +676,18 @@ msgstr "උපාංගයක් තෝරන්න"
 #: src/routes/index.tsx:350
 msgid "Select device"
 msgstr "උපාංගය තෝරන්න"
+
+#: src/routes/ai-predictions.tsx:237
+msgid "Send a JSON result to"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:117
+msgid "Send dummy prediction"
+msgstr ""
+
+#: src/routes/ai-predictions.tsx:117
+msgid "Sending…"
+msgstr ""
 
 #: src/lib/i18n/sensor-text.ts:81
 msgid "Severe heat — root damage"
@@ -683,6 +793,10 @@ msgstr "ඉලක්කය {target}"
 msgid "Temp"
 msgstr "උෂ්ණත්වය"
 
+#: src/routes/ai-predictions.tsx:94
+msgid "Test with a hardcoded sample. Each click saves one clearly labeled demo prediction."
+msgstr ""
+
 #: src/routes/index.tsx:580
 msgid "The field unit (ESP32/Arduino with the RS485 NPK probe, FDR moisture sensor, DS18B20 thermistor, pH/EC electrodes and NEO GPS) POSTs one JSON reading per placement — the probe is put at a spot, read, then moved somewhere else, so every reading carries its own GPS fix and an optional spot label. Values outside the SRS sensor ranges are rejected with <0>422</0> and an issue list — the Step 1 hard-rule filter. Unknown probes are auto-registered on first sight; no location is stored on the probe itself."
 msgstr "ක්ෂේත්‍ර ඒකකය (RS485 NPK ප්‍රෝබය, FDR තෙතමන සංවේදකය, DS18B20 තර්මිස්ටරය, pH/EC ඉලෙක්ට්‍රෝඩ සහ NEO GPS සහිත ESP32/Arduino) එක් ස්ථාපනයකට එක් JSON කියවීමක් POST කරයි — ප්‍රෝබය ස්ථානයක තබා කියවා, ඉන්පසු වෙනත් තැනකට ගෙන යයි, එබැවින් සෑම කියවීමකටම තමන්ගේම GPS පිහිටීමක් සහ අත්‍යවශ්‍ය නොවන ස්ථාන නාමයක් ඇත. SRS සංවේදක පරාසයෙන් පිටත අගයන් <0>422</0> සහ ගැටලු ලැයිස්තුවක් සමඟ ප්‍රතික්ෂේප වේ — පියවර 1 දැඩි නීති පෙරහන. නොදන්නා ප්‍රෝබ පළමු වරට දුටු විට ස්වයංක්‍රීයව ලියාපදිංචි වේ; ප්‍රෝබය තුළ කිසිදු ස්ථානයක් ගබඩා නොකෙරේ."
@@ -710,6 +824,10 @@ msgstr "කළ යුතු දේ"
 #: src/components/dashboard/todo-list.tsx:139
 msgid "Today"
 msgstr "අද"
+
+#: src/routes/ai-predictions.tsx:167
+msgid "Try a different probe, crop, spot or model."
+msgstr ""
 
 #: src/routes/index.tsx:605
 msgid "Unit / note"
@@ -762,6 +880,10 @@ msgstr "සියලු ප්‍රෝබ සහ කියවීම් මක�
 msgid "Work in compost or organic matter"
 msgstr "කොම්පෝස්ට් හෝ කාබනික ද්‍රව්‍ය පසට මිශ්‍ර කරන්න"
 
+#: src/routes/ai-predictions.tsx:168
+msgid "Your AI model will send its results here. Predictions appear automatically once received; no model is connected yet."
+msgstr ""
+
 #: src/routes/index.tsx:398
 msgid "Zone"
 msgstr "කලාපය"
@@ -773,3 +895,7 @@ msgstr "විශාලනය කරන්න"
 #: src/components/dashboard/osm-map.tsx:355
 msgid "Zoom out"
 msgstr "කුඩා කරන්න"
+
+#: src/routes/ai-predictions.tsx:70
+msgid "Zybot_AI Predictions"
+msgstr ""
